@@ -1,7 +1,6 @@
 package com.ssafy.sopy.domain.entity;
 
 import lombok.Builder;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -11,7 +10,7 @@ import javax.persistence.Entity;
 public class BookImage extends Image {
 
     public BookImage() {
-//        super();
+        super();
     }
 
     @Builder

@@ -1,21 +1,20 @@
 package com.ssafy.sopy.domain.entity;
 
-
 import lombok.Builder;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
-@DiscriminatorValue("member")
-public class MemberImage extends Image {
+@DiscriminatorValue("user")
+public class UserImage extends Image{
 
-    public MemberImage() {
+    public UserImage() {
         super();
     }
 
     @Builder
-    public MemberImage(Long id, String imageName, String iamgeOrgName, String path, String thumbnail) {
+    public UserImage(Long id, String imageName, String iamgeOrgName, String path, String thumbnail) {
         super(id, imageName, iamgeOrgName, path, thumbnail);
     }
 }
