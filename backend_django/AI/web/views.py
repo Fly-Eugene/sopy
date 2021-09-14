@@ -9,3 +9,4 @@ def book_ocr(request):
     txt_file = request.FILES['file']
 
     # txt_file = request.FILES
+
