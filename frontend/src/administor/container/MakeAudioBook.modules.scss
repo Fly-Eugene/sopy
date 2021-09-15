@@ -58,21 +58,66 @@ $font-kopub: 'KoPub Batang';
       font-size: 2rem;
     }
     .fileBtn{
-      border: 1px solid black;
+      border: 2px solid black;
       padding: 6px 25px;
-      border-radius: 15px;
+      border-radius: 20px;
       cursor: pointer;
       background-color: #FFDAC7;
       position: absolute;
       left: 47%;
       bottom: 20%;
+      font-size: 1.3rem;
     }
     .cover{
       position: absolute;
+      border: 1px solid gray;
       top: 17%;
       left: 40%;
       width: 20vw;
       height: 40vh;
+    }
+  }
+  .step03{
+    position: absolute;
+    top: 225%;
+    width: 100%;
+    height: 80vh;
+    text-align: center;
+    z-index: 1;
+    h2{
+      position: absolute;
+      top: 15%;
+      left: 39%;
+      border-bottom: none;
+      font-size: 2rem;
+    }
+    .fileCard{
+      border: 4px solid black;
+      width: 75%;
+      border-radius: 15px;
+      background-color: white;
+      font-size: 2rem;
+      line-height: 45vh;
+      top: 30%;
+      margin: 0 auto;
+    }
+    .cover{
+      position: relative;
+      width: 20vw;
+      height: 40vh;
+    }
+    .createBtn{
+      border: 2px solid black;
+      padding: 6px 25px;
+      border-radius: 20px;
+      cursor: pointer;
+      background-color: #FFDAC7;
+      margin-top: 2%;
+      font-size: 1.3rem;
+      font-family: $font-kopub;
+    }
+    .fileName{
+      font-size: 1.3rem;
     }
   }
 }

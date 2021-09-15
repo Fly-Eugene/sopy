@@ -6,6 +6,7 @@ import nextBtn from '../../img/nextBtn.png'
 import prevBtn from '../../img/prevBtn.png'
 import MakeAudioBookModule from './MakeAudioBook.modules.scss'
 import Step01 from '../component/Step01'
+import Step03 from '../component/Step03'
 
 const MakeAudioBook = () => {
 
@@ -60,9 +61,7 @@ const MakeAudioBook = () => {
       
       <section>
         <h2>Step 3</h2>
-        <div>
-          
-        </div>
+        <Step03></Step03>
         <img src={BG3} alt="BG3"/>
       </section>
     </div>

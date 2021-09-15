@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import coverImg from '../../img/cover.jpg'
+import coverImg from '../../img/cover.png'
 
 class Step01 extends Component {
     constructor(props){
