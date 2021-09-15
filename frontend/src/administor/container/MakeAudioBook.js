@@ -46,7 +46,7 @@ const MakeAudioBook = () => {
       <section>
         <h2>Step 1</h2>
         <div>
-
+          하이
         </div>
         <img src={BG1} alt="BG1"/>
       </section>
