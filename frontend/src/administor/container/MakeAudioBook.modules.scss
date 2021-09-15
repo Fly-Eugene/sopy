@@ -37,6 +37,7 @@ $font-kopub: 'KoPub Batang';
       font-size: 2rem;
     }
     img {
+      z-index: -1;
       position: relative;
       top: 33%;
       width: 99vw;

@@ -4,6 +4,8 @@ import BG2 from '../../img/MakeAudioBG2.png'
 import BG3 from '../../img/MakeAudioBG3.png'
 import nextBtn from '../../img/nextBtn.png'
 import prevBtn from '../../img/prevBtn.png'
+import Step02 from '../component/Step02';
+
 import MakeAudioBookModule from './MakeAudioBook.modules.scss'
 
 const MakeAudioBook = () => {
@@ -46,16 +48,13 @@ const MakeAudioBook = () => {
       <section>
         <h2>Step 1</h2>
         <div>
-          하이
         </div>
         <img src={BG1} alt="BG1"/>
       </section>
 
       <section>
         <h2>Step 2</h2>
-        <div>
-          
-        </div>
+        <Step02 />
         <img src={BG2} alt="BG2"/>
       </section>
       
