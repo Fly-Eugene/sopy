@@ -32,6 +32,7 @@ public class Files {
     @Column(name = "reg_time")
     private LocalDateTime regTime;
 
+//  파일 사용하는 게시판 형태가 더 생기면 각 게시판의 file이 이 files를 상속 받도록 리팩토링 해줘야할듯
     @ManyToOne
     @JoinColumn(name = "book_id")
     private Book book;

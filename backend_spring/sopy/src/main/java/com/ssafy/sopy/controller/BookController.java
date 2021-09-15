@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
+
 @RestController
 @RequestMapping("/book")
 public class BookController {
@@ -16,7 +18,7 @@ public class BookController {
     }
 
     @PostMapping
-    public Object makeBook(BookReqDto params){
+    public Object makeBook(BookReqDto params) throws IOException {
         return bookService.makeBook(params);
     }
 }
