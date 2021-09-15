@@ -1,0 +1,48 @@
+$font-kopub: 'KoPub Batang';
+
+.content {
+  font-family: $font-kopub;
+  .page-navi {
+    z-index: 1;
+    position: fixed;
+    left: 50%;
+    top: 46%;
+    width: 90vw;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: space-between;
+    .prevBtn {
+      cursor: pointer;
+    }
+    .nextBtn {
+      cursor: pointer;
+    }
+    img {
+      width: 3vw;
+      height: 10vh;
+    }
+  }
+
+  section {
+    width: 99vw;
+    height: 100vh;
+    h2 {
+      position: relative;
+      top: 5%;
+      left: 3%;
+      padding-bottom: 5px;
+      margin: 0;
+      border-bottom: 4px solid;
+      width: 22%;
+      font-size: 2rem;
+    }
+    img {
+      position: relative;
+      top: 33%;
+      width: 99vw;
+      height: 60vh;
+    }
+  }
+}
+
+
