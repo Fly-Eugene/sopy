@@ -3,7 +3,7 @@ $font-kopub: 'KoPub Batang';
 .content {
   font-family: $font-kopub;
   .page-navi {
-    z-index: 1;
+    z-index: 2;
     position: fixed;
     left: 50%;
     top: 46%;
@@ -41,6 +41,38 @@ $font-kopub: 'KoPub Batang';
       top: 33%;
       width: 99vw;
       height: 60vh;
+    }
+  }
+  .step01{
+    position: absolute;
+    width: 100%;
+    height: 80vh;
+    top: 30%;
+    text-align: center;
+    z-index: 1;
+    h2{
+      position: absolute;
+      top: 5%;
+      left: 39%;
+      border-bottom: none;
+      font-size: 2rem;
+    }
+    .fileBtn{
+      border: 1px solid black;
+      padding: 6px 25px;
+      border-radius: 15px;
+      cursor: pointer;
+      background-color: #FFDAC7;
+      position: absolute;
+      left: 47%;
+      bottom: 20%;
+    }
+    .cover{
+      position: absolute;
+      top: 17%;
+      left: 40%;
+      width: 20vw;
+      height: 40vh;
     }
   }
 }
