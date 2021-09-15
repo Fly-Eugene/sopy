@@ -7,6 +7,8 @@ import prevBtn from '../../img/prevBtn.png'
 import Step02 from '../component/Step02';
 
 import MakeAudioBookModule from './MakeAudioBook.modules.scss'
+import Step01 from '../component/Step01'
+import Step03 from '../component/Step03'
 
 const MakeAudioBook = () => {
 
@@ -47,8 +49,7 @@ const MakeAudioBook = () => {
 
       <section>
         <h2>Step 1</h2>
-        <div>
-        </div>
+        <Step01></Step01>
         <img src={BG1} alt="BG1"/>
       </section>
 
@@ -60,9 +61,7 @@ const MakeAudioBook = () => {
       
       <section>
         <h2>Step 3</h2>
-        <div>
-          
-        </div>
+        <Step03></Step03>
         <img src={BG3} alt="BG3"/>
       </section>
     </div>
