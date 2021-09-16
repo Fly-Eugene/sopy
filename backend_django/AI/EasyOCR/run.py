@@ -20,9 +20,14 @@ def get_files(path):
     return file_list, len(file_list)
 
 
+def ex_change(txt, target_txt):
+    idx = txt.rfind('.') + 1
+    return txt[:idx] + target_txt
+
+
 # if __name__ == '__main__':
 class Model():
-    def easyOCR(self, img_path):
+    def easyOCR(self, path, name):
         # # Using default model
         # reader = Reader(['ko'], gpu=True)
 
@@ -32,9 +37,17 @@ class Model():
                         user_network_directory='C:\\Users\\multicampus\\Desktop\\sopy_pjt\\S05P21B107\\backend_django\\AI\\EasyOCR\\workspace\\user_network_dir',
                         recog_network='custom')
 
-        # files, count = get_files('./workspace/demo_images')
+        # 특정 책의 이미지 저장된 경로와 txt 파일을 저장할 경로를 생성합니다.
+        img_path = "{}/{}/img".format(path, name)
+        save_root_path = "{}/{}/text".format(path, name)
+
+        # txt 파일 저장할 경로로 폴더를 생성합니다.
+        os.makedirs(save_root_path, exist_ok=True)
+
+        # img 저장된 경로 파일에서 모든 img 파일들을 불러옵니다.
         files, count = get_files(img_path)
 
+        # img 파일 안쪽에 있는 모든 사진들에 대해서
         for idx, file in enumerate(files):
             filename = os.path.basename(file)
 
@@ -45,10 +58,9 @@ class Model():
             # result[1]: string
             # result[2]: confidence
 
-            save_root_path = 'web/static/text/'
-            file_id = uuid.uuid4()
+            # txt 파일 저장 경로에 해당 사진이름과 동일하게 txt 파일을 만들어 저장합니다.
             text_file = open(
-                save_root_path + "{}".format(file_id) + '.txt', 'w', encoding="UTF-8")
+                save_root_path + '/' + ex_change(filename, 'txt'), 'w', encoding="UTF-8")
 
             for (bbox, string, confidence) in result:
                 print("filename: '%s', confidence: %.4f, string: '%s'" %
@@ -59,4 +71,4 @@ class Model():
 
             text_file.close()
 
-        return str(file_id)
+        return str(name)
