@@ -20,10 +20,11 @@ public class FilesService {
         this.fileUtil = fileUtil;
     }
 
-    public void makeFiles(List<MultipartFile> mfList, Book book) throws IOException {
+    public List<Files> makeFiles(List<MultipartFile> mfList, Book book) throws IOException {
         List<Files> files = fileUtil.setFiles(mfList, book);
         for (Files file : files) {
             filesRepository.save(file);
         }
+        return files;
     }
 }
