@@ -1,0 +1,124 @@
+.step02-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 100%);
+  width: 75vw;
+  height: 80vh;
+  z-index: -0.5;
+  z-index: 3;
+  .step02-title {
+    position: relative;
+    border: 0;
+    left: 50%;
+    margin: 0;
+    padding: 0;
+    width: 50%;
+    text-align: center;
+    transform: translate(-47%, -100%);
+  }
+  .step02-form-container {
+    position: relative;
+    border: 1px soild;
+    width: 80%;
+    height: 90%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2; 
+    .step02-form-container-left {
+      position: absolute;
+      width: 10%;
+      height: 100%;
+      left: 10%;
+      h3 {
+        position: absolute;
+        &:nth-child(1) {
+          top: -1%;
+        }
+        &:nth-child(2) {
+          top: 7.5%
+        }
+        &:nth-child(3) {
+          top: 16.5%;
+        }
+        &:last-of-type{
+          top: 60%;  
+        } 
+      }
+    }
+    .step02-form-container-right {
+      position: absolute;
+      width: 80%;
+      height: 100%;
+      left: 20%;
+      input {
+        font-size: 1rem;
+        display: block;
+        width: 80%;
+        height: 5%;
+        border: 2px solid;
+        border-radius: 10px;
+        margin-top: 20px;
+        &:nth-child(1) {
+          margin-top: 0;
+          width: 79%;
+        }
+      }
+      .file-box {
+        border: 2px solid;
+        border-radius: 10px;
+        margin-top: 20px;
+        width: 80%;
+        display: flex;
+        justify-content: space-between;
+        p {
+          margin: 0;
+          text-align: center;
+          line-height: 35px;
+        }
+        label {
+          display: inline-block; 
+          padding: .5em .75em; 
+          font-size: inherit; 
+          line-height: normal; 
+          vertical-align: middle; 
+          background-color: #fdfdfd; 
+          cursor: pointer; 
+          border-radius: 10px;
+        }
+        input[type="file"]{
+          position: absolute; 
+          width: 1px; 
+          height: 1px; 
+          padding: 0; 
+          margin: -1px; 
+          overflow: hidden; 
+          clip:rect(0,0,0,0); 
+          border: 0;
+        }
+      }
+      textarea {
+        font-size: 1rem;
+        border: 1px solid;
+        display: block;
+        width: 79.5%;
+        height: 5%;
+        border: 2px solid;
+        border-radius: 10px;
+        margin-top: 20px;
+        height: 75%;  
+      }
+      select {
+        border: 1px solid;
+        display: block;
+        width: 80%;
+        height: 6%;
+        border: 2px solid;
+        border-radius: 10px;
+        margin-top: 20px; 
+        font-size: 1rem;
+      }
+    }
+  }
+}
