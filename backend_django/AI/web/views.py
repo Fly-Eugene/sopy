@@ -2,22 +2,22 @@
 import subprocess
 import shlex
 import os
-import requests
-from rest_framework.response import Response
-from rest_framework.decorators import api_view
-from django.shortcuts import render
-from gtts import gTTS
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-
-import json
-from rest_framework import status
-from EasyOCR.run import Model
 import sys
-sys.path.append("..")
+import json
+import requests
 
+from django.shortcuts import render
+from django.http import JsonResponse
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.decorators import api_view
 
 # tts module
+from gtts import gTTS
+from django.views.decorators.csrf import csrf_exempt
+
+from EasyOCR.run import Model
+
 
 # Create your views here.
 
@@ -26,9 +26,8 @@ def ex_change(txt, target_txt):
     idx = txt.rfind('.') + 1
     return txt[:idx] + target_txt
 
+
 # 특정 파일 밑에 있는 파일들 불러오기
-
-
 def get_files(path):
     file_list = []
 
@@ -47,14 +46,14 @@ def get_files(path):
 def book_ocr(request):
     data = json.loads(request.body.decode('utf-8'))
 
-    # "EasyOCR/workspace/demo_images/"  => 성공  ## 데이터 저장 장소
+    # "EasyOCR/workspace/demo_images"  => 성공  ## 데이터 저장 장소
     path = data['path']
     name = data['name']  # book123.PNG  ## 책 id
 
     ocr_model = Model()
     ocr_model.easyOCR(path, name)
 
-    return Response(status=status.HTTP_201_CREATED)
+    return Response("OK", status=status.HTTP_201_CREATED)
 
 
 @csrf_exempt
