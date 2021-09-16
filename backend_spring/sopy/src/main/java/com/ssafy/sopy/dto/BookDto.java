@@ -1,27 +1,20 @@
-package com.ssafy.sopy.domain.entity;
+package com.ssafy.sopy.dto;
 
-import com.ssafy.sopy.dto.BookDto;
 import lombok.Builder;
 import lombok.Getter;
 
-import javax.persistence.*;
-
-@Entity
 @Getter
-public class Book {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "book_id")
+public class BookDto {
     private Long id;
     private String title;
     private String introduce;
     private String genre;
 
-    public Book() {
+    public BookDto() {
     }
 
     @Builder
-    public Book(Long id, String title, String introduce, String genre) {
+    public BookDto(Long id, String title, String introduce, String genre) {
         this.id = id;
         this.title = title;
         this.introduce = introduce;
@@ -30,14 +23,11 @@ public class Book {
 
     @Override
     public String toString() {
-        return "Book{" +
+        return "BookDto{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", introduce='" + introduce + '\'' +
                 ", genre='" + genre + '\'' +
                 '}';
-    }
-    public BookDto entityToDto() {
-        return BookDto.builder().id(id).title(title).introduce(introduce).genre(genre).build();
     }
 }
