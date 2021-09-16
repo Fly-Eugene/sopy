@@ -12,14 +12,14 @@ import Step03 from '../component/Step03'
 
 const MakeAudioBook = () => {
 
-  const [page, pageState] = useState(0);
-
+  // const [page, pageState] = useState(0);
+  let page = 0;
   let section = document.getElementsByTagName("section");
   let totalNum = 3;
 
   const prev = () => {
     if (page > 0) {
-      pageState(page-1)
+      page--;
     }
     window.scrollTo({
       top: section[page].offsetTop,
@@ -30,7 +30,7 @@ const MakeAudioBook = () => {
 
   const next = () => {
     if (page < totalNum-1) {
-      pageState(page+1)
+      page++;
     }
     window.scrollTo({
       top: section[page].offsetTop,
@@ -39,6 +39,16 @@ const MakeAudioBook = () => {
     console.log(page)
     console.log(totalNum)
   }
+  
+  window.addEventListener("scroll", function(event){
+    var scroll = this.scrollY;
+    for(var i=0; i<totalNum; i++){
+      if(scroll > section[i].offsetTop - window.outerHeight/3  && scroll < section[i].offsetTop - window.outerHeight/3 + section[i].offsetHeight){
+        page = i;
+        break;
+      }
+    }
+  });
 
   return (
     <div className='content'>
