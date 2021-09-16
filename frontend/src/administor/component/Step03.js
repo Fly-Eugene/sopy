@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Grid} from '@material-ui/core';
 import sample from '../../img/SAMPLE_1.MP3';
+import Step03Modules from './Step03.modules.scss'
 
 class Step03 extends Component {
     constructor(props){
@@ -31,7 +32,7 @@ class Step03 extends Component {
         }
         return (
             <div className="step03">
-                <h2>목소리로 변환해주세요</h2>
+                <h2 className="title">목소리로 변환해주세요</h2>
                 <Grid container style={{marginTop: "13%"}}>
                 <Grid item xs = {2}></Grid>
                 <Grid item xs = {8}>
