@@ -1,14 +1,16 @@
   .step01{
     position: absolute;
-    width: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -35%);
+    width: 75vw;
     height: 80vh;
-    top: 30%;
-    text-align: center;
-    z-index: 1;
+    z-index: 3;
     .title{
       position: absolute;
-      top: 5%;
-      left: 39%;
+      width: 40%;
+      top: 7%;
+      left: 40%;
       border-bottom: none;
       font-size: 2rem;
     }
@@ -20,15 +22,14 @@
       background-color: #FFDAC7;
       position: absolute;
       left: 47%;
-      bottom: 20%;
+      bottom: 8%;
       font-size: 1.3rem;
     }
     .cover{
       position: absolute;
-      border: 1px solid gray;
       top: 17%;
-      left: 40%;
-      width: 20vw;
-      height: 40vh;
+      left: 39%;
+      width: 18vw;
+      height: 50vh;
     }
   }

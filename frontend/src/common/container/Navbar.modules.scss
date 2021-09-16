@@ -6,11 +6,12 @@ $font-kopub: 'KoPub Batang';
   height: 10vh;
   border-bottom: 3px solid;
   text-align: center;
-  display: table;
+  display: flex;
+  justify-content: center;
   h1 {
     margin: 0;
     position: absolute;
-    display: inline;
+    display: inline-block;
     top: 4%;
   }
   .navbar-right {

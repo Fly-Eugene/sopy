@@ -4,7 +4,6 @@ import NavbarModules from './Navbar.modules.scss'
 function Navbar() {
     return (
       <div className="navbar">
-        <div></div>
         <h1>소피의 책방</h1>
         <div className="navbar-right">
           <p>개요</p>

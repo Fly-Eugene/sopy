@@ -1,50 +1,46 @@
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
 import BG1 from '../../img/MakeAudioBG1.png'
 import BG2 from '../../img/MakeAudioBG2.png'
 import BG3 from '../../img/MakeAudioBG3.png'
 import nextBtn from '../../img/nextBtn.png'
 import prevBtn from '../../img/prevBtn.png'
 import Step02 from '../component/Step02';
-
-import MakeAudioBookModule from './MakeAudioBook.modules.scss'
 import Step01 from '../component/Step01'
 import Step03 from '../component/Step03'
 
+import MakeAudioBookModule from './MakeAudioBook.modules.scss'
+
 const MakeAudioBook = () => {
 
-  // const [page, pageState] = useState(0);
-  let page = 0;
-  let section = document.getElementsByTagName("section");
-  let totalNum = 3;
+  const page = useRef(0);
+  const totalNum = useRef(3);
+  const section = document.getElementsByTagName("section");
 
   const prev = () => {
-    if (page > 0) {
-      page--;
+    if (page.current > 0) {
+      page.current--;
     }
     window.scrollTo({
-      top: section[page].offsetTop,
+      top: section[page.current].offsetTop,
       behavior: 'smooth',
     })
-    console.log(page)
   }
 
   const next = () => {
-    if (page < totalNum-1) {
-      page++;
+    if (page.current < totalNum.current-1) {
+      page.current++;
     }
     window.scrollTo({
-      top: section[page].offsetTop,
+      top: section[page.current].offsetTop,
       behavior: 'smooth',
     })
-    console.log(page)
-    console.log(totalNum)
   }
   
   window.addEventListener("scroll", function(event){
     var scroll = this.scrollY;
     for(var i=0; i<totalNum; i++){
       if(scroll > section[i].offsetTop - window.outerHeight/3  && scroll < section[i].offsetTop - window.outerHeight/3 + section[i].offsetHeight){
-        page = i;
+        page.current = i;
         break;
       }
     }

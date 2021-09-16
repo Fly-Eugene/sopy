@@ -1,15 +1,16 @@
 $font-kopub: 'KoPub Batang';
 .step03{
     position: absolute;
-    top: 225%;
-    width: 100%;
+    top: 47%;
+    left: 50%;
+    transform: translate(-50%, 210%);
+    width: 90vw;
     height: 80vh;
-    text-align: center;
     z-index: 1;
     .title{
       position: absolute;
       top: 15%;
-      left: 39%;
+      left: 40.5%;
       border-bottom: none;
       font-size: 2rem;
     }
@@ -18,10 +19,15 @@ $font-kopub: 'KoPub Batang';
       width: 75%;
       border-radius: 15px;
       background-color: white;
-      font-size: 2rem;
+      font-size: 1.8rem;
       line-height: 45vh;
       top: 30%;
       margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      label {
+        cursor: pointer;
+      }
     }
     .cover{
       position: relative;
@@ -29,6 +35,9 @@ $font-kopub: 'KoPub Batang';
       height: 40vh;
     }
     .createBtn{
+      position: absolute;
+      top: 90%;
+      left: 46.5%;
       border: 2px solid black;
       padding: 6px 25px;
       border-radius: 20px;
