@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import coverImg from '../../img/cover.png'
+import Step01Modules from './Step01.modules.scss'
 
 class Step01 extends Component {
     constructor(props){
@@ -24,22 +25,23 @@ class Step01 extends Component {
     render(){
         let cover = null;
         if(this.state.file !== ''){
-            cover = <img class='cover' src={this.state.preview}></img>
+            cover = <img className='cover' src={this.state.preview}></img>
         }else{
-            cover = <img class='cover' src={coverImg}></img>
+            cover = <img className='cover' src={coverImg}></img>
         }
         return (
             <div className="step01">
-                <h2>책 표지를 선택해주세요</h2>
+                <h2 className="title">책 표지를 선택해주세요</h2>
                 {cover}
-                <div><label for="ex_file" class="fileBtn">사진 첨부</label>
-                <input type="file"
-                    id="ex_file" 
-                    name="file"
-                    accept='image/jpg, image/png, image/jpeg, image/gif' 
-                    style={{display:"none"}}
-                    onChange={this.handleFileOnChange}/>
-                    </div>
+                <div className="fileBtn">
+                    <label for="ex_file" className="fileBtnLabel">사진 첨부</label>
+                    <input type="file"
+                        id="ex_file" 
+                        name="file"
+                        accept='image/jpg, image/png, image/jpeg, image/gif' 
+                        style={{display:"none"}}
+                        onChange={this.handleFileOnChange}/>
+                </div>
             </div>
         ); 
     }

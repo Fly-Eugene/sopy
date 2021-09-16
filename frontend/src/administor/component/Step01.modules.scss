@@ -1,0 +1,35 @@
+  .step01{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -35%);
+    width: 75vw;
+    height: 80vh;
+    z-index: 3;
+    .title{
+      position: absolute;
+      width: 40%;
+      top: 7%;
+      left: 40%;
+      border-bottom: none;
+      font-size: 2rem;
+    }
+    .fileBtn{
+      border: 2px solid black;
+      padding: 6px 25px;
+      border-radius: 20px;
+      cursor: pointer;
+      background-color: #FFDAC7;
+      position: absolute;
+      left: 47%;
+      bottom: 8%;
+      font-size: 1.3rem;
+    }
+    .cover{
+      position: absolute;
+      top: 17%;
+      left: 39%;
+      width: 18vw;
+      height: 50vh;
+    }
+  }

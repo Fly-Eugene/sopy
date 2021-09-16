@@ -1,6 +1,25 @@
+$font-kopub: 'KoPub Batang';
+
 .navbar {
+  font-family: $font-kopub;
   width: 99vw;
   height: 10vh;
-  margin-bottom: 50px;
-  border: 3px solid;
+  border-bottom: 3px solid;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  h1 {
+    margin: 0;
+    position: absolute;
+    display: inline-block;
+    top: 4%;
+  }
+  .navbar-right {
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    width: 10%;
+    right: 5%;
+    top: 4%;
+  }
 }
