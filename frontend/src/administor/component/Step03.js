@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import {Grid} from '@material-ui/core';
+import sample from '../../img/SAMPLE_1.MP3';
+
 class Step03 extends Component {
     constructor(props){
         super(props);
@@ -22,6 +24,8 @@ class Step03 extends Component {
     }
     render(){
         let filename = 'PDF/JPEG 넣기';
+        let returnFile = '텍스트 넣기';
+        let isPlayer = 'none';
         if(this.state.file !== ''){
             filename = this.state.file.name;
         }
@@ -39,11 +43,10 @@ class Step03 extends Component {
                                 name="file"
                                 style={{display:"none"}}
                                 onChange={this.handleFileOnChange}/>
-                            {/* <div class="fileName"></div> */}
                             </div>
                         </Grid>
                         <Grid item xs = {4}>
-                            <div class="fileCard"><label for="text_file">텍스트 넣기</label>
+                            <div class="fileCard"><label for="text_file">{returnFile}</label>
                             <input type="file"
                                 id="text_file" 
                                 name="file"
@@ -53,12 +56,14 @@ class Step03 extends Component {
                         </Grid>
                         <Grid item xs = {4}>
                             <div class="fileCard"><label for="voice_file">성우 선택</label>
+                            <audio src={sample} controls className="player" style={{display: isPlayer}}></audio>
                             <input type="file"
                                 id="voice_file" 
                                 name="file"
                                 style={{display:"none"}}
                                 onChange={this.handleFileOnChange}/>
                             </div>
+                            
                         </Grid>
                     </Grid>
                 </Grid>
