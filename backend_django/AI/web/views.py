@@ -1,18 +1,21 @@
-from django.shortcuts import render
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-import requests
-<<<<<<< HEAD
-import os
-import shlex
+# -*- coding: utf-8 -*-
 import subprocess
-=======
-
-# tts module
+import shlex
+import os
+import requests
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from django.shortcuts import render
 from gtts import gTTS
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
->>>>>>> a63b0634f68e9364e5322b7afd2ba6c8726a2c03
+
+from EasyOCR.run import Model
+import sys
+sys.path.append("..")
+
+
+# tts module
 
 # Create your views here.
 
@@ -21,46 +24,29 @@ from django.views.decorators.csrf import csrf_exempt
 
 @api_view(['GET'])
 def book_ocr(request):
-    # txt_file = request.FILES['file']
-    txt_file = './OCR_img/'
+    ocr_model = Model()
 
-    command_line = f"python demo.py \
-    --Transformation None \
-    --FeatureExtraction VGG \
-    --SequenceModeling BiLSTM \
-    --Prediction CTC \
-    --image_folder demo_image/ \
-    --input_channel 1 \
-    --output_channel 256 \
-    --hidden_size 256 \
-    --saved_model ./saved_models/None-VGG-BiLSTM-CTC-Seed1111/best_accuracy.pth"
+    # 이미지 링크는 추후 변경할 예정
+    file_id = ocr_model.easyOCR(
+        'C:\\Users\\multicampus\\Desktop\\sopy_pjt\\S05P21B107\\backend_django\\AI\\EasyOCR\\workspace\\demo_images')
 
-    args = shlex.split(command_line)
+    tts(file_id)
 
-    print('==================================================================')
-    print(args)
-    pwd = os.getcwd()
-    os.chdir('./deep-text-recognition-benchmark')
-    p = subprocess.Popen(args)
-    # os.chdir('./web')
-    # p = subprocess.Popen("python ttest.py")
-    print('==================================================================')
+    return Response(file_id)
 
-<<<<<<< HEAD
-    return Response('123456789')
-=======
+
 @csrf_exempt
-def tts(request):
-    path = ''
-    txt = open('test.txt', 'rt', encoding='UTF8')
+def tts(file_id):
+    path = 'web/static/text/' + file_id + '.txt'
+    txt = open(path, 'rt', encoding='UTF8')
     if txt:
         text = ''
         for line in txt.readlines():
+            print(line)
             text += line
-        tts_ko = gTTS(text='text', lang='ko')
-        tts_path = 'output.mp3'
+        tts_ko = gTTS(text=text, lang='ko')
+        tts_path = 'web/static/sound/{}.mp3'.format(file_id)
         tts_ko.save(tts_path)
 
-        return JsonResponse({'result': 'OK','data': tts_path})
+        return JsonResponse({'result': 'OK', 'data': tts_path})
     return JsonResponse({'result': 'ERROR'})
->>>>>>> a63b0634f68e9364e5322b7afd2ba6c8726a2c03
