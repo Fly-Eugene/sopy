@@ -49,8 +49,8 @@ public class BookService {
         if(params.getImageFile().getSize() > 0){
             Files imageFile = filesService.makeFiles(new ArrayList<>(Arrays.asList(params.getImageFile())), book).get(0);
             jsonData.put("path", imageFile.getPath());
-            jsonData.put("name", imageFile.getSysName());
-            httpURLConnectionUtil.post(djangoURL + "/book/ocr", jsonData);
+            jsonData.put("name", imageFile.getOrgName());
+            httpURLConnectionUtil.post(djangoURL + "book/ocr/", jsonData);
         }
         if(params.getTextFile().getSize() > 0){
             Files textFile = filesService.makeFiles(new ArrayList<>(Arrays.asList(params.getTextFile())), book).get(0);
