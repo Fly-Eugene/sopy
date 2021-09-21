@@ -91,11 +91,21 @@ public class BookService {
 
     @Transactional
     public Object searchBook(String title) {
-
+        List<Book> searchBookList = bookRepository.searchBook(title);
 
         Map<String, Object> map = new HashMap<>();
         List<BookDto> results = new ArrayList<>();
 
+        for (Book book : searchBookList) {
+            results.add(BookDto.builder()
+                    .id(book.getId())
+                    .title(book.getTitle())
+                    .introduce(book.getIntroduce())
+                    .genre(book.getGenre())
+                    .build());
+        }
+
+        map.put("books", results);
         return map;
     }
 

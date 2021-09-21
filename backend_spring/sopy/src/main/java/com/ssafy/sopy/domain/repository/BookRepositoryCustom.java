@@ -5,4 +5,5 @@ import java.util.List;
 
 public interface BookRepositoryCustom {
     List<Book> getBooks();
+    List<Book> searchBook(String title);
 }

@@ -1,5 +1,7 @@
 package com.ssafy.sopy.domain.repository;
 
+import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.sopy.domain.entity.Book;
 import org.springframework.stereotype.Repository;
@@ -19,5 +21,14 @@ public class BookRepositoryImpl implements BookRepositoryCustom {
     @Override
     public List<Book> getBooks() {
         return jpaQueryFactory.selectFrom(book).from(book).fetch();
+    }
+
+    @Override
+    public List<Book> searchBook(String title) {
+        return jpaQueryFactory.selectDistinct(book).from(book).where(titleIn(title)).fetch();
+    }
+
+    private BooleanExpression titleIn(String title) {
+        return title == null ? null : book.title.eq(title);
     }
 }

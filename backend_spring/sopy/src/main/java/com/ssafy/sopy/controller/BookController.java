@@ -1,7 +1,9 @@
 package com.ssafy.sopy.controller;
 
+import com.ssafy.sopy.domain.repository.BookRepository;
 import com.ssafy.sopy.dto.BookAudioReqDto;
 import com.ssafy.sopy.dto.BookReqDto;
+import com.ssafy.sopy.dto.BookSearchReqDto;
 import com.ssafy.sopy.service.BookService;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,7 +34,8 @@ public class BookController {
     }
 
     @GetMapping("/search")
-    public Object searchBook(@PathVariable("q") String title) {
-        return bookService.searchBook(title);
+    public Object searchBook(@RequestBody BookSearchReqDto params) {
+        System.out.println(params);
+        return bookService.searchBook(params.getTitle());
     }
 }
