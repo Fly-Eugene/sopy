@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -31,6 +33,9 @@ public class User {
 
     @Column(length = 30)
     private String department;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Bookmark> bookmarkList = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(

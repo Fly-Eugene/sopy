@@ -4,10 +4,9 @@ package com.ssafy.sopy.domain.entity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Fetch;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -16,11 +15,18 @@ public class Bookmark {
 
     @Id @GeneratedValue
     private Long Id;
-
-    // Book, User 엔티티 연결 추가 필요
-
     private Long page;
     private Long line;
+
+    // xToOne의 기본 fetch 타입은 Eager 이므로 Lazy로 변경한다.
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "book_id")
+    private Book book;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
 
     @Builder
     public Bookmark(Long id, Long page, Long line) {

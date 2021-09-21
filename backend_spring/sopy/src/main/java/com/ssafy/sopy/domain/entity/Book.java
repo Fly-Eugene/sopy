@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -19,6 +21,9 @@ public class Book {
 
     public Book() {
     }
+
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
+    private List<Bookmark> bookmarkList = new ArrayList<>();
 
     @Builder
     public Book(Long id, String title, String introduce, String genre) {
