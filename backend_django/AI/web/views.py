@@ -73,6 +73,7 @@ def tts(request):
 
     # 해당 path 에서 file 리스트를 불러온다 ex) [0101.txt, 01012.txt, ...]
     files, count = get_files(txt_path)
+    print(files)
 
     for idx, file in enumerate(files):
         filename = os.path.basename(file)
