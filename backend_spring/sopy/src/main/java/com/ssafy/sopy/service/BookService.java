@@ -4,6 +4,7 @@ import com.ssafy.sopy.domain.entity.Book;
 import com.ssafy.sopy.domain.entity.Files;
 import com.ssafy.sopy.domain.repository.BookRepository;
 import com.ssafy.sopy.dto.BookAudioReqDto;
+import com.ssafy.sopy.dto.BookDto;
 import com.ssafy.sopy.dto.BookReqDto;
 import com.ssafy.sopy.util.HttpURLConnectionUtil;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,10 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class BookService {
@@ -72,6 +70,35 @@ public class BookService {
         }
         return new PathNode("", "");
     }
+
+    @Transactional
+    public Object getBookList() {
+        List<Book> books = bookRepository.getBooks();
+        List<BookDto> results = new ArrayList<>();
+        Map<String, Object> map = new HashMap<>();
+        for (Book book : books) {
+            results.add(BookDto.builder()
+                    .id(book.getId())
+                    .title(book.getTitle())
+                    .introduce(book.getIntroduce())
+                    .genre(book.getGenre())
+                    .build());
+        }
+
+        map.put("books", results);
+        return map;
+    }
+
+    @Transactional
+    public Object searchBook(String title) {
+
+
+        Map<String, Object> map = new HashMap<>();
+        List<BookDto> results = new ArrayList<>();
+
+        return map;
+    }
+
     class PathNode {
         String path, name;
         public PathNode() {

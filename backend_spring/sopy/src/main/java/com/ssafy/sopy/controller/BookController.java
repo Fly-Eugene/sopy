@@ -3,10 +3,7 @@ package com.ssafy.sopy.controller;
 import com.ssafy.sopy.dto.BookAudioReqDto;
 import com.ssafy.sopy.dto.BookReqDto;
 import com.ssafy.sopy.service.BookService;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
@@ -23,8 +20,19 @@ public class BookController {
     public Object makeBook(BookReqDto params) throws IOException {
         return bookService.makeBook(params);
     }
+
     @PostMapping("/audio/{book_id}")
     public Object makeAudio(@PathVariable("book_id") Long bookId, BookAudioReqDto params) throws IOException {
         return bookService.makeAudio(params, bookId);
+    }
+
+    @GetMapping("/main")
+    public Object getBookList() {
+        return bookService.getBookList();
+    }
+
+    @GetMapping("/search")
+    public Object searchBook(@PathVariable("q") String title) {
+        return bookService.searchBook(title);
     }
 }

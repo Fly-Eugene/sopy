@@ -14,7 +14,7 @@ public class UserImage extends Image{
     }
 
     @Builder
-    public UserImage(Long id, String imageName, String iamgeOrgName, String path, String thumbnail) {
-        super(id, imageName, iamgeOrgName, path, thumbnail);
+    public UserImage(Long id, String imageName, String imageOrgName, String path, String thumbnail) {
+        super(id, imageName, imageOrgName, path, thumbnail);
     }
 }

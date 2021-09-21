@@ -23,7 +23,7 @@ public class ImageService {
     public void makeImage(MultipartFile imageFile, Book book) throws IOException {
         File file = fileUtil.setImage(imageFile);
         bookImageRepository.save(BookImage.builder().imageName(file.getName())
-                .iamgeOrgName(imageFile.getOriginalFilename())
+                .imageOrgName(imageFile.getOriginalFilename())
                 .path(file.getParent() + "/")
                 .thumbnail(fileUtil.setThumbnail(file)).build());
     }

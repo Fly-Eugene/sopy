@@ -20,7 +20,7 @@ public class Image {
     private String imageName;
 
     @Column(name = "image_ord_name")
-    private String iamgeOrgName;
+    private String imageOrgName;
 
     private String path;
     private String thumbnail;
@@ -28,10 +28,11 @@ public class Image {
     public Image() {
     }
 
-    public Image(Long id, String imageName, String iamgeOrgName, String path, String thumbnail) {
+    // 생성자
+    public Image(Long id, String imageName, String imageOrgName, String path, String thumbnail) {
         this.id = id;
         this.imageName = imageName;
-        this.iamgeOrgName = iamgeOrgName;
+        this.imageOrgName = imageOrgName;
         this.path = path;
         this.thumbnail = thumbnail;
     }
