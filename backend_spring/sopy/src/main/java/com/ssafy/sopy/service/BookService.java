@@ -37,8 +37,8 @@ public class BookService {
     public Object makeBook(BookReqDto params) throws IOException {
         Book book = bookRepository.save(Book.builder().id(params.getId()).genre(params.getGenre()).introduce(params.getIntroduce()).title(params.getTitle()).build());
         filesService.makeFiles(new ArrayList<>(Arrays.asList(params.getAudioFile())), book);
-        imageService.makeImage(params.getImageFile(), book);
-        return book;
+        imageService.makeBookImage(params.getImageFile());
+        return book.entityToDto();
     }
 
     @Transactional

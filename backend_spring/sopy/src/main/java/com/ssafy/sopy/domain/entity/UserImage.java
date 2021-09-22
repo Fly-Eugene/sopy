@@ -1,5 +1,6 @@
 package com.ssafy.sopy.domain.entity;
 
+import com.ssafy.sopy.dto.ImageDto;
 import lombok.Builder;
 
 import javax.persistence.DiscriminatorValue;
@@ -14,7 +15,7 @@ public class UserImage extends Image{
     }
 
     @Builder
-    public UserImage(Long id, String imageName, String iamgeOrgName, String path, String thumbnail) {
-        super(id, imageName, iamgeOrgName, path, thumbnail);
+    public UserImage(Long id, String imageName, String imageOrgName, String path, String thumbnail) {
+        super(id, imageName, imageOrgName, path, thumbnail);
     }
 }
