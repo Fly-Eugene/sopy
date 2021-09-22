@@ -1,6 +1,7 @@
 package com.ssafy.sopy.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ssafy.sopy.dto.UserDto;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -51,5 +52,9 @@ public class User {
         this.age = age;
         this.department = department;
         this.authorities = authorities;
+    }
+
+    public UserDto entityToDto(){
+        return UserDto.builder().id(id).email(email).password(password).username(username).age(age).department(department).build();
     }
 }
