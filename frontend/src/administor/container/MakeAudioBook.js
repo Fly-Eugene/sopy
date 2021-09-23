@@ -16,13 +16,13 @@ import axios from 'axios';
 
 const MakeAudioBook = () => {
   const [title, setTitle] = useState('')
-  const [imageFile, setImageFile] = useState(0)
-  const [introduce, setContent] = useState(0)
-  const [genre, setGenre] = useState(0)
-  const [author, setAuthor] = useState(0)
-  const [translator, setEditor] = useState(0)
-  const [publisher, setPublisher] = useState(0)
-  const [publishedDate, setDate] = useState(0)
+  const [imageFile, setImageFile] = useState('')
+  const [introduce, setContent] = useState('')
+  const [genre, setGenre] = useState('')
+  const [author, setAuthor] = useState('')
+  const [translator, setEditor] = useState('')
+  const [publisher, setPublisher] = useState('')
+  const [publishedDate, setDate] = useState('')
 
   const getBookName = (bookName) =>{
     console.log(bookName)
@@ -53,17 +53,18 @@ const MakeAudioBook = () => {
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    let body = {
-      imageFile: imageFile,
-      title : title,
-      introduce : introduce,
-      genre : genre,
-      author : author,
-      translator : translator,
-      publisher : publisher,
-      publishedDate : publishedDate
-    };
-    dispatch(makeBook(body));
+    var fd = new FormData();
+    fd.append('imageFile', imageFile);
+    fd.append('title', title);
+    fd.append('introduce', introduce);
+    fd.append('genre', genre);
+    fd.append('author', author);
+    fd.append('translator', translator);
+    fd.append('publisher', publisher);
+    fd.append('publishedDate', publishedDate);
+    console.log(imageFile);
+    console.log(fd);
+    dispatch(makeBook(fd));
   }
   const page = useRef(0);
   const totalNum = useRef(3);
