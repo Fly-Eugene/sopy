@@ -57,6 +57,6 @@ public class Book {
     }
 
     public BookDto entityToDto() {
-        return BookDto.builder().id(id).title(title).introduce(introduce).genre(genre).build();
+        return BookDto.builder().id(id).title(title).introduce(introduce).genre(genre).author(author).translator(translator).publisher(publisher).publishedDate(publishedDate).build();
     }
 }

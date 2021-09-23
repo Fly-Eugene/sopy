@@ -110,16 +110,7 @@ public class BookService {
         List<BookDto> results = new ArrayList<>();
 
         for (Book book : searchBookList) {
-            results.add(BookDto.builder()
-                    .id(book.getId())
-                    .title(book.getTitle())
-                    .introduce(book.getIntroduce())
-                    .genre(book.getGenre())
-                    .author(book.getAuthor())
-                    .translator(book.getTranslator())
-                    .publisher(book.getPublisher())
-                    .publishedDate(book.getPublishedDate())
-                    .build());
+            results.add(book.entityToDto());
         }
 
         map.put("books", results);
@@ -130,16 +121,7 @@ public class BookService {
     public BookDto getBookDetail(Long bookId) {
         Book book = bookRepository.getById(bookId);
 
-        return BookDto.builder()
-                .id(book.getId())
-                .title(book.getTitle())
-                .introduce(book.getIntroduce())
-                .genre(book.getGenre())
-                .author(book.getAuthor())
-                .translator(book.getTranslator())
-                .publisher(book.getPublisher())
-                .publishedDate(book.getPublishedDate())
-                .build();
+        return book.entityToDto();
     }
 
     public Object genreFilter(String genre) {
@@ -148,16 +130,7 @@ public class BookService {
         List<BookDto> results = new ArrayList<>();
 
         for (Book book : bookList) {
-            results.add(BookDto.builder()
-                    .id(book.getId())
-                    .title(book.getTitle())
-                    .introduce(book.getIntroduce())
-                    .genre(book.getGenre())
-                    .author(book.getAuthor())
-                    .translator(book.getTranslator())
-                    .publisher(book.getPublisher())
-                    .publishedDate(book.getPublishedDate())
-                    .build());
+            results.add(book.entityToDto());
         }
 
         map.put("books", results);
