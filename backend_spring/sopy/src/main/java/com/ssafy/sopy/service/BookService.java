@@ -1,6 +1,7 @@
 package com.ssafy.sopy.service;
 
 import com.ssafy.sopy.domain.entity.Book;
+import com.ssafy.sopy.domain.entity.BookImage;
 import com.ssafy.sopy.domain.entity.Files;
 import com.ssafy.sopy.domain.repository.BookRepository;
 import com.ssafy.sopy.dto.BookAudioReqDto;
@@ -33,19 +34,15 @@ public class BookService {
 
     @Transactional
     public Object makeBook(BookReqDto params) throws IOException {
+        BookImage bookImage = imageService.makeBookImage(params.getImageFile());
         Book book = bookRepository.save(Book.builder()
                 .id(params.getId()).genre(params.getGenre())
                 .introduce(params.getIntroduce()).title(params.getTitle())
                 .author(params.getAuthor()).translator(params.getTranslator())
                 .publisher(params.getPublisher()).publishedDate(params.getPublishedDate())
+                .bookImage(bookImage)
                 .build());
-        // 오디오 파일 받는 거 사라짐
-        //filesService.makeFiles(new ArrayList<>(Arrays.asList(params.getAudioFile())), book);
-
-        // parameter 에서 book 이 빠졌다 => 그럼 어떤 책의 이미지인지 판단 가능한가?
-        imageService.makeBookImage(params.getImageFile());
-        // book.entityToDTO 인지 체크하기
-        return book;
+        return book.entityToDto();
     }
 
     @Transactional

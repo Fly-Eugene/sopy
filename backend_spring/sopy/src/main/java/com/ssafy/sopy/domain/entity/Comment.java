@@ -1,5 +1,6 @@
 package com.ssafy.sopy.domain.entity;
 
+import com.ssafy.sopy.dto.CommentDto;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -19,14 +20,19 @@ public class Comment {
     @JoinColumn(name = "book_id")
     private Book book;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     public Comment() {
     }
 
     @Builder
-    public Comment(Long id, String content, Book book) {
+    public Comment(Long id, String content, Book book, User user) {
         this.id = id;
         this.content = content;
         this.book = book;
+        this.user = user;
     }
 
     @Override
@@ -35,6 +41,10 @@ public class Comment {
                 "id=" + id +
                 ", content='" + content + '\'' +
                 ", book=" + book +
+                ", user=" + user +
                 '}';
+    }
+    public CommentDto entityToDto(){
+        return CommentDto.builder().id(id).content(content).bookId(book.getId()).userId(user.getId()).build();
     }
 }
