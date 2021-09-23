@@ -33,8 +33,14 @@ public class BookService {
 
     @Transactional
     public Object makeBook(BookReqDto params) throws IOException {
-        Book book = bookRepository.save(Book.builder().id(params.getId()).genre(params.getGenre()).introduce(params.getIntroduce()).title(params.getTitle()).build());
-        filesService.makeFiles(new ArrayList<>(Arrays.asList(params.getAudioFile())), book);
+        Book book = bookRepository.save(Book.builder()
+                .id(params.getId()).genre(params.getGenre())
+                .introduce(params.getIntroduce()).title(params.getTitle())
+                .author(params.getAuthor()).translator(params.getTranslator())
+                .publisher(params.getPublisher()).publishedDate(params.getPublishedDate())
+                .build());
+        // 오디오 파일 받는 거 사라짐
+        //filesService.makeFiles(new ArrayList<>(Arrays.asList(params.getAudioFile())), book);
         imageService.makeImage(params.getImageFile(), book);
         return book;
     }
@@ -82,6 +88,10 @@ public class BookService {
                     .title(book.getTitle())
                     .introduce(book.getIntroduce())
                     .genre(book.getGenre())
+                    .author(book.getAuthor())
+                    .translator(book.getTranslator())
+                    .publisher(book.getPublisher())
+                    .publishedDate(book.getPublishedDate())
                     .build());
         }
 
@@ -102,11 +112,36 @@ public class BookService {
                     .title(book.getTitle())
                     .introduce(book.getIntroduce())
                     .genre(book.getGenre())
+                    .author(book.getAuthor())
+                    .translator(book.getTranslator())
+                    .publisher(book.getPublisher())
+                    .publishedDate(book.getPublishedDate())
                     .build());
         }
 
         map.put("books", results);
         return map;
+    }
+
+    @Transactional
+    public BookDto getBookDetail(Long bookId) {
+        Book book = bookRepository.getById(bookId);
+
+        // profile
+        // profile builder
+
+        // book + profile ??????? XXXXXX?????
+
+        return BookDto.builder()
+                .id(book.getId())
+                .title(book.getTitle())
+                .introduce(book.getIntroduce())
+                .genre(book.getGenre())
+                .author(book.getAuthor())
+                .translator(book.getTranslator())
+                .publisher(book.getPublisher())
+                .publishedDate(book.getPublishedDate())
+                .build();
     }
 
     class PathNode {

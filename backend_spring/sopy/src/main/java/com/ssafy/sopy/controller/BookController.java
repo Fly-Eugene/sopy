@@ -2,6 +2,7 @@ package com.ssafy.sopy.controller;
 
 import com.ssafy.sopy.domain.repository.BookRepository;
 import com.ssafy.sopy.dto.BookAudioReqDto;
+import com.ssafy.sopy.dto.BookDto;
 import com.ssafy.sopy.dto.BookReqDto;
 import com.ssafy.sopy.dto.BookSearchReqDto;
 import com.ssafy.sopy.service.BookService;
@@ -38,4 +39,11 @@ public class BookController {
         System.out.println(params);
         return bookService.searchBook(params.getTitle());
     }
+
+    @GetMapping("/detail")
+    public BookDto bookDetail(@RequestParam Long bookId) {
+        return bookService.getBookDetail(bookId);
+    }
+
+
 }
