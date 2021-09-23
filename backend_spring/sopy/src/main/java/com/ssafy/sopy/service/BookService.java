@@ -130,11 +130,6 @@ public class BookService {
     public BookDto getBookDetail(Long bookId) {
         Book book = bookRepository.getById(bookId);
 
-        // profile
-        // profile builder
-
-        // book + profile ??????? XXXXXX?????
-
         return BookDto.builder()
                 .id(book.getId())
                 .title(book.getTitle())
@@ -145,6 +140,28 @@ public class BookService {
                 .publisher(book.getPublisher())
                 .publishedDate(book.getPublishedDate())
                 .build();
+    }
+
+    public Object genreFilter(String genre) {
+        List<Book> bookList = bookRepository.genreFilter(genre);
+        Map<String, Object> map = new HashMap<>();
+        List<BookDto> results = new ArrayList<>();
+
+        for (Book book : bookList) {
+            results.add(BookDto.builder()
+                    .id(book.getId())
+                    .title(book.getTitle())
+                    .introduce(book.getIntroduce())
+                    .genre(book.getGenre())
+                    .author(book.getAuthor())
+                    .translator(book.getTranslator())
+                    .publisher(book.getPublisher())
+                    .publishedDate(book.getPublishedDate())
+                    .build());
+        }
+
+        map.put("books", results);
+        return map;
     }
 
     class PathNode {

@@ -28,6 +28,11 @@ public class BookRepositoryImpl implements BookRepositoryCustom {
         return jpaQueryFactory.selectDistinct(book).from(book).where(titleIn(title)).fetch();
     }
 
+    @Override
+    public List<Book> genreFilter(String genre) {
+        return jpaQueryFactory.selectDistinct(book).from(book).where(book.genre.eq(genre)).fetch();
+    }
+
     private BooleanExpression titleIn(String title) {
         return title == null ? null : book.title.eq(title);
     }
