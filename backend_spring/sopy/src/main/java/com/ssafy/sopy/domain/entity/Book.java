@@ -29,6 +29,10 @@ public class Book {
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
     private List<Bookmark> bookmarkList = new ArrayList<>();
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "image_id")
+    private BookImage bookImage;
+
 
     @Builder
     public Book(Long id, String title, String introduce, String genre, String author, String translator, String publisher, String publishedDate, List<Bookmark> bookmarkList) {
