@@ -18,6 +18,10 @@ public class Book {
     private String title;
     private String introduce;
     private String genre;
+    private String author; // 지은이
+    private String translator; // 옮김이
+    private String publisher; // 출판사
+    private String publishedDate; //발행일
 
     public Book() {
     }
@@ -25,12 +29,21 @@ public class Book {
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
     private List<Bookmark> bookmarkList = new ArrayList<>();
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "image_id")
+    private BookImage bookImage;
+
+
     @Builder
-    public Book(Long id, String title, String introduce, String genre) {
+    public Book(Long id, String title, String introduce, String genre, String author, String translator, String publisher, String publishedDate, List<Bookmark> bookmarkList) {
         this.id = id;
         this.title = title;
         this.introduce = introduce;
         this.genre = genre;
+        this.author = author;
+        this.translator = translator;
+        this.publisher = publisher;
+        this.publishedDate = publishedDate;
     }
 
     @Override
@@ -42,6 +55,7 @@ public class Book {
                 ", genre='" + genre + '\'' +
                 '}';
     }
+
     public BookDto entityToDto() {
         return BookDto.builder().id(id).title(title).introduce(introduce).genre(genre).build();
     }

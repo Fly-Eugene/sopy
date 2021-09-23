@@ -2,8 +2,8 @@ import React from 'react';
 
 export default function Main() {
     return (
-      <div>
-        
-      </div>
+      <h1>
+        메인페이지
+      </h1>
     );
 }
