@@ -33,9 +33,18 @@ public class BookService {
 
     @Transactional
     public Object makeBook(BookReqDto params) throws IOException {
-        Book book = bookRepository.save(Book.builder().id(params.getId()).genre(params.getGenre()).introduce(params.getIntroduce()).title(params.getTitle()).build());
-        filesService.makeFiles(new ArrayList<>(Arrays.asList(params.getAudioFile())), book);
-        imageService.makeImage(params.getImageFile(), book);
+        Book book = bookRepository.save(Book.builder()
+                .id(params.getId()).genre(params.getGenre())
+                .introduce(params.getIntroduce()).title(params.getTitle())
+                .author(params.getAuthor()).translator(params.getTranslator())
+                .publisher(params.getPublisher()).publishedDate(params.getPublishedDate())
+                .build());
+        // 오디오 파일 받는 거 사라짐
+        //filesService.makeFiles(new ArrayList<>(Arrays.asList(params.getAudioFile())), book);
+
+        // parameter 에서 book 이 빠졌다 => 그럼 어떤 책의 이미지인지 판단 가능한가?
+        imageService.makeBookImage(params.getImageFile());
+        // book.entityToDTO 인지 체크하기
         return book;
     }
 
@@ -47,8 +56,8 @@ public class BookService {
         if(params.getImageFile().getSize() > 0){
             Files imageFile = filesService.makeFiles(new ArrayList<>(Arrays.asList(params.getImageFile())), book).get(0);
             jsonData.put("path", imageFile.getPath());
-            jsonData.put("name", imageFile.getSysName());
-            httpURLConnectionUtil.post(djangoURL + "/book/ocr", jsonData);
+            jsonData.put("name", imageFile.getOrgName());
+            httpURLConnectionUtil.post(djangoURL + "book/ocr/", jsonData);
         }
         if(params.getTextFile().getSize() > 0){
             Files textFile = filesService.makeFiles(new ArrayList<>(Arrays.asList(params.getTextFile())), book).get(0);
@@ -82,6 +91,10 @@ public class BookService {
                     .title(book.getTitle())
                     .introduce(book.getIntroduce())
                     .genre(book.getGenre())
+                    .author(book.getAuthor())
+                    .translator(book.getTranslator())
+                    .publisher(book.getPublisher())
+                    .publishedDate(book.getPublishedDate())
                     .build());
         }
 
@@ -102,11 +115,36 @@ public class BookService {
                     .title(book.getTitle())
                     .introduce(book.getIntroduce())
                     .genre(book.getGenre())
+                    .author(book.getAuthor())
+                    .translator(book.getTranslator())
+                    .publisher(book.getPublisher())
+                    .publishedDate(book.getPublishedDate())
                     .build());
         }
 
         map.put("books", results);
         return map;
+    }
+
+    @Transactional
+    public BookDto getBookDetail(Long bookId) {
+        Book book = bookRepository.getById(bookId);
+
+        // profile
+        // profile builder
+
+        // book + profile ??????? XXXXXX?????
+
+        return BookDto.builder()
+                .id(book.getId())
+                .title(book.getTitle())
+                .introduce(book.getIntroduce())
+                .genre(book.getGenre())
+                .author(book.getAuthor())
+                .translator(book.getTranslator())
+                .publisher(book.getPublisher())
+                .publishedDate(book.getPublishedDate())
+                .build();
     }
 
     class PathNode {

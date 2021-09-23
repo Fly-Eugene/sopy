@@ -1,6 +1,6 @@
 package com.ssafy.sopy.domain.entity;
 
-import lombok.Builder;
+import com.ssafy.sopy.dto.ImageDto;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -28,12 +28,14 @@ public class Image {
     public Image() {
     }
 
-    // 생성자
     public Image(Long id, String imageName, String imageOrgName, String path, String thumbnail) {
         this.id = id;
         this.imageName = imageName;
         this.imageOrgName = imageOrgName;
         this.path = path;
         this.thumbnail = thumbnail;
+    }
+    public ImageDto entityToDto(){
+        return ImageDto.builder().id(id).imageName(imageName).imageOrgName(imageOrgName).path(path).thumbnail(thumbnail).build();
     }
 }

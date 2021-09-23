@@ -1,5 +1,6 @@
 package com.ssafy.sopy.domain.entity;
 
+import com.ssafy.sopy.dto.ImageDto;
 import lombok.Builder;
 
 import javax.persistence.DiscriminatorValue;
