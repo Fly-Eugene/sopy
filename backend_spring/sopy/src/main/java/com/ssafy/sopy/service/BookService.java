@@ -35,8 +35,8 @@ public class BookService {
     public Object makeBook(BookReqDto params) throws IOException {
         Book book = bookRepository.save(Book.builder().id(params.getId()).genre(params.getGenre()).introduce(params.getIntroduce()).title(params.getTitle()).build());
         filesService.makeFiles(new ArrayList<>(Arrays.asList(params.getAudioFile())), book);
-        imageService.makeImage(params.getImageFile(), book);
-        return book;
+        imageService.makeBookImage(params.getImageFile());
+        return book.entityToDto();
     }
 
     @Transactional
@@ -47,8 +47,8 @@ public class BookService {
         if(params.getImageFile().getSize() > 0){
             Files imageFile = filesService.makeFiles(new ArrayList<>(Arrays.asList(params.getImageFile())), book).get(0);
             jsonData.put("path", imageFile.getPath());
-            jsonData.put("name", imageFile.getSysName());
-            httpURLConnectionUtil.post(djangoURL + "/book/ocr", jsonData);
+            jsonData.put("name", imageFile.getOrgName());
+            httpURLConnectionUtil.post(djangoURL + "book/ocr/", jsonData);
         }
         if(params.getTextFile().getSize() > 0){
             Files textFile = filesService.makeFiles(new ArrayList<>(Arrays.asList(params.getTextFile())), book).get(0);
