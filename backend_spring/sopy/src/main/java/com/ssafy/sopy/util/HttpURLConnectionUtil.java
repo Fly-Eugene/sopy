@@ -38,7 +38,8 @@ public class HttpURLConnectionUtil {
         } catch (Exception e) {
             System.err.println(e.toString());
         } finally {
-            return new JSONObject(sb.toString());
+            return null;
+//            return new JSONObject(sb.toString());
         }
     }
 
@@ -57,7 +58,9 @@ public class HttpURLConnectionUtil {
             con.setDefaultUseCaches(false);
 
             OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
-            wr.write(mapToJsonStr((HashMap<String, String>) jsonData)); //json 형식의 message 전달
+            System.out.println(mapToJsonStr((HashMap<String, String>) jsonData));
+//            wr.write("{\"name\": \"Upendra\", \"job\": \"Programmer\"}"); //json 형식의 message 전달
+            wr.write(mapToJsonStr((HashMap<String, String>) jsonData));
             wr.flush();
 
             if (con.getResponseCode() == HttpURLConnection.HTTP_OK) {
@@ -83,8 +86,11 @@ public class HttpURLConnectionUtil {
         StringBuilder sb = new StringBuilder();
         sb.append("{");
         map.forEach((key, value)->{
-            sb.append(key + ":" + value + ", ");
+            sb.append("\""+ key + "\"" + ": " + "\"" + convert(value) + "\"" + ", ");
         });
         return sb.toString().substring(0, sb.length()-2) + "}";
+    }
+    public String convert(String src){
+        return src.replace("\\", "/");
     }
 }
