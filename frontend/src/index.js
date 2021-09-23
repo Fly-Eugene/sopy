@@ -1,16 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-// import App from './App';
 import MakeAudioBook from './administor/container/MakeAudioBook';
 import Navbar from './common/container/Navbar';
+import Main from './main/container/Main'
+import FindBook from './book/container/FindBook'
+import User from './user/container/User'
+import Login from './user/container/Login'
+
 import reportWebVitals from './reportWebVitals';
+import { Route, BrowserRouter } from 'react-router-dom'
 
 ReactDOM.render(
   <React.StrictMode>
     {/* <App /> */}
-    <Navbar />
-    <MakeAudioBook />
+    <BrowserRouter>
+      <Navbar />
+      <Route exact path='/' component={Main}/>
+      <Route path='/makeaudio' component={MakeAudioBook}/>
+      <Route path='/find' component={FindBook}/>
+      <Route path='/login' component={Login}/>
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );
