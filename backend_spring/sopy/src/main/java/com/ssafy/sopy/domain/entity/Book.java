@@ -33,9 +33,8 @@ public class Book {
     @JoinColumn(name = "image_id")
     private BookImage bookImage;
 
-
     @Builder
-    public Book(Long id, String title, String introduce, String genre, String author, String translator, String publisher, String publishedDate, List<Bookmark> bookmarkList) {
+    public Book(Long id, String title, String introduce, String genre, String author, String translator, String publisher, String publishedDate, List<Bookmark> bookmarkList, BookImage bookImage) {
         this.id = id;
         this.title = title;
         this.introduce = introduce;
@@ -44,6 +43,8 @@ public class Book {
         this.translator = translator;
         this.publisher = publisher;
         this.publishedDate = publishedDate;
+        this.bookmarkList = bookmarkList;
+        this.bookImage = bookImage;
     }
 
     @Override
@@ -53,10 +54,16 @@ public class Book {
                 ", title='" + title + '\'' +
                 ", introduce='" + introduce + '\'' +
                 ", genre='" + genre + '\'' +
+                ", author='" + author + '\'' +
+                ", translator='" + translator + '\'' +
+                ", publisher='" + publisher + '\'' +
+                ", publishedDate='" + publishedDate + '\'' +
+                ", bookmarkList=" + bookmarkList +
+                ", bookImage=" + bookImage +
                 '}';
     }
 
     public BookDto entityToDto() {
-        return BookDto.builder().id(id).title(title).introduce(introduce).genre(genre).build();
+        return BookDto.builder().id(id).title(title).introduce(introduce).genre(genre).author(author).translator(translator).publisher(publisher).publishedDate(publishedDate).build();
     }
 }

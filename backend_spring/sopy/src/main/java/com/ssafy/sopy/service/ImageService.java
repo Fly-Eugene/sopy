@@ -41,9 +41,10 @@ public class ImageService {
     public UserImage makeUserImage(MultipartFile imageFile) throws IOException {
         if(imageFile.getSize() <= 0) return null;
         File file = fileUtil.setImage(imageFile);
-        return userImageRepository.save(UserImage.builder().imageName(file.getName())
+        return userImageRepository.save(UserImage.builder()
+                .imageName(file.getName())
                 .imageOrgName(imageFile.getOriginalFilename())
-                .path(file.getPath() + "/")
+                .path(file.getParent() + "/")
                 .thumbnail(fileUtil.setThumbnail(file)).build());
     }
 
