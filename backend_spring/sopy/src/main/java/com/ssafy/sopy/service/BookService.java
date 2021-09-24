@@ -4,14 +4,16 @@ import com.ssafy.sopy.domain.entity.Book;
 import com.ssafy.sopy.domain.entity.BookImage;
 import com.ssafy.sopy.domain.entity.Files;
 import com.ssafy.sopy.domain.repository.BookRepository;
-import com.ssafy.sopy.dto.BookAudioReqDto;
+import com.ssafy.sopy.dto.BookFileReqDto;
 import com.ssafy.sopy.dto.BookDto;
 import com.ssafy.sopy.dto.BookReqDto;
 import com.ssafy.sopy.util.HttpURLConnectionUtil;
+import com.ssafy.sopy.util.PdfUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -22,14 +24,16 @@ public class BookService {
     private final ImageService imageService;
     private final HttpURLConnectionUtil httpURLConnectionUtil;
     private final String djangoURL;
+    private final PdfUtil pdfUtil;
 
     public BookService(BookRepository bookRepository, FilesService filesService, ImageService imageService, HttpURLConnectionUtil httpURLConnectionUtil,
-                       @Value("${djangoURL}") String djangoURL) {
+                       @Value("${djangoURL}") String djangoURL, PdfUtil pdfUtil) {
         this.bookRepository = bookRepository;
         this.filesService = filesService;
         this.imageService = imageService;
         this.httpURLConnectionUtil = httpURLConnectionUtil;
         this.djangoURL = djangoURL;
+        this.pdfUtil = pdfUtil;
     }
 
     @Transactional
@@ -46,22 +50,38 @@ public class BookService {
     }
 
     @Transactional
-    public Object makeAudio(BookAudioReqDto params, Long bookId) throws IOException {
+    public Object makeText(BookFileReqDto params, Long bookId) throws IOException {
+        // 이미지 파일 저장
         Book book = bookRepository.getById(bookId);
+        // pdf면 image로 바꿔 저장, image면 그냥 저장
+        if(params.getPdfFile().getSize() > 0){      // pdf
+            File result = pdfUtil.pdfToImg(params.getPdfFile());
+        } else {                                    // image
+//            filesService.makeFiles(params.getImageFiles());
+        }
+        // ocr
         Map<String, String> jsonData = new HashMap<String, String>();
-        String textPath = null;
-        if(params.getImageFile().getSize() > 0){
-            Files imageFile = filesService.makeFiles(new ArrayList<>(Arrays.asList(params.getImageFile())), book).get(0);
-            jsonData.put("path", imageFile.getPath());
-            jsonData.put("name", imageFile.getOrgName());
-            httpURLConnectionUtil.post(djangoURL + "book/ocr/", jsonData);
-        }
-        if(params.getTextFile().getSize() > 0){
-            Files textFile = filesService.makeFiles(new ArrayList<>(Arrays.asList(params.getTextFile())), book).get(0);
-            textPath = textFile.getPath() + textFile.getSysName();
-        } else{
-//            textPath =
-        }
+//        jsonData.put("path", file.getPath());
+//        jsonData.put("name", file.getOrgName());
+//        httpURLConnectionUtil.post(djangoURL + "book/ocr/", jsonData);
+        return null;
+    }
+    @Transactional
+    public Object makeAudio(BookFileReqDto params, Long bookId) throws IOException {
+//        Book book = bookRepository.getById(bookId);
+//        String textPath = null;
+//        if(params.getImageFile().getSize() > 0){
+//            Files imageFile = filesService.makeFiles(new ArrayList<>(Arrays.asList(params.getImageFile())), book).get(0);
+//            jsonData.put("path", imageFile.getPath());
+//            jsonData.put("name", imageFile.getOrgName());
+//            httpURLConnectionUtil.post(djangoURL + "book/ocr/", jsonData);
+//        }
+//        if(params.getTextFile().getSize() > 0){
+//            Files textFile = filesService.makeFiles(new ArrayList<>(Arrays.asList(params.getTextFile())), book).get(0);
+//            textPath = textFile.getPath() + textFile.getSysName();
+//        } else{
+////            textPath =
+//        }
         // TTS 요청 후 audio파일 DB에 저장
 //        PathNode pathNode = pathSplit(textPath);
 //        jsonData.put("path", pathNode.path);

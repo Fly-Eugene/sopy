@@ -1,7 +1,6 @@
 package com.ssafy.sopy.controller;
 
-import com.ssafy.sopy.domain.repository.BookRepository;
-import com.ssafy.sopy.dto.BookAudioReqDto;
+import com.ssafy.sopy.dto.BookFileReqDto;
 import com.ssafy.sopy.dto.BookDto;
 import com.ssafy.sopy.dto.BookReqDto;
 import com.ssafy.sopy.dto.BookSearchReqDto;
@@ -24,8 +23,15 @@ public class BookController {
         return bookService.makeBook(params);
     }
 
-    @PostMapping("/audio/{book_id}")
-    public Object makeAudio(@PathVariable("book_id") Long bookId, BookAudioReqDto params) throws IOException {
+    // make text(text 편집? => 귀찮으니 나중에 생각)
+    @PostMapping("/text/{bookId}")
+    public Object makeText(@PathVariable("bookId") Long bookId, BookFileReqDto params) throws IOException {
+        return bookService.makeText(params, bookId);
+    }
+
+    // make audio
+    @PostMapping("/audio/{bookId}")
+    public Object makeAudio(@PathVariable("bookId") Long bookId, BookFileReqDto params) throws IOException {
         return bookService.makeAudio(params, bookId);
     }
 

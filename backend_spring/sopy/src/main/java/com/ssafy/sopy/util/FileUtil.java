@@ -18,9 +18,9 @@ import java.util.UUID;
 @Component
 public class FileUtil {
 
-    public File makeDir(String loc) throws IOException {
+    public File makeDir(String preLoc, String postLoc) throws IOException {
         String uploadRoot = "c:/sopy/upload";
-        String path = loc + new SimpleDateFormat("/yyyy/MM/dd").format(new Date());
+        String path = preLoc + new SimpleDateFormat("/yyyy/MM/dd").format(new Date()) + postLoc;
         File file = new File(uploadRoot + path);
         if(!file.exists()) file.mkdirs();
         return file;
@@ -46,13 +46,13 @@ public class FileUtil {
     }
 
     public File setImage(MultipartFile mf) throws IOException {
-        File f = makeName(mf.getOriginalFilename(), makeDir(""));
+        File f = makeName(mf.getOriginalFilename(), makeDir("", ""));
         mf.transferTo(f);
         return f;
     }
 
     public List<Files> setFiles(List<MultipartFile> files, Book book) throws IOException {
-        File file = makeDir("/file");
+        File file = makeDir("/file", "");
         List<Files> fileEntities = new ArrayList<>();
         for(MultipartFile mf: files) {
             if(mf.getSize() == 0) continue;
