@@ -51,6 +51,14 @@ public class FileUtil {
         return f;
     }
 
+    public File saveImages(List<MultipartFile> mfs) throws IOException {
+        File resultImgPath = makeDir("/", "/" + UUID.randomUUID() + "/img/");
+        int idx = 0;
+        for (MultipartFile mf : mfs) {
+            mf.transferTo(new File(resultImgPath, (++idx) + ".png"));
+        }
+        return resultImgPath;
+    }
     public List<Files> setFiles(List<MultipartFile> files, Book book) throws IOException {
         File file = makeDir("/file", "");
         List<Files> fileEntities = new ArrayList<>();

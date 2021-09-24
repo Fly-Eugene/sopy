@@ -7,6 +7,7 @@ import com.ssafy.sopy.domain.repository.BookRepository;
 import com.ssafy.sopy.dto.BookFileReqDto;
 import com.ssafy.sopy.dto.BookDto;
 import com.ssafy.sopy.dto.BookReqDto;
+import com.ssafy.sopy.util.FileUtil;
 import com.ssafy.sopy.util.HttpURLConnectionUtil;
 import com.ssafy.sopy.util.PdfUtil;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,15 +26,17 @@ public class BookService {
     private final HttpURLConnectionUtil httpURLConnectionUtil;
     private final String djangoURL;
     private final PdfUtil pdfUtil;
+    private final FileUtil fileUtil;
 
     public BookService(BookRepository bookRepository, FilesService filesService, ImageService imageService, HttpURLConnectionUtil httpURLConnectionUtil,
-                       @Value("${djangoURL}") String djangoURL, PdfUtil pdfUtil) {
+                       @Value("${djangoURL}") String djangoURL, PdfUtil pdfUtil, FileUtil fileUtil) {
         this.bookRepository = bookRepository;
         this.filesService = filesService;
         this.imageService = imageService;
         this.httpURLConnectionUtil = httpURLConnectionUtil;
         this.djangoURL = djangoURL;
         this.pdfUtil = pdfUtil;
+        this.fileUtil = fileUtil;
     }
 
     @Transactional
@@ -54,10 +57,10 @@ public class BookService {
         // 이미지 파일 저장
         Book book = bookRepository.getById(bookId);
         // pdf면 image로 바꿔 저장, image면 그냥 저장
-        if(params.getPdfFile().getSize() > 0){      // pdf
-            File result = pdfUtil.pdfToImg(params.getPdfFile());
+        if(params.getPdfFile() != null){      // pdf
+            File resultDir = pdfUtil.pdfToImg(params.getPdfFile());
         } else {                                    // image
-//            filesService.makeFiles(params.getImageFiles());
+            File resultDir = fileUtil.saveImages(params.getImageFiles());
         }
         // ocr
         Map<String, String> jsonData = new HashMap<String, String>();
