@@ -12,8 +12,15 @@ import BookDetail from './book/container/BookDetail';
 import reportWebVitals from './reportWebVitals';
 import { Route, BrowserRouter } from 'react-router-dom'
 
+import { Provider } from "react-redux";
+import { createStore } from "redux";
+import rootReducer from "./store/reducers"
+
+const store = createStore(rootReducer);
+
 ReactDOM.render(
   <React.StrictMode>
+    <Provider store={store}>
     {/* <App /> */}
     <BrowserRouter>
       <Navbar />
@@ -25,6 +32,7 @@ ReactDOM.render(
         <Route path='/book' component={BookDetail}/>
       </div>
     </BrowserRouter>
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

@@ -34,7 +34,7 @@ public class User {
     @Column(length = 30)
     private String department;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "image_id")
     private UserImage userImage;
 

@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import BG1 from '../../img/MakeAudioBG1.png'
 import BG2 from '../../img/MakeAudioBG2.png'
 import BG3 from '../../img/MakeAudioBG3.png'
@@ -8,10 +8,72 @@ import Step02 from '../component/Step02';
 import Step01 from '../component/Step01'
 import Step03 from '../component/Step03'
 
+<<<<<<< HEAD
 import './MakeAudioBook.modules.scss'
+=======
+import MakeAudioBookModule from './MakeAudioBook.modules.scss'
+import { useDispatch } from 'react-redux';
+import { makeBook } from "../../store/actions/bookActions";
+import axios from 'axios';
+
+>>>>>>> 061a48f014b2904d6a6a5b4aa6859c276a38b9b3
 
 const MakeAudioBook = () => {
+  const [title, setTitle] = useState('')
+  const [imageFile, setImageFile] = useState('')
+  const [introduce, setContent] = useState('')
+  const [genre, setGenre] = useState('')
+  const [author, setAuthor] = useState('')
+  const [translator, setEditor] = useState('')
+  const [publisher, setPublisher] = useState('')
+  const [publishedDate, setDate] = useState('')
 
+  const getBookName = (bookName) =>{
+    console.log(bookName)
+    setTitle(bookName);
+  }
+  const getImageFile = (img) => {
+    setImageFile(img);
+  }
+  const getContent = (content) => {
+    setContent(content);
+  }
+  const getGenre = (type) => {
+    setGenre(type);
+  }
+  const getAuthor = (data) => {
+    setAuthor(data)
+  }
+  const getEditor = (data) => {
+    setEditor(data)
+  }
+  const getPublisher = (data) => {
+    setPublisher(data)
+  }
+  const getDate = (data) => {
+    setDate(data)
+  }
+  const dispatch = useDispatch();
+
+  const onSubmitHandler = (e) => {
+    if(title == '' || introduce == '' || genre == '' || author == '' || translator == '' || publisher == '' || publishedDate == ''){ 
+      alert('정보를 모두 입력해주세요')
+      return false
+    }
+    var fd = new FormData();
+    fd.append('imageFile', imageFile);
+    fd.append('title', title);
+    fd.append('introduce', introduce);
+    fd.append('genre', genre);
+    fd.append('author', author);
+    fd.append('translator', translator);
+    fd.append('publisher', publisher);
+    fd.append('publishedDate', publishedDate);
+    console.log(imageFile);
+    console.log(fd);
+    dispatch(makeBook(fd));
+    return true
+  }
   const page = useRef(0);
   const totalNum = useRef(3);
   const section = document.getElementsByTagName("section");
@@ -27,6 +89,9 @@ const MakeAudioBook = () => {
   }
 
   const next = () => {
+    if(page.current == 1){
+      if(!onSubmitHandler()) return
+    }
     if (page.current < totalNum.current-1) {
       page.current++;
     }
@@ -55,13 +120,22 @@ const MakeAudioBook = () => {
 
       <section>
         <h2>Step 1</h2>
-        <Step01></Step01>
+        <Step01 getImageFile={getImageFile}></Step01>
         <img src={BG1} alt="BG1"/>
       </section>
 
       <section>
         <h2>Step 2</h2>
-        <Step02 />
+        <Step02 
+        getBookName={getBookName} 
+        getImageFile={getImageFile} 
+        getContent={getContent}
+        getGenre={getGenre}
+        getAuthor={getAuthor}
+        getEditor={getEditor}
+        getPublisher={getPublisher}
+        getDate={getDate}
+        />
         <img src={BG2} alt="BG2"/>
       </section>
       
