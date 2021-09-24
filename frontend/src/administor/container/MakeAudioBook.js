@@ -8,7 +8,7 @@ import Step02 from '../component/Step02';
 import Step01 from '../component/Step01'
 import Step03 from '../component/Step03'
 
-import MakeAudioBookModule from './MakeAudioBook.modules.scss'
+import './MakeAudioBook.modules.scss'
 
 const MakeAudioBook = () => {
 

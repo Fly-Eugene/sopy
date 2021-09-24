@@ -11,3 +11,10 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.router-body {
+  position: relative;
+  width: 80%;
+  margin-top: 30px;
+  left: 10%;
+}

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Grid} from '@material-ui/core';
 import sample from '../../img/SAMPLE_1.MP3';
-import Step03Modules from './Step03.modules.scss'
+import './Step03.modules.scss'
 
 class Step03 extends Component {
     constructor(props){

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import coverImg from '../../img/cover.png'
-import Step01Modules from './Step01.modules.scss'
+import './Step01.modules.scss'
 
 class Step01 extends Component {
     constructor(props){
@@ -25,9 +25,9 @@ class Step01 extends Component {
     render(){
         let cover = null;
         if(this.state.file !== ''){
-            cover = <img className='cover' src={this.state.preview}></img>
+            cover = <img className='cover' src={this.state.preview} alt='book-cover'></img>
         }else{
-            cover = <img className='cover' src={coverImg}></img>
+            cover = <img className='cover' src={coverImg} alt='book-cover'></img>
         }
         return (
             <div className="step01">

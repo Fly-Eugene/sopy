@@ -1,0 +1,23 @@
+.comment-container {
+  // border: 1px solid;
+  height: 70vh;
+  margin: 20px 0;
+  border-radius: 20px;
+  background-color: #eeeeee;
+  position: relative;
+  box-shadow: 2px 2px 2px rgb(66, 66, 66);
+  h2 {
+    position: absolute;
+    left: 3%;
+  }
+  .conmment {
+    position: absolute;
+    width: 96%;
+    height: 84%;
+    top: 12%;
+    left: 2%;
+    background-color: #fff;
+    border-radius: 20px;
+    box-shadow: 2px 2px 2px rgb(66, 66, 66);
+  }
+}

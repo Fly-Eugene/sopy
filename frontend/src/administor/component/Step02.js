@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import Step02Modules from './Step02.modules.scss'
+import './Step02.modules.scss'
 
 const Step02 = () => {
   const [bookName, setBookName] = useState('');

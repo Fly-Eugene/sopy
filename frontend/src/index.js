@@ -7,6 +7,7 @@ import Main from './main/container/Main'
 import FindBook from './book/container/FindBook'
 import User from './user/container/User'
 import Login from './user/container/Login'
+import BookDetail from './book/container/BookDetail';
 
 import reportWebVitals from './reportWebVitals';
 import { Route, BrowserRouter } from 'react-router-dom'
@@ -16,10 +17,13 @@ ReactDOM.render(
     {/* <App /> */}
     <BrowserRouter>
       <Navbar />
-      <Route exact path='/' component={Main}/>
-      <Route path='/makeaudio' component={MakeAudioBook}/>
-      <Route path='/find' component={FindBook}/>
-      <Route path='/login' component={Login}/>
+      <div className="router-body">
+        <Route exact path='/' component={Main}/>
+        <Route path='/makeaudio' component={MakeAudioBook}/>
+        <Route path='/find' component={FindBook}/>
+        <Route path='/login' component={Login}/>
+        <Route path='/book' component={BookDetail}/>
+      </div>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
