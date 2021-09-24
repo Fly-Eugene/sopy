@@ -52,7 +52,10 @@ const MakeAudioBook = () => {
   const dispatch = useDispatch();
 
   const onSubmitHandler = (e) => {
-    e.preventDefault();
+    if(title == '' || introduce == '' || genre == '' || author == '' || translator == '' || publisher == '' || publishedDate == ''){ 
+      alert('정보를 모두 입력해주세요')
+      return false
+    }
     var fd = new FormData();
     fd.append('imageFile', imageFile);
     fd.append('title', title);
@@ -65,6 +68,7 @@ const MakeAudioBook = () => {
     console.log(imageFile);
     console.log(fd);
     dispatch(makeBook(fd));
+    return true
   }
   const page = useRef(0);
   const totalNum = useRef(3);
@@ -81,6 +85,9 @@ const MakeAudioBook = () => {
   }
 
   const next = () => {
+    if(page.current == 1){
+      if(!onSubmitHandler()) return
+    }
     if (page.current < totalNum.current-1) {
       page.current++;
     }
@@ -133,8 +140,6 @@ const MakeAudioBook = () => {
         <Step03></Step03>
         <img src={BG3} alt="BG3"/>
       </section>
-
-      <button onClick={onSubmitHandler}>확인용</button>
     </div>
   );
 }

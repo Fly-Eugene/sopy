@@ -9,6 +9,9 @@ export const request = (method, url, data, headers) => {
         data,
         headers
     })
-    .then((res) => alert(res.data))
-    .catch((err) => console.log(err));
+    .then((res) => console.log(res))
+    .catch((err) => {
+        console.log(err)
+        alert('오류가 발생했습니다')
+    });
 }
