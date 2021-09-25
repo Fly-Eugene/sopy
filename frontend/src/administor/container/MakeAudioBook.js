@@ -8,7 +8,7 @@ import Step02 from '../component/Step02';
 import Step01 from '../component/Step01'
 import Step03 from '../component/Step03'
 
-import MakeAudioBookModule from './MakeAudioBook.modules.scss'
+import './MakeAudioBook.modules.scss'
 import { useDispatch } from 'react-redux';
 import { makeBook } from "../../store/actions/bookActions";
 import axios from 'axios';
@@ -52,7 +52,7 @@ const MakeAudioBook = () => {
   const dispatch = useDispatch();
 
   const onSubmitHandler = (e) => {
-    if(title == '' || introduce == '' || genre == '' || author == '' || translator == '' || publisher == '' || publishedDate == ''){ 
+    if(title === '' || introduce === '' || genre === '' || author === '' || translator == '' || publisher == '' || publishedDate == ''){ 
       alert('정보를 모두 입력해주세요')
       return false
     }
@@ -85,7 +85,7 @@ const MakeAudioBook = () => {
   }
 
   const next = () => {
-    if(page.current == 1){
+    if(page.current === 1){
       if(!onSubmitHandler()) return
     }
     if (page.current < totalNum.current-1) {

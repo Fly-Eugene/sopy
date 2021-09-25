@@ -1,0 +1,23 @@
+.book-img {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  .book-cover {
+    position: absolute;
+    width: 40%;
+    height: 50%;
+    top: 48%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    box-shadow: 5px 5px 5px rgb(130, 130, 130);
+  }
+  .book-under {
+    position: absolute;
+    width: 110%;
+    height: 110%;
+    top: 52%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}

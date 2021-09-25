@@ -5,7 +5,7 @@ import MakeAudioBook from './administor/container/MakeAudioBook';
 import Navbar from './common/container/Navbar';
 import Main from './main/container/Main'
 import FindBook from './book/container/FindBook'
-import User from './user/container/User'
+import UserProfile from './user/container/UserProfile'
 import Login from './user/container/Login'
 import BookDetail from './book/container/BookDetail';
 import SignIn from './user/container/SignIn';
@@ -32,6 +32,7 @@ ReactDOM.render(
         <Route path='/login' component={Login}/>
         <Route path='/book' component={BookDetail}/>
         <Route path='/signin' component={SignIn}/>
+        <Route path='/user' component={UserProfile}/>
       </div>
     </BrowserRouter>
     </Provider>
