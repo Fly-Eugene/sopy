@@ -8,15 +8,11 @@ import Step02 from '../component/Step02';
 import Step01 from '../component/Step01'
 import Step03 from '../component/Step03'
 
-<<<<<<< HEAD
-import './MakeAudioBook.modules.scss'
-=======
 import MakeAudioBookModule from './MakeAudioBook.modules.scss'
 import { useDispatch } from 'react-redux';
 import { makeBook } from "../../store/actions/bookActions";
 import axios from 'axios';
 
->>>>>>> 061a48f014b2904d6a6a5b4aa6859c276a38b9b3
 
 const MakeAudioBook = () => {
   const [title, setTitle] = useState('')

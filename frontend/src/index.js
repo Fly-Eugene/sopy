@@ -8,6 +8,7 @@ import FindBook from './book/container/FindBook'
 import User from './user/container/User'
 import Login from './user/container/Login'
 import BookDetail from './book/container/BookDetail';
+import SignIn from './user/container/SignIn';
 
 import reportWebVitals from './reportWebVitals';
 import { Route, BrowserRouter } from 'react-router-dom'
@@ -30,6 +31,7 @@ ReactDOM.render(
         <Route path='/find' component={FindBook}/>
         <Route path='/login' component={Login}/>
         <Route path='/book' component={BookDetail}/>
+        <Route path='/signin' component={SignIn}/>
       </div>
     </BrowserRouter>
     </Provider>
