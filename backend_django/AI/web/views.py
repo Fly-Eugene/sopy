@@ -46,12 +46,11 @@ def get_files(path):
 def book_ocr(request):
     data = json.loads(request.body.decode('utf-8'))
 
-    # "EasyOCR/workspace/demo_images"  => 성공  ## 데이터 저장 장소
     path = data['path']
-    name = data['name']  # book123.PNG  ## 책 id
+    # name = data['name']  # book123.PNG  ## 책 id
 
     ocr_model = Model()
-    ocr_model.easyOCR(path, name)
+    ocr_model.easyOCR(path)
 
     return Response("OK", status=status.HTTP_201_CREATED)
 
@@ -61,12 +60,11 @@ def book_ocr(request):
 def tts(request):
     data = json.loads(request.body.decode('utf-8'))
 
-    path = data['path']  # web/static/text/ => 추후엔 책 이름까지 있는 파일 경로 ??
-    name = data['name']  # 아니면 이게 책 이름?
+    path = data['path']
 
     # 해당 책의 txt 파일들이 모여있는 경로 저장
-    txt_path = "{}/{}/text".format(path, name)
-    sound_path = "{}/{}/sound".format(path, name)
+    txt_path = "{}/text".format(path)
+    sound_path = "{}/sound".format(path)
 
     # sound_path 에 파일을 있으면 안만들고, 없으면 만든다.
     os.makedirs(sound_path, exist_ok=True)
