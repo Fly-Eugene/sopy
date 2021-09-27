@@ -38,6 +38,8 @@ public class User {
     @JoinColumn(name = "image_id")
     private UserImage userImage;
 
+
+
     @ManyToMany
     @JoinTable(
             name = "user_authority",

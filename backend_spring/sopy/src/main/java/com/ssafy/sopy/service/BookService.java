@@ -1,14 +1,12 @@
 package com.ssafy.sopy.service;
 
-import com.ssafy.sopy.domain.entity.Book;
-import com.ssafy.sopy.domain.entity.BookImage;
-import com.ssafy.sopy.domain.entity.Files;
-import com.ssafy.sopy.domain.entity.Image;
+import com.ssafy.sopy.domain.entity.*;
 import com.ssafy.sopy.domain.repository.BookRepository;
-import com.ssafy.sopy.dto.BookAudioReqDto;
-import com.ssafy.sopy.dto.BookDto;
-import com.ssafy.sopy.dto.BookReqDto;
+import com.ssafy.sopy.domain.repository.UserLikeRepository;
+import com.ssafy.sopy.domain.repository.UserRepository;
+import com.ssafy.sopy.dto.*;
 import com.ssafy.sopy.util.HttpURLConnectionUtil;
+import com.ssafy.sopy.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,14 +17,18 @@ import java.util.*;
 @Service
 public class BookService {
     private final BookRepository bookRepository;
+    private final UserRepository userRepository;
+    private final UserLikeRepository userLikeRepository;
     private final FilesService filesService;
     private final ImageService imageService;
     private final HttpURLConnectionUtil httpURLConnectionUtil;
     private final String djangoURL;
 
-    public BookService(BookRepository bookRepository, FilesService filesService, ImageService imageService, HttpURLConnectionUtil httpURLConnectionUtil,
+    public BookService(BookRepository bookRepository, UserRepository userRepository, UserLikeRepository userLikeRepository, FilesService filesService, ImageService imageService, HttpURLConnectionUtil httpURLConnectionUtil,
                        @Value("${djangoURL}") String djangoURL) {
         this.bookRepository = bookRepository;
+        this.userRepository = userRepository;
+        this.userLikeRepository = userLikeRepository;
         this.filesService = filesService;
         this.imageService = imageService;
         this.httpURLConnectionUtil = httpURLConnectionUtil;
@@ -136,6 +138,7 @@ public class BookService {
 
     }
 
+    @Transactional
     public Object genreFilter(String genre) {
         List<Book> bookList = bookRepository.genreFilter(genre);
         Map<String, Object> map = new HashMap<>();
@@ -148,6 +151,33 @@ public class BookService {
         map.put("books", results);
         return map;
     }
+
+    @Transactional
+    public Object bookLike(LikeReqDto params) {
+        Book book = bookRepository.getById(params.getBookId());
+        UserLike userLike = userLikeRepository.save(UserLike.builder()
+                .user(userRepository.getById(params.getUserId() == null ? getUserId() : params.getUserId()))
+                .book(book)
+                .build());
+
+        return UserLikeDto.builder()
+                .id(userLike.getId())
+                .user(userLike.getUser().entityToDto())
+                .book(userLike.getBook().entityToDto())
+                .build();
+    }
+
+    @Transactional
+    public Object likeCancel(LikeReqDto params) {
+        return userLikeRepository.cancel(params);
+    }
+
+    private Long getUserId() {
+        String s = SecurityUtil.getCurrentUsername().get();
+        return userRepository.findByEmail(s).getId();
+    }
+
+
 
     class PathNode {
         String path, name;

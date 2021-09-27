@@ -1,10 +1,7 @@
 package com.ssafy.sopy.controller;
 
 import com.ssafy.sopy.domain.repository.BookRepository;
-import com.ssafy.sopy.dto.BookAudioReqDto;
-import com.ssafy.sopy.dto.BookDto;
-import com.ssafy.sopy.dto.BookReqDto;
-import com.ssafy.sopy.dto.BookSearchReqDto;
+import com.ssafy.sopy.dto.*;
 import com.ssafy.sopy.service.BookService;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,11 +41,18 @@ public class BookController {
         return bookService.genreFilter(genre);
     }
 
-
     @GetMapping("/detail")
     public BookDto bookDetail(@RequestParam Long bookId) {
         return bookService.getBookDetail(bookId);
     }
 
+    @PostMapping("/like")
+    public Object bookLike(@RequestBody LikeReqDto params) {
+        return bookService.bookLike(params);
+    }
 
+    @DeleteMapping("/like")
+    public Object LikeCancel(@RequestBody LikeReqDto params) {
+        return bookService.likeCancel(params);
+    }
 }
