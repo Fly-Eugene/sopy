@@ -57,16 +57,14 @@ public class BookService {
         // 이미지 파일 저장
         Book book = bookRepository.getById(bookId);
         // pdf면 image로 바꿔 저장, image면 그냥 저장
+        File resultDir = null;
         if(params.getPdfFile() != null){      // pdf
-            File resultDir = pdfUtil.pdfToImg(params.getPdfFile());
+            resultDir = pdfUtil.pdfToImg(params.getPdfFile());
         } else {                                    // image
-            File resultDir = fileUtil.saveImages(params.getImageFiles());
+            resultDir = fileUtil.saveImages(params.getImageFiles());
         }
-        // ocr
-        Map<String, String> jsonData = new HashMap<String, String>();
-//        jsonData.put("path", file.getPath());
-//        jsonData.put("name", file.getOrgName());
-//        httpURLConnectionUtil.post(djangoURL + "book/ocr/", jsonData);
+        // db 저장
+        filesService.saveDir(resultDir, book);
         return null;
     }
     @Transactional
