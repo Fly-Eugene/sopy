@@ -12,16 +12,16 @@ import java.util.List;
 @Setter
 public class BookFileReqDto {
     private MultipartFile pdfFile;
-    private MultipartFile textFile;
+    private List<MultipartFile> textFiles = new ArrayList<>();
     private List<MultipartFile> imageFiles = new ArrayList<>();
 
     public BookFileReqDto() {
     }
 
     @Builder
-    public BookFileReqDto(MultipartFile pdfFile, MultipartFile textFile, List<MultipartFile> imageFiles) {
+    public BookFileReqDto(MultipartFile pdfFile, List<MultipartFile> textFiles, List<MultipartFile> imageFiles) {
         this.pdfFile = pdfFile;
-        this.textFile = textFile;
+        this.textFiles = textFiles;
         this.imageFiles = imageFiles;
     }
 }

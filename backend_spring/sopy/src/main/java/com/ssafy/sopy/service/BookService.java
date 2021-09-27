@@ -59,7 +59,7 @@ public class BookService {
         Book book = bookRepository.getById(bookId);
         // pdf면 image로 바꿔 저장, image면 그냥 저장
         File resultDir = null;
-        if(params.getPdfFile() != null){      // pdf
+        if(params.getPdfFile() != null){            // pdf
             resultDir = pdfUtil.pdfToImg(params.getPdfFile());
         } else {                                    // image
             resultDir = fileUtil.saveImages(params.getImageFiles());
@@ -75,30 +75,36 @@ public class BookService {
         Map<String, String>jsonData = new HashMap<>();
         jsonData.put("path", resultDir.getParent());
         httpURLConnectionUtil.post(djangoURL + "book/ocr/", jsonData);
-        return null;
+
+        // text 파일들 DB에 저장
+        File textDir = new File(book.getDirPath() + "/" + "text");
+        if(!textDir.exists()) textDir.mkdirs();
+        filesService.saveDir(textDir, book);
+        return textDir;
     }
     @Transactional
-    public Object makeAudio(BookFileReqDto params, Long bookId) throws IOException {
+    public Object makeAudio(Long bookId) throws IOException {
         Book book = bookRepository.getById(bookId);
-//        String textPath = null;
-//        if(params.getImageFile().getSize() > 0){
-//            Files imageFile = filesService.makeFiles(new ArrayList<>(Arrays.asList(params.getImageFile())), book).get(0);
-//            jsonData.put("path", imageFile.getPath());
-//            jsonData.put("name", imageFile.getOrgName());
-//            httpURLConnectionUtil.post(djangoURL + "book/ocr/", jsonData);
-//        }
-//        if(params.getTextFile().getSize() > 0){
-//            Files textFile = filesService.makeFiles(new ArrayList<>(Arrays.asList(params.getTextFile())), book).get(0);
-//            textPath = textFile.getPath() + textFile.getSysName();
-//        } else{
-////            textPath =
-//        }
-        // TTS 요청 후 audio파일 DB에 저장
-//        PathNode pathNode = pathSplit(textPath);
-//        jsonData.put("path", pathNode.path);
-//        jsonData.put("name", pathNode.name);
-//        httpURLConnectionUtil.post(djangoURL + "/book/tts", jsonData);
-        return null;
+
+        // tts
+        Map<String, String>jsonData = new HashMap<>();
+        jsonData.put("path", book.getDirPath());
+        httpURLConnectionUtil.post(djangoURL + "book/tts/", jsonData);
+
+        File soundDir = new File(book.getDirPath() + "/" + "sound");
+        System.out.println("soundDir.getPath() = " + soundDir.getPath());
+        if(!soundDir.exists()) soundDir.mkdirs();
+        filesService.saveDir(soundDir, book);
+        return soundDir;
+        /* 후에 text파일로도 받는 경우 생기면 이거 이용하면 됨
+        // text 파일이 parameter에 없음 => 이미 저장되어 있는 상태
+        if (params.getTextFiles().size() == 0 || params.getTextFiles().get(0).getSize() == 0){
+
+        // parameter에 text 파일이 있으면 저장 안되어 있는 상태
+        } else {
+
+        }
+        */
     }
     public PathNode pathSplit(String fullPath) {
         int index = fullPath.lastIndexOf("/");

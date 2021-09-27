@@ -29,10 +29,10 @@ public class BookController {
         return bookService.makeText(params, bookId);
     }
 
-    // make audio
+    // make audio, text 파일로 받는 경우 없다네유
     @PostMapping("/audio/{bookId}")
-    public Object makeAudio(@PathVariable("bookId") Long bookId, BookFileReqDto params) throws IOException {
-        return bookService.makeAudio(params, bookId);
+    public Object makeAudio(@PathVariable("bookId") Long bookId) throws IOException {
+        return bookService.makeAudio(bookId);
     }
 
     @GetMapping("/main")
