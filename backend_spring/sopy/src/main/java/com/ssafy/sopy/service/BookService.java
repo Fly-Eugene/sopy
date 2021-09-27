@@ -65,6 +65,11 @@ public class BookService {
         }
         // db 저장
         filesService.saveDir(resultDir, book);
+        
+        // 장고 쪽으로 ocr 요청
+        Map<String, String>jsonData = new HashMap<>();
+        jsonData.put("path", resultDir.getParent());
+        httpURLConnectionUtil.post(djangoURL + "book/ocr/", jsonData);
         return null;
     }
     @Transactional
