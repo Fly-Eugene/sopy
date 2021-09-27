@@ -5,10 +5,13 @@ $font-kopub: 'KoPub Batang';
     background-color: #FFE6DB;
     text-align: center;
     height: 80vh;
+    width: 40vw;;
     border-radius: 0 15px 15px 0;
+    margin: 0 auto;
+    display: table-cell;
+    vertical-align: middle;
     h1{
         margin: 0;
-        padding-top: 10%;
         font-size: 4rem;
     }
     .userInfo{
@@ -36,7 +39,7 @@ $font-kopub: 'KoPub Batang';
         display: inline-block;
     }
     .signbtn{
-        margin-top: 20px;
+        margin: 20px 0;
         font-family: 'Gogo';
         background-color: #E94846;
         color: white;
@@ -45,5 +48,10 @@ $font-kopub: 'KoPub Batang';
         width: 30%;
         height: 5vh;
         font-size: 1.5rem;
+        cursor: pointer;
+    }
+    a{
+        text-decoration: none;
+        color: blue;   
     }
 }

@@ -3,6 +3,7 @@ import './SignInContent.modules.scss'
 
 import { useDispatch } from 'react-redux';
 import { join } from "../../store/actions/userActions";
+import { useHistory } from 'react-router';
 
 const SignInContent = (props) => {
     const imageFile = props.imageFile;
@@ -32,6 +33,8 @@ const SignInContent = (props) => {
     const onCheckboxHandler = (e) => { setAgree(e.target.checked) }
 
     const dispatch = useDispatch();
+    const history = useHistory();
+
     const signIn = (e) => {
         e.preventDefault();
         if(password != pwdcheck){
@@ -40,21 +43,25 @@ const SignInContent = (props) => {
         if(!agree){
             return alert('이용약관에 동의해주세요');
         }
+        
          var fd = new FormData();
          console.log(imageFile);
           fd.append('userImage', imageFile);
-          fd.append('jsonData',
-          JSON.stringify({
-            email: email,
-            password: password,
-            username: name,
-            department: group,
-            age: age
-          }))
-          console.log(imageFile);
-          console.log(fd);
-          dispatch(join(fd));
-          alert('회원가입이 완료되었습니다!');
+          fd.append('email', email);
+          fd.append('password', password);
+          fd.append('department', group);
+          fd.append('username', name);
+          fd.append('age', age);
+          dispatch(join(fd)).payload
+          .then((res) =>{
+            alert('회원가입이 완료되었습니다!');
+            console.log(res);
+            history.push("/login");
+          })
+          .catch((err) => {
+              console.log(err)
+              alert('오류가 발생했습니다')
+          });
     }
     let pwdErrormsg = '';
     let pwdcheckErrormsg = '';

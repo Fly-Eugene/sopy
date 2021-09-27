@@ -1,0 +1,25 @@
+.LoginImgContainer{
+    text-align: center;
+    font-family: 'KoPub Batang';
+    z-index: 2;
+    h1:nth-child(1){
+        position: absolute;
+        top: 30vh;
+        left: 17vw;
+        font-size: 4rem;
+        color: #393939;
+        letter-spacing: 10px;
+    }h1:nth-child(2){
+        position: absolute;
+        top: 40vh;
+        left: 19vw;
+        font-size: 4rem;
+        color: #393939;
+        letter-spacing: 10px;
+    }
+    .imgBack{
+        width: 80%;
+        margin-top: 15%;
+        z-index: 1;
+    }
+}

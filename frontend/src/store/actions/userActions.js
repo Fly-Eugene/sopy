@@ -14,3 +14,12 @@ export function join(item) {
         payload: data
     }
 }
+
+export function login(item) {
+    const data = request("post", USER_URL + "/login", item);
+
+    return {
+        type: "LOGIN_USER",
+        payload: data
+    }
+}

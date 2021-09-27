@@ -67,7 +67,14 @@ const MakeAudioBook = () => {
     fd.append('publishedDate', publishedDate);
     console.log(imageFile);
     console.log(fd);
-    dispatch(makeBook(fd));
+    dispatch(makeBook(fd)).payload
+    .then((res) =>{
+      console.log(res);
+    })
+    .catch((err) => {
+        console.log(err)
+        alert('오류가 발생했습니다')
+    });;
     return true
   }
   const page = useRef(0);

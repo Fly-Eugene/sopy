@@ -14,7 +14,7 @@ export default function SignIn() {
 
     return (
       <>
-      <Grid container className="content-container">
+      <Grid container className="login-container">
         <Grid item xs = {7}><SignInImg getImageFile={getImageFile}/></Grid>
         <Grid item xs = {5}><SignInContent imageFile={imageFile}/></Grid>
       </Grid>
