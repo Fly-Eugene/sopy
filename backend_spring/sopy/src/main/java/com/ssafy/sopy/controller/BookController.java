@@ -36,9 +36,14 @@ public class BookController {
 
     @GetMapping("/search")
     public Object searchBook(@RequestBody BookSearchReqDto params) {
-        System.out.println(params);
         return bookService.searchBook(params.getTitle());
     }
+
+    @GetMapping("/genre")
+    public Object genreFilter(@RequestParam String genre) {
+        return bookService.genreFilter(genre);
+    }
+
 
     @GetMapping("/detail")
     public BookDto bookDetail(@RequestParam Long bookId) {

@@ -47,6 +47,7 @@ public class Book {
         this.bookImage = bookImage;
     }
 
+
     @Override
     public String toString() {
         return "Book{" +
@@ -64,6 +65,17 @@ public class Book {
     }
 
     public BookDto entityToDto() {
-        return BookDto.builder().id(id).title(title).introduce(introduce).genre(genre).author(author).translator(translator).publisher(publisher).publishedDate(publishedDate).build();
+
+        return BookDto.builder()
+                .id(id)
+                .title(title)
+                .introduce(introduce)
+                .genre(genre)
+                .author(author)
+                .translator(translator)
+                .publisher(publisher)
+                .publishedDate(publishedDate)
+                .bookImage(bookImage == null ? null : bookImage.entityToDto())
+                .build();
     }
 }

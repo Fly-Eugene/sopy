@@ -3,6 +3,7 @@ package com.ssafy.sopy.service;
 import com.ssafy.sopy.domain.entity.Book;
 import com.ssafy.sopy.domain.entity.BookImage;
 import com.ssafy.sopy.domain.entity.Files;
+import com.ssafy.sopy.domain.entity.Image;
 import com.ssafy.sopy.domain.repository.BookRepository;
 import com.ssafy.sopy.dto.BookAudioReqDto;
 import com.ssafy.sopy.dto.BookDto;
@@ -83,16 +84,7 @@ public class BookService {
         List<BookDto> results = new ArrayList<>();
         Map<String, Object> map = new HashMap<>();
         for (Book book : books) {
-            results.add(BookDto.builder()
-                    .id(book.getId())
-                    .title(book.getTitle())
-                    .introduce(book.getIntroduce())
-                    .genre(book.getGenre())
-                    .author(book.getAuthor())
-                    .translator(book.getTranslator())
-                    .publisher(book.getPublisher())
-                    .publishedDate(book.getPublishedDate())
-                    .build());
+            results.add(book.entityToDto());
         }
 
         map.put("books", results);
@@ -106,17 +98,9 @@ public class BookService {
         Map<String, Object> map = new HashMap<>();
         List<BookDto> results = new ArrayList<>();
 
+        // bookId만 가져오도록 수정하면 좋을 것 같다.
         for (Book book : searchBookList) {
-            results.add(BookDto.builder()
-                    .id(book.getId())
-                    .title(book.getTitle())
-                    .introduce(book.getIntroduce())
-                    .genre(book.getGenre())
-                    .author(book.getAuthor())
-                    .translator(book.getTranslator())
-                    .publisher(book.getPublisher())
-                    .publishedDate(book.getPublishedDate())
-                    .build());
+            results.add(getBookDetail(book.getId()));
         }
 
         map.put("books", results);
@@ -125,12 +109,18 @@ public class BookService {
 
     @Transactional
     public BookDto getBookDetail(Long bookId) {
+        // 책 정보 얻어오기
         Book book = bookRepository.getById(bookId);
+        // 프로필 얻어오기
+        BookImage getImage = bookRepository.getBookImage(bookId);
+        Image image = getImage == null ? null : BookImage.builder()
+                .id(getImage.getId())
+                .imageName(getImage.getImageName())
+                .path(getImage.getPath())
+                .imageOrgName(getImage.getImageOrgName())
+                .thumbnail(getImage.getThumbnail())
+                .build();
 
-        // profile
-        // profile builder
-
-        // book + profile ??????? XXXXXX?????
 
         return BookDto.builder()
                 .id(book.getId())
@@ -141,7 +131,22 @@ public class BookService {
                 .translator(book.getTranslator())
                 .publisher(book.getPublisher())
                 .publishedDate(book.getPublishedDate())
+                .bookImage(image == null ? null : image.entityToDto())
                 .build();
+
+    }
+
+    public Object genreFilter(String genre) {
+        List<Book> bookList = bookRepository.genreFilter(genre);
+        Map<String, Object> map = new HashMap<>();
+        List<BookDto> results = new ArrayList<>();
+
+        for (Book book : bookList) {
+            results.add(book.entityToDto());
+        }
+
+        map.put("books", results);
+        return map;
     }
 
     class PathNode {

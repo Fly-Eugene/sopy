@@ -5,6 +5,7 @@ import com.ssafy.sopy.domain.entity.BookImage;
 import com.ssafy.sopy.domain.entity.Image;
 import com.ssafy.sopy.domain.entity.UserImage;
 import com.ssafy.sopy.domain.repository.BookImageRepository;
+import com.ssafy.sopy.domain.repository.BookRepository;
 import com.ssafy.sopy.domain.repository.UserImageRepository;
 import com.ssafy.sopy.util.FileUtil;
 import org.springframework.stereotype.Service;
@@ -16,11 +17,13 @@ import java.io.IOException;
 
 @Service
 public class ImageService {
+    private final BookRepository bookRepository;
     private final BookImageRepository bookImageRepository;
     private final UserImageRepository userImageRepository;
     private final FileUtil fileUtil;
 
-    public ImageService(BookImageRepository bookImageRepository, UserImageRepository userImageRepository, FileUtil fileUtil) {
+    public ImageService(BookRepository bookRepository, BookImageRepository bookImageRepository, UserImageRepository userImageRepository, FileUtil fileUtil) {
+        this.bookRepository = bookRepository;
         this.bookImageRepository = bookImageRepository;
         this.userImageRepository = userImageRepository;
         this.fileUtil = fileUtil;
@@ -50,11 +53,12 @@ public class ImageService {
 
     @Transactional
     public String getImage(Long bookId, Long memberId) {
+        Book book = bookRepository.getById(bookId);
         Image image = null;
         if (bookId == null) {
             image = userImageRepository.getById(memberId);
         } else {
-            image = bookImageRepository.getById(bookId);
+            image = bookImageRepository.getById(book.getBookImage().getId());
         }
         return image == null ? null : (image.getPath() + image.getImageName());
     }

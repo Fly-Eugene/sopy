@@ -27,7 +27,7 @@ def ex_change(txt, target_txt):
 
 # if __name__ == '__main__':
 class Model():
-    def easyOCR(self, path, name):
+    def easyOCR(self, path):
         # # Using default model
         # reader = Reader(['ko'], gpu=True)
 
@@ -38,8 +38,8 @@ class Model():
                         recog_network='custom')
 
         # 특정 책의 이미지 저장된 경로와 txt 파일을 저장할 경로를 생성합니다.
-        img_path = "{}/{}/img".format(path, name)
-        save_root_path = "{}/{}/text".format(path, name)
+        img_path = "{}/img".format(path)
+        save_root_path = "{}/text".format(path)
 
         # txt 파일 저장할 경로로 폴더를 생성합니다.
         os.makedirs(save_root_path, exist_ok=True)
@@ -71,4 +71,4 @@ class Model():
 
             text_file.close()
 
-        return str(name)
+        # return str(name)

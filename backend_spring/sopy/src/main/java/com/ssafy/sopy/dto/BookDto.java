@@ -1,5 +1,6 @@
 package com.ssafy.sopy.dto;
 
+import com.ssafy.sopy.domain.entity.Image;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -15,11 +16,14 @@ public class BookDto {
     private String publisher; // 출판사
     private String publishedDate; //발행일
 
+    private ImageDto bookImage;
+
     public BookDto() {
     }
 
+
     @Builder
-    public BookDto(Long id, String title, String introduce, String genre, String author, String translator, String publisher, String publishedDate) {
+    public BookDto(Long id, String title, String introduce, String genre, String author, String translator, String publisher, String publishedDate, ImageDto bookImage) {
         this.id = id;
         this.title = title;
         this.introduce = introduce;
@@ -28,8 +32,8 @@ public class BookDto {
         this.translator = translator;
         this.publisher = publisher;
         this.publishedDate = publishedDate;
+        this.bookImage = bookImage;
     }
-
 
 
     @Override
