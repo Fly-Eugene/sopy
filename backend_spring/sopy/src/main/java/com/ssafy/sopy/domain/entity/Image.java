@@ -1,6 +1,7 @@
 package com.ssafy.sopy.domain.entity;
 
 import com.ssafy.sopy.dto.ImageDto;
+import lombok.Builder;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -35,6 +36,7 @@ public class Image {
         this.path = path;
         this.thumbnail = thumbnail;
     }
+
     public ImageDto entityToDto(){
         return ImageDto.builder().id(id).imageName(imageName).imageOrgName(imageOrgName).path(path).thumbnail(thumbnail).build();
     }
