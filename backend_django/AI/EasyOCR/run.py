@@ -33,8 +33,8 @@ class Model():
 
         # Using custom model
         reader = Reader(['ko'], gpu=True,
-                        model_storage_directory='C:\\Users\\multicampus\\Desktop\\sopy_pjt\\S05P21B107\\backend_django\\AI\\EasyOCR\\workspace\\user_network_dir',
-                        user_network_directory='C:\\Users\\multicampus\\Desktop\\sopy_pjt\\S05P21B107\\backend_django\\AI\\EasyOCR\\workspace\\user_network_dir',
+                        model_storage_directory=f'{os.getcwd()}\\EasyOCR\\workspace\\user_network_dir',
+                        user_network_directory=f'{os.getcwd()}\\EasyOCR\\workspace\\user_network_dir',
                         recog_network='custom')
 
         # 특정 책의 이미지 저장된 경로와 txt 파일을 저장할 경로를 생성합니다.
