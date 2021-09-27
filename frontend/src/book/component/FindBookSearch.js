@@ -15,13 +15,18 @@ import { Grid } from '@material-ui/core';
 const FindBookSearch = (props) => {
     const [search, setSearch] = useState('')
     const [genre, setGenre] = useState(['호러', '판타지', '소설', '과학', '역사', '로맨스', '철학', '수학', '컴퓨터'])
-    // const [genre, setGenre] = useState('')
     const [bookList, setBookList] = useState([])
-
+    
     const onSearchHandler = (e) => { setSearch(e.target.value)}
-    const onGenreHandler = (e) => { 
+    const onGenreHandler = (params, e) => {
+        console.log(params);
+        const list = document.getElementsByTagName('li');
+        for(var i = 0; i < list.length; i++){
+            list[i].style.color = 'gray';
+        }
+        e.target.style.color = 'black';
         setSearch('');
-        dispatch(findGenre(e.target.value)).payload
+        dispatch(findGenre(params)).payload
         .then((res) =>{
             console.log(res.data.books);
             setBookList([]);
@@ -77,22 +82,23 @@ const FindBookSearch = (props) => {
             </div>
             <ul>
                 {
-                    genre.map((g, index) => <li key={index} onClick={onGenreHandler} value={g}>{g}</li>)
+                    genre.map((g, index) => <li key={index} onClick={(e) => {onGenreHandler(g, e)}}>{g}</li>)
                 }
             </ul>
             <div className="search-book-container">
                 <div className="search-book-inner">
-                    <Grid container>
+                    <Grid container className="book-container">
                         {
                             bookList.map((book) => 
                                 <Grid item xs={4}>
-                                    <Book underImgSrc={underImgSrc} bookCover={book.bookImage.path + book.bookImage.imageName}/>
+                                <Book underImgSrc={underImgSrc} bookCover={book.bookImage.path + book.bookImage.imageName}/>
+                                <p>{book.title}</p>
                                 </Grid>
                             )
                         }
                     </Grid>
                 </div>
-                <div className="like-botton-direction">
+                <div className="botton-direction">
                     <div className="prevBtn" onClick={prev}>
                     <img src={prevBtn} alt="prevBtn"/>
                     </div>
