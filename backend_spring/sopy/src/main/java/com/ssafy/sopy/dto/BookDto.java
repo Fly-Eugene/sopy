@@ -15,15 +15,14 @@ public class BookDto {
     private String translator; // 옮김이
     private String publisher; // 출판사
     private String publishedDate; //발행일
-
     private ImageDto bookImage;
-
+    private String dirPath;
     public BookDto() {
     }
 
 
     @Builder
-    public BookDto(Long id, String title, String introduce, String genre, String author, String translator, String publisher, String publishedDate, ImageDto bookImage) {
+    public BookDto(Long id, String title, String introduce, String genre, String author, String translator, String publisher, String publishedDate, ImageDto bookImage, String dirPath) {
         this.id = id;
         this.title = title;
         this.introduce = introduce;
@@ -33,8 +32,8 @@ public class BookDto {
         this.publisher = publisher;
         this.publishedDate = publishedDate;
         this.bookImage = bookImage;
+        this.dirPath = dirPath;
     }
-
 
     @Override
     public String toString() {
@@ -43,6 +42,11 @@ public class BookDto {
                 ", title='" + title + '\'' +
                 ", introduce='" + introduce + '\'' +
                 ", genre='" + genre + '\'' +
+                ", author='" + author + '\'' +
+                ", translator='" + translator + '\'' +
+                ", publisher='" + publisher + '\'' +
+                ", publishedDate='" + publishedDate + '\'' +
+                ", dirPath='" + dirPath + '\'' +
                 '}';
     }
 }

@@ -1,5 +1,6 @@
 package com.ssafy.sopy.domain.entity;
 
+import com.ssafy.sopy.dto.FilesDto;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -64,5 +65,10 @@ public class Files {
                 ", regTime=" + regTime +
                 ", book=" + book +
                 '}';
+    }
+
+    public FilesDto entityToDto(){
+        return FilesDto.builder().id(id).orgName(orgName).sysName(sysName).path(path).fileSize(fileSize)
+                .fileType(fileType).regTime(regTime).bookId(book.getId()).build();
     }
 }
