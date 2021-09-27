@@ -3,6 +3,7 @@ package com.ssafy.sopy.service;
 import com.ssafy.sopy.domain.entity.Book;
 import com.ssafy.sopy.domain.entity.BookImage;
 import com.ssafy.sopy.domain.entity.Files;
+import com.ssafy.sopy.domain.repository.BookImageRepository;
 import com.ssafy.sopy.domain.repository.BookRepository;
 import com.ssafy.sopy.dto.BookFileReqDto;
 import com.ssafy.sopy.dto.BookDto;
@@ -65,7 +66,11 @@ public class BookService {
         }
         // db 저장
         filesService.saveDir(resultDir, book);
-        
+        // Dir_path book에 저장
+        System.out.println("book = " + book);
+        bookRepository.save(Book.builder().id(book.getId()).author(book.getAuthor()).genre(book.getGenre()).introduce(book.getIntroduce())
+                .publishedDate(book.getPublishedDate()).publisher(book.getPublisher()).title(book.getTitle())
+                .translator(book.getTranslator()).bookImage(book.getBookImage()).dirPath(resultDir.getParent()).build());
         // 장고 쪽으로 ocr 요청
         Map<String, String>jsonData = new HashMap<>();
         jsonData.put("path", resultDir.getParent());
@@ -74,7 +79,7 @@ public class BookService {
     }
     @Transactional
     public Object makeAudio(BookFileReqDto params, Long bookId) throws IOException {
-//        Book book = bookRepository.getById(bookId);
+        Book book = bookRepository.getById(bookId);
 //        String textPath = null;
 //        if(params.getImageFile().getSize() > 0){
 //            Files imageFile = filesService.makeFiles(new ArrayList<>(Arrays.asList(params.getImageFile())), book).get(0);
