@@ -1,0 +1,108 @@
+.findbook{
+    font-family: 'KoPub Batang';
+    text-align: center;
+    h1{
+        font-size: 3vw;
+        margin: 3%;
+    }
+    .searchBox{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        input{
+            text-align: center;
+            font-family: inherit;
+            font-size: 1vw;
+            width: 60%;
+            height: 4vh;
+            border: 3px solid grey;
+            border-radius: 4vh;
+        }
+        input:focus-visible{
+            border-radius: 4vh;
+            outline: none;
+            border: 3px solid;
+        }
+        img{
+            display: inline-block;
+            cursor: pointer;
+        }
+    }
+    ul{
+        list-style: none;
+        text-align: center;
+        padding: 0;
+    }
+    li{
+        display: inline-block;
+        cursor: pointer;
+        font-size: 1vw;
+        color: gray;
+        margin: 2%;
+    }
+    
+    .search-book-container {
+        font-family: 'Godo', sans-serif;
+        font-weight: 600;
+        position: relative;
+        height: 60vh;
+        margin-top: 20px;
+        .search-book-inner {
+          position: absolute;
+          width: 80%;
+          left: 10%;
+          .book-header {
+            margin-top: 40px;
+            display: flex;
+            justify-content: space-between;
+      
+            span {
+              &:nth-child(1) {
+                display: inline-block;
+                padding-bottom: 8px;
+                width: 20%;
+                font-size: 1.8rem;
+                border-bottom: 3px solid;
+              }
+              &:nth-child(2) {
+                display: inline-block;
+                width: 9%;
+                height: 7%;
+                margin: 0;
+                font-size: 1.3rem;
+                border-radius: 30px;
+                text-align: center;
+                line-height: 180%;
+                background-color: #F8F8F8;
+                box-shadow: 2px 2px 2px rgb(130, 130, 130);
+              }
+            }
+          }
+          .book-container {
+            position: absolute;
+            height: 80%;
+            width: 100%;
+            top: 20%;
+            display: flex;
+            justify-content: center;
+          }
+        }
+        .like-botton-direction {
+          top: 45%;
+          width: 100%;
+          position: absolute;
+          display: flex;
+          justify-content: space-between;
+          .prevBtn {
+            cursor: pointer;
+          }
+          .nextBtn {
+            cursor: pointer;
+          }
+          img {
+            width: 3vw;
+            height: 10vh;
+          }
+        }
+      }
+}

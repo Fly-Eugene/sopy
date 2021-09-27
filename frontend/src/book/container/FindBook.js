@@ -1,9 +1,11 @@
 import React from 'react';
+import FindBookSearch from '../component/FindBookSearch';
+
 
 export default function FindBook() {
     return (
       <div>
-        책찾기
+        <FindBookSearch/>
       </div>
     );
 }
