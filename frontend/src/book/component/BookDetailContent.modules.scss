@@ -1,5 +1,6 @@
 .content-container {
   // border: 1px solid;
+  font-family: 'Godo';
   height: 35vh;
   margin-top: 20px;
   border-radius: 20px;
@@ -19,5 +20,9 @@
     background-color: #fff;
     border-radius: 20px;
     box-shadow: 2px 2px 2px rgb(66, 66, 66);
+    .text{
+      width: 90%;
+      height: 90%;
+    }
   }
 }

@@ -23,6 +23,7 @@ const MakeAudioBook = () => {
   const [translator, setEditor] = useState('')
   const [publisher, setPublisher] = useState('')
   const [publishedDate, setDate] = useState('')
+  const [book, setBook] = useState({})
 
   const getBookName = (bookName) =>{
     console.log(bookName)
@@ -70,6 +71,7 @@ const MakeAudioBook = () => {
     dispatch(makeBook(fd)).payload
     .then((res) =>{
       console.log(res);
+      setBook(res.data);
     })
     .catch((err) => {
         console.log(err)
@@ -144,7 +146,7 @@ const MakeAudioBook = () => {
       
       <section>
         <h2>Step 3</h2>
-        <Step03></Step03>
+        <Step03 book={book}></Step03>
         <img src={BG3} alt="BG3"/>
       </section>
     </div>

@@ -26,7 +26,12 @@ $font-kopub: 'KoPub Batang';
       display: flex;
       justify-content: center;
       label {
+        text-align: center;
         cursor: pointer;
+        width: 70%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow:ellipsis;
       }
     }
     .cover{

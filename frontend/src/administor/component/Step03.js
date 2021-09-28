@@ -2,10 +2,12 @@ import React, {useState, useEffect} from 'react';
 import {Grid} from '@material-ui/core';
 import sample from '../../img/SAMPLE_1.MP3';
 import './Step03.modules.scss'
+import { useHistory } from 'react-router';
 
-const Step03 = () => {
+const Step03 = (props) => {
     const [file, setFile] = useState('');
     const [preview, setPreview] = useState('');
+
     const handleFileOnChange = (e) => {
         e.preventDefault();
         let reader = new FileReader();
@@ -15,6 +17,16 @@ const Step03 = () => {
             setPreview(reader.result);
         }
         reader.readAsDataURL(target);
+        console.log(e.target.parentNode);
+        e.target.parentNode.style.backgroundColor = '#FCDECF';
+    }
+    const history = useHistory();
+
+    const createAudioBook = (e) => {
+        history.push({
+            pathname: "/book",
+            state: {book: props.book}
+        })
     }
     let filename = 'PDF/JPEG 넣기';
     let returnFile = '텍스트 넣기';
@@ -62,7 +74,7 @@ const Step03 = () => {
             </Grid>
             <Grid item xs = {2}></Grid>
             </Grid>
-            <button className="createBtn">생성하기</button>
+            <button className="createBtn" onClick={createAudioBook}>생성하기</button>
         </div>
     ); 
 }

@@ -3,7 +3,8 @@ import './BookDetailTitle.modules.scss'
 import bookCover from '../../img/book-cover.jpg'
 import { FaHeart, FaRegHeart } from 'react-icons/fa'
 
-export default function BookDetailTitle() {
+export default function BookDetailTitle(props) {
+  const book = props.book;
   return (
     <div className="title-container">
       <div className="title-inner">
@@ -14,13 +15,13 @@ export default function BookDetailTitle() {
         <div className="title-right">
             <FaRegHeart />
           <div className="book-title">
-            <p className="book-name">프란츠 카프카 단편선</p>
-            <p className="book-writer">프란츠 카프카</p>
-            <p className="book-translator">박병선 옮김</p>
+            <p className="book-name">{book.title}</p>
+            <p className="book-writer">{book.author}</p>
+            <p className="book-translator">{book.translator} 옮김</p>
             <div className="book-info">
               <div>
                 <p>장르</p>
-                <p>소설</p>
+                <p>{book.genre}</p>
               </div>
               <div>
                 <p>재생시간</p>
@@ -28,16 +29,16 @@ export default function BookDetailTitle() {
               </div>
               <div>
                 <p>출판사</p>
-                <p>현대문학</p>
+                <p>{book.publisher}</p>
               </div>
               <div>
                 <p>발간일</p>
-                <p>2020.08.12</p>
+                <p>{book.publishedDate}</p>
               </div>
             </div>
           </div>
           <select className="voice" name="voice">
-            <option value=''>장르 선택</option>
+            <option value=''>성우 선택</option>
             <option value='성우1'>성우1</option>
             <option value='성우2'>성우2</option>
             <option value='성우3'>성우3</option>

@@ -3,9 +3,9 @@ const bookReducer = (state = [], action) => {
         case "ADD_BOOK":
             return [...state, action.payload];
         case "FIND_BOOK":
-            return [...state, action.payload];
+            return state;
         case "GENRE_BOOK":
-            return [...state, action.payload];
+            return state;
         default:
             return state;
     }

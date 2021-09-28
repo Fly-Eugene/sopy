@@ -1,5 +1,6 @@
 .audio-container {
   // border: 1px solid;
+  font-family: 'Godo';
   height: 10vh;
   margin-top: 20px;
   border-radius: 20px;
@@ -28,11 +29,14 @@
     background-color: #fff;
     border-radius: 30px;
     width: 75%;
-    height: 30%;
+    height: 50%;
     top: 50%;
     left: 55%;
     transform: translate(-50%, -50%);
     box-shadow: 2px 2px 2px rgb(66, 66, 66);
+    .player{
+      width: 100%;
+    }
   }
   .audio-bookmark {
     position: absolute;

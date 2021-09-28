@@ -73,6 +73,12 @@ const FindBookSearch = (props) => {
               console.log(err)
           });
     }
+    const moveDetail = (params, e) =>{
+        history.push({
+            pathname: "/book",
+            state: {book: params}
+        });
+    }
     return (
         <div className="findbook">
             <h1>듣고싶은 책을 찾아보세요</h1>
@@ -90,7 +96,7 @@ const FindBookSearch = (props) => {
                     <Grid container className="book-container">
                         {
                             bookList.map((book) => 
-                                <Grid item xs={4}>
+                                <Grid item xs={4} onClick={(e) => {moveDetail(book, e)}}>
                                 <Book underImgSrc={underImgSrc} bookCover={book.bookImage.path + book.bookImage.imageName}/>
                                 <p>{book.title}</p>
                                 </Grid>

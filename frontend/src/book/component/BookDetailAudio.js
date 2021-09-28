@@ -1,6 +1,7 @@
 import React from "react";
 import './BookDetailAudio.modules.scss'
 import { FaPlay, FaStop, FaRegBookmark } from 'react-icons/fa'
+import sample from '../../img/SAMPLE_1.MP3';
 
 export default function BookDetailAudio() {
   return (
@@ -11,7 +12,7 @@ export default function BookDetailAudio() {
         <FaStop />
       </div>
       <div className="audio-bar">
-        
+      <audio src={sample} controls className="player"></audio>
       </div>
       <div className="audio-bookmark">
         <FaRegBookmark />
