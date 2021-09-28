@@ -74,15 +74,21 @@ def tts(request):
     print(files)
 
     for idx, file in enumerate(files):
-        filename = os.path.basename(file)
-        txt = open(txt_path + '/' + filename, 'rt', encoding='UTF8')
+        audio_save(file, txt_path, sound_path)
 
-        if txt:
-            text = ''
-            for line in txt.readlines():
-                text += line
-            tts_ko = gTTS(text=text, lang='ko')
-            tts_ko.save(sound_path + '/' + ex_change(filename, 'mp3'))
+    return JsonResponse({'result': 'OK', 'data': sound_path}, status=status.HTTP_201_CREATED)
+    # return JsonResponse({'result': 'ERROR'}, status=status.HTTP_400_BAD_REQUEST)
 
-        return JsonResponse({'result': 'OK', 'data': sound_path}, status=status.HTTP_201_CREATED)
-    return JsonResponse({'result': 'ERROR'}, status=status.HTTP_400_BAD_REQUEST)
+
+def audio_save(file, txt_path, sound_path):
+    filename = os.path.basename(file)
+    txt = open(txt_path + '/' + filename, 'rt', encoding='UTF8')
+
+    if txt:
+        text = ''
+        for line in txt.readlines():
+            text += line
+        tts_ko = gTTS(text=text, lang='ko')
+        tts_ko.save(sound_path + '/' + ex_change(filename, 'mp3'))
+
+        return JsonResponse({'result': 'OK'}, status=status.HTTP_201_CREATED)

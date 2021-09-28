@@ -52,7 +52,12 @@ public class BookController {
     }
 
     @DeleteMapping("/like")
-    public Object LikeCancel(@RequestBody LikeReqDto params) {
+    public Object likeCancel(@RequestBody LikeReqDto params) {
         return bookService.likeCancel(params);
+    }
+
+    @GetMapping("/like")
+    public Object likeList() {
+        return bookService.getLikeList();
     }
 }
