@@ -76,7 +76,7 @@ const MakeAudioBook = () => {
     .catch((err) => {
         console.log(err)
         alert('오류가 발생했습니다')
-    });;
+    });
     return true
   }
   const page = useRef(0);

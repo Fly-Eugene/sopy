@@ -6,6 +6,8 @@ const bookReducer = (state = [], action) => {
             return state;
         case "GENRE_BOOK":
             return state;
+        case "MAKE_TEXT":
+        case "MAKE_AUDIO":
         default:
             return state;
     }

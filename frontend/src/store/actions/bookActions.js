@@ -31,3 +31,23 @@ export function findGenre(item){
         payload: data
     }
 }
+
+export function makeTextFile(item, id){
+    const headers = {
+        'Content-type' : 'multipart/form-data'
+    }
+    console.log(item)
+    const data = request("post", BOOK_URL + "/text/" + id, item, {headers})
+    return{
+        type: "MAKE_TEXT",
+        payload: data
+    }
+}
+
+export function makeAudioFile(item){
+    const data = request("post", BOOK_URL + "/audio/" + item)
+    return{
+        type: "MAKE_AUDIO",
+        payload: data
+    }
+}

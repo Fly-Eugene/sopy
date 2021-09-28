@@ -3,36 +3,85 @@ import {Grid} from '@material-ui/core';
 import sample from '../../img/SAMPLE_1.MP3';
 import './Step03.modules.scss'
 import { useHistory } from 'react-router';
+import { useDispatch } from 'react-redux';
+import { makeTextFile, makeAudioFile } from "../../store/actions/bookActions";
+import createPalette from '@material-ui/core/styles/createPalette';
 
 const Step03 = (props) => {
-    const [file, setFile] = useState('');
-    const [preview, setPreview] = useState('');
+    const dispatch = useDispatch();
+
+    const [files, setFiles] = useState([]);
+    const [textFiles, setTextFiles] = useState([]);
+    const [audioFiles, setAudioFiles] = useState('');
+    const [text, setText] = useState('텍스트 열기');
 
     const handleFileOnChange = (e) => {
         e.preventDefault();
-        let reader = new FileReader();
-        let target = e.target.files[0];
-        reader.onloadend = () =>{
-            setFile(target)
-            setPreview(reader.result);
-        }
-        reader.readAsDataURL(target);
+        setFiles(e.target.files)
+        // let reader = new FileReader();
+        // let target = e.target.files[0];
+        // reader.onloadend = () =>{
+        //     setFile(target)
+        // }
+        // reader.readAsDataURL(target);
         console.log(e.target.parentNode);
         e.target.parentNode.style.backgroundColor = '#FCDECF';
+        var imagefiles = [];
+        var fd = new FormData();
+        for(var i = 0; i < e.target.files.length; i++){
+            fd.append('imageFiles', e.target.files[i]);
+        }
+        console.log(e.target.files)
+        console.log(imagefiles)
+        // fd.append('imageFiles', imagefiles);
+        dispatch(makeTextFile(fd, props.book.id)).payload
+        .then((res) =>{
+            console.log(res);
+            setTextFiles(res.data + "\\text\\1.txt");
+          })
+          .catch((err) => {
+              console.log(err)
+              alert('오류가 발생했습니다')
+          });
     }
     const history = useHistory();
 
     const createAudioBook = (e) => {
-        history.push({
-            pathname: "/book",
-            state: {book: props.book}
-        })
+        dispatch(makeAudioFile(props.book.id)).payload
+        .then((res) =>{
+            console.log(res);
+            setAudioFiles(res.data + "\\sound\\1.mp3");
+            isPlayer = 'visible';
+            alert('오디오북이 생성되었습니다')
+          })
+          .catch((err) => {
+              console.log(err)
+              alert('오류가 발생했습니다')
+          });
+        // history.push({
+        //     pathname: "/book",
+        //     state: {book: props.book}
+        // })
+    }
+    const handleTextFile = (e) => {
+    //     let response = await fetch(textFiles);
+    //     let blob = await response.blob();
+    //     const target = new File([blob], '1.txt', {
+    //         type: 'text'
+    //     })
+    //     console.log(target)
+    //     var reader = new FileReader();
+    //     reader.readAsText(target, "UTF-8");
+
+    //     reader.onload = function(){
+    //         setText(reader.result);
+    //     }
     }
     let filename = 'PDF/JPEG 넣기';
-    let returnFile = '텍스트 넣기';
+    let returnFile = '텍스트 열기';
     let isPlayer = 'none';
-    if(file !== ''){
-        filename = file.name;
+    if(files !== ''){
+        // filename = files[0].name;
     }
     return (
         <div className="step03">
@@ -44,6 +93,7 @@ const Step03 = (props) => {
                     <Grid item xs = {4}>
                         <div class="fileCard"><label for="pdf_file">{filename}</label>
                         <input type="file"
+                            multiple="multiple"
                             id="pdf_file" 
                             name="file"
                             style={{display:"none"}}
@@ -51,17 +101,18 @@ const Step03 = (props) => {
                         </div>
                     </Grid>
                     <Grid item xs = {4}>
-                        <div class="fileCard"><label for="text_file">{returnFile}</label>
+                        <div class="fileCard" onClick={handleTextFile}>
+                            {text}
+                            {/* <label for="text_file">{returnFile}</label>
                         <input type="file"
                             id="text_file" 
                             name="file"
                             style={{display:"none"}}
-                            onChange={handleFileOnChange}/>
+                            onChange={handlerTextFile}/> */}
                         </div>
                     </Grid>
                     <Grid item xs = {4}>
                         <div class="fileCard"><label for="voice_file">성우 선택</label>
-                        <audio src={sample} controls className="player" style={{display: isPlayer}}></audio>
                         <input type="file"
                             id="voice_file" 
                             name="file"
@@ -75,6 +126,7 @@ const Step03 = (props) => {
             <Grid item xs = {2}></Grid>
             </Grid>
             <button className="createBtn" onClick={createAudioBook}>생성하기</button>
+            <audio src={audioFiles} controls className="player" style={{display: isPlayer}}></audio>
         </div>
     ); 
 }
