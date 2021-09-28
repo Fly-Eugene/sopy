@@ -86,7 +86,7 @@ const MakeAudioBook = () => {
       page.current--;
     }
     window.scrollTo({
-      top: section[page.current].offsetTop,
+      top: section[page.current].offsetTop + 100,
       behavior: 'smooth',
     })
   }
@@ -99,7 +99,7 @@ const MakeAudioBook = () => {
       page.current++;
     }
     window.scrollTo({
-      top: section[page.current].offsetTop,
+      top: section[page.current].offsetTop + 100,
       behavior: 'smooth',
     })
   }
@@ -115,7 +115,7 @@ const MakeAudioBook = () => {
   });
 
   return (
-    <div className='content'>
+    <div className='bookmake-content'>
       <div className="page-navi">
         <div className="prevBtn" onClick={prev}><img src={prevBtn} alt="prevBtn"/></div>
         <div className="nextBtn" onClick={next}><img src={nextBtn} alt="nextBtn"/></div>

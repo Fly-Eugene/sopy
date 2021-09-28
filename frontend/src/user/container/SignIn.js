@@ -13,11 +13,11 @@ export default function SignIn() {
   }
 
     return (
-      <>
-      <Grid container className="login-container">
+      <div className="login-container">
+      <Grid container>
         <Grid item xs = {7}><SignInImg getImageFile={getImageFile}/></Grid>
         <Grid item xs = {5}><SignInContent imageFile={imageFile}/></Grid>
       </Grid>
-      </>
+      </div>
     );
 }

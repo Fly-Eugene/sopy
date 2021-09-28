@@ -55,7 +55,13 @@ const Step02 = (props) => {
             <option value=''>장르 선택</option>
             <option value='호러'>호러</option>
             <option value='판타지'>판타지</option>
+            <option value='소설'>소설</option>
+            <option value='과학'>과학</option>
+            <option value='역사'>역사</option>
             <option value='로맨스'>로맨스</option>
+            <option value='철학'>철학</option>
+            <option value='수학'>수학</option>
+            <option value='컴퓨터'>컴퓨터</option>
           </select>
           <input value={author} onChange={bookAuthorInput} onBlur={sendAuthor} required/>
           <input value={editor} onChange={bookEditorInput} onBlur={sendEditor} required/>

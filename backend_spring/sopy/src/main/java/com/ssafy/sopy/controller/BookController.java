@@ -40,7 +40,7 @@ public class BookController {
         return bookService.getBookList();
     }
 
-    @GetMapping("/search")
+    @PostMapping("/search")
     public Object searchBook(@RequestBody BookSearchReqDto params) {
         return bookService.searchBook(params.getTitle());
     }
