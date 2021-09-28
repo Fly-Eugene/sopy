@@ -12,13 +12,19 @@ import java.util.HashMap;
 
 @Component
 public class HttpURLConnectionUtil {
+    private final int TIMEOUT;
+
+    public HttpURLConnectionUtil() {
+        this.TIMEOUT = 2100000000;
+    }
+
     public JSONObject get(String strUrl) {
         StringBuilder sb = new StringBuilder();
         try {
             URL url = new URL(strUrl);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setConnectTimeout(5000); //서버에 연결되는 Timeout 시간 설정
-            con.setReadTimeout(5000); // InputStream 읽어 오는 Timeout 시간 설정
+            con.setConnectTimeout(TIMEOUT); //서버에 연결되는 Timeout 시간 설정
+            con.setReadTimeout(TIMEOUT); // InputStream 읽어 오는 Timeout 시간 설정
             con.setRequestMethod("GET");
             con.setDoOutput(false);
 
@@ -48,8 +54,8 @@ public class HttpURLConnectionUtil {
         try {
             URL url = new URL(strUrl);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setConnectTimeout(5000); //서버에 연결되는 Timeout 시간 설정
-            con.setReadTimeout(5000); // InputStream 읽어 오는 Timeout 시간 설정
+            con.setConnectTimeout(TIMEOUT); //서버에 연결되는 Timeout 시간 설정
+            con.setReadTimeout(TIMEOUT); // InputStream 읽어 오는 Timeout 시간 설정
             con.setRequestMethod("POST");
             con.setRequestProperty("Content-Type", "application/json");
             con.setDoInput(true);
