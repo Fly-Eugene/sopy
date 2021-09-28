@@ -52,7 +52,7 @@ def book_ocr(request):
     ocr_model = Model()
     ocr_model.easyOCR(path)
 
-    return Response("OK", status=status.HTTP_201_CREATED)
+    # return Response("OK", status=status.HTTP_201_CREATED)
 
 
 @csrf_exempt
@@ -84,5 +84,5 @@ def tts(request):
             tts_ko = gTTS(text=text, lang='ko')
             tts_ko.save(sound_path + '/' + ex_change(filename, 'mp3'))
 
-        return JsonResponse({'result': 'OK', 'data': sound_path}, status=status.HTTP_201_CREATED)
-    return JsonResponse({'result': 'ERROR'}, status=status.HTTP_400_BAD_REQUEST)
+    return JsonResponse({'result': 'OK', 'data': sound_path}, status=status.HTTP_201_CREATED)
+    # return JsonResponse({'result': 'ERROR'}, status=status.HTTP_400_BAD_REQUEST)

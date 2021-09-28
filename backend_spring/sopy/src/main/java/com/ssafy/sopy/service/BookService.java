@@ -78,10 +78,10 @@ public class BookService {
         httpURLConnectionUtil.post(djangoURL + "book/ocr/", jsonData);
 
         // text 파일들 DB에 저장
-        File textDir = new File(book.getDirPath() + "/" + "text");
-        if(!textDir.exists()) textDir.mkdirs();
-        filesService.saveDir(textDir, book);
-        return textDir;
+//        File textDir = new File(book.getDirPath() + "/" + "text");
+//        if(!textDir.exists()) textDir.mkdirs();
+//        filesService.saveDir(textDir, book);
+        return resultDir.getParent();
     }
     @Transactional
     public Object makeAudio(Long bookId) throws IOException {
@@ -92,11 +92,12 @@ public class BookService {
         jsonData.put("path", book.getDirPath());
         httpURLConnectionUtil.post(djangoURL + "book/tts/", jsonData);
 
-        File soundDir = new File(book.getDirPath() + "/" + "sound");
-        System.out.println("soundDir.getPath() = " + soundDir.getPath());
-        if(!soundDir.exists()) soundDir.mkdirs();
-        filesService.saveDir(soundDir, book);
-        return soundDir;
+//        장고 파일 저장이랑 시간 차이가 남..
+//        File soundDir = new File(book.getDirPath() + "/" + "sound");
+//        System.out.println("soundDir.getPath() = " + soundDir.getPath());
+//        if(!soundDir.exists()) soundDir.mkdirs();
+//        filesService.saveDir(soundDir, book);
+        return book.getDirPath();
         /* 후에 text파일로도 받는 경우 생기면 이거 이용하면 됨
         // text 파일이 parameter에 없음 => 이미 저장되어 있는 상태
         if (params.getTextFiles().size() == 0 || params.getTextFiles().get(0).getSize() == 0){
