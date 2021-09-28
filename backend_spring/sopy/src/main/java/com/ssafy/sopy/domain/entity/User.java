@@ -6,7 +6,9 @@ import lombok.Builder;
 import lombok.Getter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -37,6 +39,10 @@ public class User {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "image_id")
     private UserImage userImage;
+
+    @OneToMany(mappedBy = "user")
+    private List<UserLike> userLikeList = new ArrayList<>();
+
 
     @ManyToMany
     @JoinTable(

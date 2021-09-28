@@ -9,4 +9,5 @@ public interface BookRepositoryCustom {
     List<Book> searchBook(String title);
     List<Book> genreFilter(String genre);
     BookImage getBookImage(Long bookId);
+
 }
