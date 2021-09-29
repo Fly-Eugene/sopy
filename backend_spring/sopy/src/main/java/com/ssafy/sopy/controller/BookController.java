@@ -7,9 +7,16 @@ package com.ssafy.sopy.controller;
 import com.ssafy.sopy.domain.repository.BookRepository;
 import com.ssafy.sopy.dto.*;
 import com.ssafy.sopy.service.BookService;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 
 @RestController
 @RequestMapping("/book")
@@ -35,6 +42,15 @@ public class BookController {
     @PostMapping("/audio/{bookId}")
     public Object makeAudio(@PathVariable("bookId") Long bookId) throws IOException {
         return bookService.makeAudio(bookId);
+    }
+
+    // responseEntity controller단으로 모으는게 깔끔할듯
+    @GetMapping("/audio/{bookId}")
+    public ResponseEntity<Resource> makeAudio(@PathVariable("bookId") Long bookId, @RequestParam Integer bookPage) throws IOException {
+        FileSystemResource resource = new FileSystemResource(bookService.getAudio(bookId, bookPage));
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType("audio/mp3"))
+                .body(resource);
     }
 
     @GetMapping("/main")
