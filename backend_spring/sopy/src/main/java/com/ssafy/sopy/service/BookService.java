@@ -13,11 +13,13 @@ import com.ssafy.sopy.util.FileUtil;
 import com.ssafy.sopy.util.HttpURLConnectionUtil;
 import com.ssafy.sopy.util.PdfUtil;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.Format;
 import java.util.*;
 
 @Service
@@ -77,10 +79,10 @@ public class BookService {
         jsonData.put("path", resultDir.getParent());
         httpURLConnectionUtil.post(djangoURL + "book/ocr/", jsonData);
 
-        // text 파일들 DB에 저장
-//        File textDir = new File(book.getDirPath() + "/" + "text");
-//        if(!textDir.exists()) textDir.mkdirs();
-//        filesService.saveDir(textDir, book);
+//         text 파일들 DB에 저장
+        File textDir = new File(book.getDirPath() + "/" + "text");
+        if(!textDir.exists()) textDir.mkdirs();
+        filesService.saveDir(textDir, book);
         return resultDir.getParent();
     }
     @Transactional
@@ -92,11 +94,10 @@ public class BookService {
         jsonData.put("path", book.getDirPath());
         httpURLConnectionUtil.post(djangoURL + "book/tts/", jsonData);
 
-//        장고 파일 저장이랑 시간 차이가 남..
-//        File soundDir = new File(book.getDirPath() + "/" + "sound");
-//        System.out.println("soundDir.getPath() = " + soundDir.getPath());
-//        if(!soundDir.exists()) soundDir.mkdirs();
-//        filesService.saveDir(soundDir, book);
+        File soundDir = new File(book.getDirPath() + "/" + "sound");
+        System.out.println("soundDir.getPath() = " + soundDir.getPath());
+        if(!soundDir.exists()) soundDir.mkdirs();
+        filesService.saveDir(soundDir, book);
         return book.getDirPath();
         /* 후에 text파일로도 받는 경우 생기면 이거 이용하면 됨
         // text 파일이 parameter에 없음 => 이미 저장되어 있는 상태
@@ -185,6 +186,12 @@ public class BookService {
 
         map.put("books", results);
         return map;
+    }
+
+    public File getAudio(Long bookId, Integer bookPage) {
+        Book book = bookRepository.getById(bookId);
+        File audioFile = new File(book.getDirPath() + String.format("/sound/%d.mp3", bookPage));
+        return audioFile;
     }
 
     class PathNode {
