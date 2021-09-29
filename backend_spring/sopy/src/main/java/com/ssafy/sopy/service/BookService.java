@@ -112,12 +112,13 @@ public class BookService {
         // tts
         Map<String, String>jsonData = new HashMap<>();
         jsonData.put("path", book.getDirPath());
+        jsonData.put("pageSize", book.getPageSize().toString());
         httpURLConnectionUtil.post(djangoURL + "book/tts/", jsonData);
 
-        File soundDir = new File(book.getDirPath() + "/" + "sound");
-        System.out.println("soundDir.getPath() = " + soundDir.getPath());
-        if(!soundDir.exists()) soundDir.mkdirs();
-        filesService.saveDir(soundDir, book);
+//        File soundDir = new File(book.getDirPath() + "/" + "sound");
+//        System.out.println("soundDir.getPath() = " + soundDir.getPath());
+//        if(!soundDir.exists()) soundDir.mkdirs();
+//        filesService.saveDir(soundDir, book);
         return book.getDirPath();
         /* 후에 text파일로도 받는 경우 생기면 이거 이용하면 됨
         // text 파일이 parameter에 없음 => 이미 저장되어 있는 상태
@@ -249,12 +250,9 @@ public class BookService {
         return userRepository.findByEmail(s).getId();
     }
 
-
-
-    public File getAudio(Long bookId, Integer bookPage) {
+    public String getAudio(Long bookId, Integer bookPage) {
         Book book = bookRepository.getById(bookId);
-        File audioFile = new File(book.getDirPath() + String.format("/sound/%d.mp3", bookPage));
-        return audioFile;
+        return s3Service.getFileUrl(book.getDirPath(), bookPage.toString() + ".mp3");
     }
     
     class PathNode {

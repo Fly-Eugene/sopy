@@ -47,11 +47,8 @@ public class BookController {
 
     // responseEntity controller단으로 모으는게 깔끔할듯
     @GetMapping("/audio/{bookId}")
-    public ResponseEntity<Resource> makeAudio(@PathVariable("bookId") Long bookId, @RequestParam Integer bookPage) throws IOException {
-        FileSystemResource resource = new FileSystemResource(bookService.getAudio(bookId, bookPage));
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType("audio/mp3"))
-                .body(resource);
+    public Object makeAudio(@PathVariable("bookId") Long bookId, @RequestParam Integer bookPage) throws IOException {
+        return bookService.getAudio(bookId, bookPage);
     }
 
     @GetMapping("/main")
