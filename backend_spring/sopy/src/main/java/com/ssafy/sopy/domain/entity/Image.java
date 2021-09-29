@@ -20,7 +20,7 @@ public class Image {
     @Column(name = "image_name")
     private String imageName;
 
-    @Column(name = "image_ord_name")
+    @Column(name = "image_org_name")
     private String imageOrgName;
 
     private String path;

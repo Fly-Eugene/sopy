@@ -1,9 +1,8 @@
 package com.ssafy.sopy.service;
 
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.ssafy.sopy.domain.entity.BookImage;
-import com.ssafy.sopy.domain.entity.Files;
 import com.ssafy.sopy.domain.entity.Image;
-import com.ssafy.sopy.domain.repository.BookImageRepository;
 import com.ssafy.sopy.domain.repository.BookRepository;
 import com.ssafy.sopy.dto.BookFileReqDto;
 import com.ssafy.sopy.dto.BookDto;
@@ -13,19 +12,19 @@ import com.ssafy.sopy.util.HttpURLConnectionUtil;
 import com.ssafy.sopy.util.PdfUtil;
 
 import com.ssafy.sopy.domain.entity.*;
-import com.ssafy.sopy.domain.repository.BookRepository;
 import com.ssafy.sopy.domain.repository.UserLikeRepository;
 import com.ssafy.sopy.domain.repository.UserRepository;
 import com.ssafy.sopy.dto.*;
-import com.ssafy.sopy.util.HttpURLConnectionUtil;
 import com.ssafy.sopy.util.SecurityUtil;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 @Service
@@ -41,8 +40,11 @@ public class BookService {
     private final PdfUtil pdfUtil;
     private final FileUtil fileUtil;
 
+    // S3 관련 service
+    private final UploadService s3Service;
 
-    public BookService(BookRepository bookRepository, UserRepository userRepository, UserLikeRepository userLikeRepository, FilesService filesService, ImageService imageService, HttpURLConnectionUtil httpURLConnectionUtil,@Value("${djangoURL}") String djangoURL, PdfUtil pdfUtil, FileUtil fileUtil) {
+
+    public BookService(BookRepository bookRepository, UserRepository userRepository, UserLikeRepository userLikeRepository, FilesService filesService, ImageService imageService, HttpURLConnectionUtil httpURLConnectionUtil, @Value("${djangoURL}") String djangoURL, PdfUtil pdfUtil, FileUtil fileUtil, UploadService s3Service) {
         this.bookRepository = bookRepository;
         this.userRepository = userRepository;
         this.userLikeRepository = userLikeRepository;
@@ -52,11 +54,17 @@ public class BookService {
         this.djangoURL = djangoURL;
         this.pdfUtil = pdfUtil;
         this.fileUtil = fileUtil;
+
+        // s3 관련 service
+        this.s3Service = s3Service;
     }
 
     @Transactional
     public Object makeBook(BookReqDto params) throws IOException {
         BookImage bookImage = imageService.makeBookImage(params.getImageFile());
+        // ============== s3 실험 ===================
+        String uploadUrl = uploadImage(params.getImageFile());
+        // =========================================
         Book book = bookRepository.save(Book.builder()
                 .id(params.getId()).genre(params.getGenre())
                 .introduce(params.getIntroduce()).title(params.getTitle())
@@ -64,7 +72,8 @@ public class BookService {
                 .publisher(params.getPublisher()).publishedDate(params.getPublishedDate())
                 .bookImage(bookImage)
                 .build());
-        return book.entityToDto();
+//        return book.entityToDto();
+        return uploadUrl;
     }
 
     @Transactional
@@ -252,4 +261,28 @@ public class BookService {
             this.name = name;
         }
     }
+
+    // ========================= s3 확인 ================================================
+    public String uploadImage(MultipartFile file) {
+        String fileName = UUID.randomUUID().toString().concat(getFileExtension(file.getOriginalFilename()));
+        ObjectMetadata objectMetadata = new ObjectMetadata();
+        objectMetadata.setContentLength(file.getSize());
+        objectMetadata.setContentType(file.getContentType());
+
+        try (InputStream inputStream = file.getInputStream()) {
+            s3Service.uploadFile(inputStream, objectMetadata, fileName);
+        } catch (IOException e) {
+            throw new IllegalArgumentException(String.format("파일 변환 중 에러가 발생했습니다 (%s)", file.getOriginalFilename()));
+        }
+        return s3Service.getFileUrl(fileName);
+    }
+
+    private String getFileExtension(String fileName) {
+        try {
+            return fileName.substring(fileName.lastIndexOf("."));
+        } catch (StringIndexOutOfBoundsException e) {
+            throw new IllegalArgumentException(String.format("잘못된 형식의 파일 (%s) 입니다"));
+        }
+    }
+
 }
