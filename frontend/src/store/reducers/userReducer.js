@@ -1,9 +1,9 @@
-const userReducer = (state = [], action) => {
+const userReducer = (state = {}, action) => {
     switch(action.type){
         case "ADD_USER":
-            return [...state, action.payload];
+            return state;
         case "LOGIN_USER":
-            return [...state, action.payload];
+            return [action.payload];
         default:
             return state;
     }

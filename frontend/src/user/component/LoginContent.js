@@ -20,12 +20,13 @@ const LoginContent = (props) => {
             email: email,
             password: password
         }
-        dispatch(login(body)).payload
+        dispatch(login(body))
         .then((res) =>{
             alert('로그인이 완료되었습니다!');
-            localStorage.setItem('jwt', res.data.token)
+            localStorage.setItem('jwt', res.payload.data.token)
             console.log(res);
             history.push("/");
+            window.location.replace("/");
           })
           .catch((err) => {
               console.log(err)

@@ -23,3 +23,7 @@ export function login(item) {
         payload: data
     }
 }
+
+export function logout(){
+    localStorage.removeItem('jwt')
+}

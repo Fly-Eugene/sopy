@@ -14,14 +14,22 @@ import reportWebVitals from './reportWebVitals';
 import { Route, BrowserRouter } from 'react-router-dom'
 
 import { Provider } from "react-redux";
-import { createStore } from "redux";
+import { applyMiddleware, createStore, compose } from "redux";
 import rootReducer from "./store/reducers"
+import promisMiddleware from "redux-promise";
+import ReduxThunk from "redux-thunk";
+import { persistStore } from "redux-persist";
+import { PersistGate } from "redux-persist/integration/react";
 
-const store = createStore(rootReducer);
+const store = createStore(rootReducer, compose(
+  applyMiddleware(promisMiddleware, ReduxThunk),
+));
+const persistor = persistStore(store)
 
 ReactDOM.render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <Provider store={store}>
+      <PersistGate persistor = {persistor}>
     {/* <App /> */}
     <BrowserRouter>
       <Navbar />
@@ -35,8 +43,9 @@ ReactDOM.render(
         <Route path='/user' component={UserProfile}/>
       </div>
     </BrowserRouter>
-    </Provider>
-  </React.StrictMode>,
+    </PersistGate>
+    </Provider>,
+  // </React.StrictMode>,
   document.getElementById('root')
 );
 

@@ -26,13 +26,13 @@ const FindBookSearch = (props) => {
         }
         e.target.style.color = 'black';
         setSearch('');
-        dispatch(findGenre(params)).payload
+        dispatch(findGenre(params))
         .then((res) =>{
-            console.log(res.data.books);
+            console.log(res.payload.data);
             setBookList([]);
-            for(var i = 0; i < res.data.books.length; i++){
-                console.log(res.data.books[i])
-                setBookList(bookList => [...bookList, res.data.books[i]])
+            for(var i = 0; i < res.payload.data.books.length; i++){
+                console.log(res.payload.data.books[i])
+                setBookList(bookList => [...bookList, res.payload.data.books[i]])
             }
             console.log(bookList)
           })
@@ -59,13 +59,11 @@ const FindBookSearch = (props) => {
         const body = {
             title: search
         }
-        dispatch(findBook(body)).payload
+        dispatch(findBook(body))
         .then((res) =>{
-            console.log(res.data.books);
             setBookList([]);
-            for(var i = 0; i < res.data.books.length; i++){
-                console.log(res.data.books[i])
-                setBookList(bookList => [...bookList, res.data.books[i]])
+            for(var i = 0; i < res.payload.data.books.length; i++){
+                setBookList(bookList => [...bookList, res.payload.data.books[i]])
             }
             console.log(bookList)
           })

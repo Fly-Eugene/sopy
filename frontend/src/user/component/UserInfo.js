@@ -1,21 +1,24 @@
 import React from 'react';
 import { MdSettings } from 'react-icons/md'
+import { useSelector } from 'react-redux';
 import profile from '../../img/profile.png'
 
 import './UserInfo.modules.scss'
 
 export default function UserInfo() {
+  const user = useSelector(state => state.userReducer[0].data.user);
+  console.log(user);
   return (
     <div className="info-container">
       <div className="info-left">
         <div className="info-left-top">
           <MdSettings />
           <div className="profile-img">
-            <img src={ profile } alt="profile" />
+            <img src={ user.userImage.path + user.userImage.imageName} alt="profile" />
           </div>
           <div className="profile-name">
             <p>어서요세요</p>
-            <p>줄리아 님</p>
+            <p>{user.username} 님</p>
           </div>
         </div>
         <div className="info-left-bottom">
@@ -24,8 +27,8 @@ export default function UserInfo() {
             <p>Group</p>
           </div>
           <div className="profile-info-content">
-            <p>julia98@naver.com</p>
-            <p>SSAFY</p>
+            <p>{user.email}</p>
+            <p>{user.department}</p>
           </div>
         </div>
       </div>

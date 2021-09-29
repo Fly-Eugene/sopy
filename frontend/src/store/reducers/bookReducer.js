@@ -3,11 +3,10 @@ const bookReducer = (state = [], action) => {
         case "ADD_BOOK":
             return [...state, action.payload];
         case "FIND_BOOK":
-            return state;
         case "GENRE_BOOK":
-            return state;
         case "MAKE_TEXT":
         case "MAKE_AUDIO":
+            return [action.payload];
         default:
             return state;
     }

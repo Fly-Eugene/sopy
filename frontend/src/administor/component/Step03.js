@@ -34,10 +34,10 @@ const Step03 = (props) => {
         console.log(e.target.files)
         console.log(imagefiles)
         // fd.append('imageFiles', imagefiles);
-        dispatch(makeTextFile(fd, props.book.id)).payload
+        dispatch(makeTextFile(fd, props.book.id))
         .then((res) =>{
             console.log(res);
-            setTextFiles(res.data + "\\text\\1.txt");
+            setTextFiles(res.payload.data + "\\text\\1.txt");
           })
           .catch((err) => {
               console.log(err)
@@ -47,10 +47,10 @@ const Step03 = (props) => {
     const history = useHistory();
 
     const createAudioBook = (e) => {
-        dispatch(makeAudioFile(props.book.id)).payload
+        dispatch(makeAudioFile(props.book.id))
         .then((res) =>{
             console.log(res);
-            setAudioFiles(res.data + "\\sound\\1.mp3");
+            setAudioFiles(res.payload.data + "\\sound\\1.mp3");
             isPlayer = 'visible';
             alert('오디오북이 생성되었습니다')
           })

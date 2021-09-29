@@ -68,10 +68,10 @@ const MakeAudioBook = () => {
     fd.append('publishedDate', publishedDate);
     console.log(imageFile);
     console.log(fd);
-    dispatch(makeBook(fd)).payload
+    dispatch(makeBook(fd))
     .then((res) =>{
       console.log(res);
-      setBook(res.data);
+      setBook(res.payload.data);
     })
     .catch((err) => {
         console.log(err)
