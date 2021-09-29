@@ -13,6 +13,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
@@ -86,5 +87,11 @@ public class BookController {
     @GetMapping("/like")
     public Object likeList() {
         return bookService.getLikeList();
+    }
+
+    // s3 관련 controller
+    @PostMapping("/api/v1/upload")
+    public String uploadImage(MultipartFile file) {
+        return bookService.uploadImage(file);
     }
 }

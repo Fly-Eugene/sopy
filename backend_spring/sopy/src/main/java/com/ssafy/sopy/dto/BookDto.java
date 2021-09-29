@@ -17,12 +17,14 @@ public class BookDto {
     private String publishedDate; //발행일
     private ImageDto bookImage;
     private String dirPath;
+    private Integer pageSize;
+
     public BookDto() {
     }
 
 
     @Builder
-    public BookDto(Long id, String title, String introduce, String genre, String author, String translator, String publisher, String publishedDate, ImageDto bookImage, String dirPath) {
+    public BookDto(Long id, String title, String introduce, String genre, String author, String translator, String publisher, String publishedDate, ImageDto bookImage, String dirPath, Integer pageSize) {
         this.id = id;
         this.title = title;
         this.introduce = introduce;
@@ -33,6 +35,7 @@ public class BookDto {
         this.publishedDate = publishedDate;
         this.bookImage = bookImage;
         this.dirPath = dirPath;
+        this.pageSize = pageSize;
     }
 
     @Override
@@ -47,6 +50,7 @@ public class BookDto {
                 ", publisher='" + publisher + '\'' +
                 ", publishedDate='" + publishedDate + '\'' +
                 ", dirPath='" + dirPath + '\'' +
+                ", pageSize='" + pageSize + '\'' +
                 '}';
     }
 }
