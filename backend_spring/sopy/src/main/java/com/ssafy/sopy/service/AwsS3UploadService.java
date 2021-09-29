@@ -19,7 +19,7 @@ public class AwsS3UploadService implements UploadService{
 
     @Override
     public void uploadFile(InputStream inputStream, ObjectMetadata objectMetadata, String fileName) {
-        amazonS3.putObject(new PutObjectRequest(component.getBucket(), fileName, inputStream, objectMetadata).withCannedAcl(CannedAccessControlList.PublicRead));
+        amazonS3.putObject(new PutObjectRequest(component.getBucket() + "/test", fileName, inputStream, objectMetadata).withCannedAcl(CannedAccessControlList.PublicRead));
     }
 
     @Override
