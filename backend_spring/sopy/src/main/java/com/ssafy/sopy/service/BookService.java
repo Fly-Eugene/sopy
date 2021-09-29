@@ -250,11 +250,11 @@ public class BookService {
         return userRepository.findByEmail(s).getId();
     }
 
-    public String getAudio(Long bookId, Integer bookPage) {
+    public String getS3File(Long bookId, Integer bookPage, String type) {
         Book book = bookRepository.getById(bookId);
-        return s3Service.getFileUrl(book.getDirPath(), bookPage.toString() + ".mp3");
+        return s3Service.getFileUrl(book.getDirPath(), bookPage.toString() + type);
     }
-    
+
     class PathNode {
         String path, name;
         public PathNode() {
