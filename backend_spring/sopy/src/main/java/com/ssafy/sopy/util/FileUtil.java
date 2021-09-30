@@ -64,10 +64,9 @@ public class FileUtil {
         for (MultipartFile mf : mfs) {
             StringBuilder fileName = new StringBuilder();
             fileName.append(++idx).append(".png");
-            ObjectMetadata objectMetadata = new ObjectMetadata();
-            objectMetadata.setContentLength(mf.getSize());
-            objectMetadata.setContentType(mf.getContentType());
-            awsS3UploadService.uploadFile(resultImgPath.getPath(), fileName.toString(), mf.getInputStream(), objectMetadata);
+            File imgFileName = new File(resultImgPath.getPath() + "/" + fileName);
+            mf.transferTo(imgFileName);
+            awsS3UploadService.uploadFile(resultImgPath.getPath(), fileName.toString(), imgFileName);
             // 파일 url
             System.out.println("save path = " + awsS3UploadService.getFileUrl(resultImgPath.getPath(), fileName.toString()));
             // 해당 경로 파일 확인
