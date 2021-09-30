@@ -89,28 +89,30 @@ def tts(request):
     # 해당 path 에서 file 리스트를 불러온다 ex) [0101.txt, 01012.txt, ...]
     # files, count = get_files(txt_path)
 
+    text = ''
     for idx in range(1, int(page_cnt)+1):
-        audio_save(idx, txt_path, sound_path)
+        text = text_read(idx, txt_path, text)
+
+    print(text)
+
+    tts_ko = gTTS(text=text, lang='ko')
+    tts_ko.save(sound_path + '/1.wav')
+    # s3에 저장하는 코드
+    client.upload_file(sound_path + '/1.wav',
+                       "sopy", sound_path + "/1.wav")
 
     return JsonResponse({'result': 'OK', 'data': sound_path}, status=status.HTTP_201_CREATED)
     # return JsonResponse({'result': 'ERROR'}, status=status.HTTP_400_BAD_REQUEST)
 
 
-def audio_save(idx, txt_path, sound_path):
+def text_read(idx, txt_path, text):
 
     data = urllib.request.urlopen(
         "https://sopy.s3.ap-northeast-2.amazonaws.com/{}/{}.txt".format(txt_path, idx))
 
     if data:
-        text = ''
         for line in data:
             print(line.decode('utf-8'))
             text += line.decode('utf-8')
-        tts_ko = gTTS(text=text, lang='ko')
-        tts_ko.save(sound_path + '/{}.wav'.format(idx))
 
-        # s3에 저장하는 코드
-        client.upload_file(sound_path + '/{}.wav'.format(idx),
-                           "sopy", sound_path + "/{}.wav".format(idx))
-
-        return JsonResponse({'result': 'OK'}, status=status.HTTP_201_CREATED)
+        return text
