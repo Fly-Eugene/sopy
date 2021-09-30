@@ -247,10 +247,10 @@ public class BookService {
     }
 
     @Transactional(readOnly = false)
-    public String getS3File(Long bookId, Integer bookPage, String type) {
+    public String getS3File(Long bookId, Integer bookPage, String dir, String type) {
         Book book = bookRepository.getById(bookId);
         bookmarkService.setBookmark(book, bookPage);
-        return s3Service.getFileUrl(book.getDirPath(), bookPage.toString() + type);
+        return s3Service.getFileUrl(book.getDirPath() + dir, bookPage.toString() + type).replace("%5C", "/");
     }
 
     class PathNode {
