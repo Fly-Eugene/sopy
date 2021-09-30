@@ -2,6 +2,7 @@ import React from 'react';
 import { MdSettings } from 'react-icons/md'
 import { useSelector } from 'react-redux';
 import profile from '../../img/profile.png'
+import { Link } from 'react-router-dom'
 
 import './UserInfo.modules.scss'
 
@@ -35,14 +36,16 @@ export default function UserInfo() {
       <div className="info-right">
         <div className="info-right-top">
           <div className="info-right-top-container">
-            <p>내가 읽은 책</p>
-            <p>총 54권</p>
+            {user.email != 'admin@sopy.com' && <p>내가 읽은 책</p>}
+            {user.email != 'admin@sopy.com' && <p>총 54권</p>}
+            {user.email == 'admin@sopy.com' && <p><Link to ='/makeaudio'>오디오북 만들기</Link></p>}
           </div>
         </div>
         <div className="info-right-bottom">
           <div className="info-right-bottom-container">
-            <p>당신의 목소리를 들려주세요</p>
-            <p>녹음하기</p>
+            {user.email != 'admin@sopy.com' && <p>당신의 목소리를 들려주세요</p> }
+            {user.email != 'admin@sopy.com' && <p>녹음하기</p> }
+            {user.email == 'admin@sopy.com' && <p>오디오북 관리</p>} 
           </div>
         </div>
       </div>

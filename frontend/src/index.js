@@ -20,6 +20,7 @@ import promisMiddleware from "redux-promise";
 import ReduxThunk from "redux-thunk";
 import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
+import Administor from './administor/container/Administor';
 
 const store = createStore(rootReducer, compose(
   applyMiddleware(promisMiddleware, ReduxThunk),
@@ -41,6 +42,7 @@ ReactDOM.render(
         <Route path='/book' component={BookDetail}/>
         <Route path='/signin' component={SignIn}/>
         <Route path='/user' component={UserProfile}/>
+        <Route path='/admin' component={Administor}/>
       </div>
     </BrowserRouter>
     </PersistGate>
