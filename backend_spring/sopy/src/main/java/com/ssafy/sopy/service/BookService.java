@@ -57,7 +57,7 @@ public class BookService {
     }
 
     @Transactional
-    public Object makeBook(BookReqDto params) throws IOException {
+    public BookDto makeBook(BookReqDto params) throws IOException {
         BookImage bookImage = imageService.makeBookImage(params.getImageFile());
         Book book = bookRepository.save(Book.builder()
                 .id(params.getId()).genre(params.getGenre())
@@ -66,8 +66,7 @@ public class BookService {
                 .publisher(params.getPublisher()).publishedDate(params.getPublishedDate())
                 .bookImage(bookImage)
                 .build());
-//        return book.entityToDto();
-        return bookImage.getPath() + bookImage.getImageName();
+        return book.entityToDto();
     }
 
     @Transactional
