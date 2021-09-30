@@ -18,7 +18,7 @@ export default function BookDetailComment(props) {
   
   useEffect(() => {
     getCommentList();
-  }, [commentList])
+  }, [])
   
   const getCommentList = (e) => {
     dispatch(getComment(props.id))

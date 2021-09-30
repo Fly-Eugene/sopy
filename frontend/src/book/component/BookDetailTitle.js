@@ -1,10 +1,65 @@
-import React from 'react';
+import React , {useState, useEffect} from 'react';
 import './BookDetailTitle.modules.scss'
 import bookCover from '../../img/book-cover.jpg'
 import { FaHeart, FaRegHeart } from 'react-icons/fa'
+import { useDispatch } from 'react-redux';
+import { getLikes, addLike, deleteLike} from '../../store/actions/bookActions'
 
 export default function BookDetailTitle(props) {
+  const [isLike, setLike] = useState(false);
+
   const book = props.book;
+  const dispatch = useDispatch();
+  useEffect(() => {
+    getLikesHandler();
+  })
+
+  const getLikesHandler = (e) => {
+    dispatch(getLikes())
+    .then((res) => {
+      console.log(res.payload.data.book)
+      console.log(book)
+      console.log(res.payload.data.book.filter(function (it) { return it.id === book.id}).length)
+      if(res.payload.data.book.length != 0 && res.payload.data.book.filter(function (it) { return it.id === book.id}).length > 0){
+        setLike(true)
+      }
+    })
+    .catch((err) => {
+      console.log(err)
+      alert('오류가 발생했습니다')
+    })
+    
+  }
+
+  const addLikeHandler = (e) => {
+    console.log(book.id)
+    const data = {
+      "bookId" : book.id
+    }
+    dispatch(addLike(data))
+    .then((res) => {
+      setLike(true)
+    })
+    .catch((err) => {
+      console.log(err)
+      alert('오류가 발생했습니다')
+    })
+  }
+
+  const deleteLikeHandler = (e) => {
+    const data = {
+      "bookId" : book.id
+    }
+    dispatch(deleteLike(data))
+    .then((res) => {
+      setLike(false)
+    })
+    .catch((err) => {
+      console.log(err)
+      alert('오류가 발생했습니다')
+    })
+  }
+
   return (
     <div className="title-container">
       <div className="title-inner">
@@ -13,7 +68,8 @@ export default function BookDetailTitle(props) {
 
         </div>
         <div className="title-right">
-            <FaRegHeart />
+            {!isLike && <FaRegHeart onClick={addLikeHandler} style={{cursor: 'pointer'}}/>}
+            {isLike && <FaHeart onClick={deleteLikeHandler} style={{cursor: 'pointer'}}/>}
           <div className="book-title">
             <p className="book-name">{book.title}</p>
             <p className="book-writer">{book.author}</p>
