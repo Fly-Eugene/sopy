@@ -1,12 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { MdSettings } from 'react-icons/md'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import profile from '../../img/profile.png'
 import { Link } from 'react-router-dom'
 
 import './UserInfo.modules.scss'
+import { getRead } from '../../store/actions/bookActions';
 
 export default function UserInfo() {
+  const [booklist, setBooklist] = useState([]);
+  useEffect(() => {
+    getBookList();
+  },[])
+  const dispatch = useDispatch();
+  const getBookList = e => {
+    dispatch(getRead())
+    .then((res) => {
+      console.log(res.payload.data)
+      setBooklist(res.payload.data)
+    })
+    .catch((err) => console.log(err));
+  }
+
   const user = useSelector(state => state.userReducer[0].data.user);
   console.log(user);
   return (
@@ -37,7 +52,7 @@ export default function UserInfo() {
         <div className="info-right-top">
           <div className="info-right-top-container">
             {user.email != 'admin@sopy.com' && <p>내가 읽은 책</p>}
-            {user.email != 'admin@sopy.com' && <p>총 54권</p>}
+            {user.email != 'admin@sopy.com' && <p>총 {booklist.length}권</p>}
             {user.email == 'admin@sopy.com' && <p><Link to ='/makeaudio'>오디오북 만들기</Link></p>}
           </div>
         </div>

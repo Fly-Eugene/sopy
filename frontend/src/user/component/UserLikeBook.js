@@ -45,13 +45,15 @@ export default function UserLikeBook() {
           <span>1 / 20</span>
         </div>
         <div className="book-container">
+        <Grid container className="book-container">
           {
-            booklist.map((book) => {
-              <Grid item xs={4} onClick={(e) => {moveDetail(book, e)}}>
-                <Book underImgSrc={underImgSrc} bookCover={book.bookImage.path + book.bookImage.imageName}/>      
-              </Grid>
-            })
-          }
+            booklist.map((book) => 
+            <Grid item xs={4} onClick={(e) => {moveDetail(book, e)}}>
+              <Book underImgSrc={underImgSrc} bookCover={book.bookImage.path + book.bookImage.imageName}/>
+            </Grid>
+            )
+            }
+        </Grid>        
         </div>
       </div>
       <div className="like-botton-direction">

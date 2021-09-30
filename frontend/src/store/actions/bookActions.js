@@ -65,7 +65,10 @@ export function getTextFile(id, item){
 }
 
 export function getAudioFile(id, page){
-    const data = request('get', BOOK_URL + "/audio/" + id + "?bookPage=" + page)
+    const headers = {
+        Authorization : `Bearer ${localStorage.getItem('jwt')}`
+    }
+    const data = request('get', BOOK_URL + "/audio/" + id + "?bookPage=" + page,'', headers)
     return{
         type: "GET_AUDIO",
         payload: data
@@ -101,6 +104,17 @@ export function getLikes(){
     const data = request("get", BOOK_URL + "/like", '', headers)
     return{
         type:"GET_LIKE",
+        payload: data
+    }
+}
+
+export function getRead(){
+    const headers = {
+        Authorization : `Bearer ${localStorage.getItem('jwt')}`
+    }
+    const data = request("get", BOOK_URL + "/readlist", '', headers)
+    return{
+        type:"GET_READ",
         payload: data
     }
 }
