@@ -68,7 +68,7 @@ class Model():
 
             # result = reader.readtext(file)
             result = reader.readtext(
-                "https://sopy.s3.ap-northeast-2.amazonaws.com/test/2045e3d0-3218-444a-8c99-e68f23aab6ed.png")
+                "https://sopy.s3.ap-northeast-2.amazonaws.co/test/2045e3d0-3218-444a-8c99-e68f23aab6edm.png")
 
             # ./easyocr/utils.py 733 lines
             # result[0]: bbox

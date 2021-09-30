@@ -21,10 +21,17 @@ from EasyOCR.run import Model
 # s3 관련 설정
 import urllib.request
 import boto3
-s3 = boto3.resource('s3')
+
+AWS_ACCESS_KEY_ID = "AKIA2ZWH2NHW3PTUEASC"
+AWS_SECRET_ACCESS_KEY = "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"
+AWS_DEFAULT_REGEION = "ap-northeast-2"
+AWS_BUCKET_NAME = "sopy"
+
+client = boto3.client('s3', aws_access_key_id=AWS_ACCESS_KEY_ID,
+                      aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+                      region_name=AWS_DEFAULT_REGEION)
 
 # Create your views here.
-
 # text 파일 저장해서, 경로 보내기 !!
 
 
@@ -89,21 +96,19 @@ def audio_save(file, txt_path, sound_path):
     filename = os.path.basename(file)
     txt = open(txt_path + '/' + filename, 'rt', encoding='UTF8')
 
-    obj = s3.Object(bucket_name='sopy', key="test.txt")
-    print(obj.bucket_name)
-    print(obj.key)
-
     data = urllib.request.urlopen(
         "https://sopy.s3.ap-northeast-2.amazonaws.com/test.txt")
 
-    # if txt:
     if data:
         text = ''
-        # for line in txt.readlines():
         for line in data:
             print(line.decode('utf-8'))
             text += line.decode('utf-8')
         tts_ko = gTTS(text=text, lang='ko')
         tts_ko.save(sound_path + '/' + ex_change(filename, 'mp3'))
+
+        # s3에 저장하는 코드
+        client.upload_file(sound_path + '/' +
+                           ex_change(filename, 'mp3'), "sopy", "test.wav")
 
         return JsonResponse({'result': 'OK'}, status=status.HTTP_201_CREATED)
