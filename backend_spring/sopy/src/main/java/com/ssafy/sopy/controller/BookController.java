@@ -47,11 +47,11 @@ public class BookController {
 
     // responseEntity controller단으로 모으는게 깔끔할듯
     @GetMapping("/audio/{bookId}")
-    public Object makeAudio(@PathVariable("bookId") Long bookId, @RequestParam Integer bookPage) throws IOException {
+    public Object getAudio(@PathVariable("bookId") Long bookId, @RequestParam Integer bookPage) throws IOException {
         return bookService.getS3File(bookId, bookPage, ".mp3");
     }
     @GetMapping("/text/{bookId}")
-    public Object makeText(@PathVariable("bookId") Long bookId, @RequestParam Integer bookPage) throws IOException {
+    public Object getText(@PathVariable("bookId") Long bookId, @RequestParam Integer bookPage) throws IOException {
         return bookService.getS3File(bookId, bookPage, ".txt");
     }
 
