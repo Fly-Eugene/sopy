@@ -89,7 +89,7 @@ public class BookController {
     }
 
     @GetMapping("/readlist")
-    public List<Book> getReadBookList(){
+    public List<BookDto> getReadBookList(){
         return bookmarkService.getReadBookList();
     }
     // s3 관련 controller
