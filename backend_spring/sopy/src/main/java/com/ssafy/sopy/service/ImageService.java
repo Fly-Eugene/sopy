@@ -21,18 +21,21 @@ public class ImageService {
     private final BookImageRepository bookImageRepository;
     private final UserImageRepository userImageRepository;
     private final FileUtil fileUtil;
+    private final UploadService s3Service;
 
-    public ImageService(BookRepository bookRepository, BookImageRepository bookImageRepository, UserImageRepository userImageRepository, FileUtil fileUtil) {
+    public ImageService(BookRepository bookRepository, BookImageRepository bookImageRepository, UserImageRepository userImageRepository, FileUtil fileUtil, UploadService s3Service) {
         this.bookRepository = bookRepository;
         this.bookImageRepository = bookImageRepository;
         this.userImageRepository = userImageRepository;
         this.fileUtil = fileUtil;
+        this.s3Service = s3Service;
     }
 
     @Transactional
     public BookImage makeBookImage(MultipartFile imageFile) throws IOException {
         if(imageFile.getSize() <= 0) return null;
         File file = fileUtil.setImage(imageFile);
+        s3Service.uploadFile(file.getParent(), file.getName(), file);
         return bookImageRepository.save(BookImage.builder()
                 .imageName(file.getName())
                 .imageOrgName(imageFile.getOriginalFilename())
@@ -44,6 +47,7 @@ public class ImageService {
     public UserImage makeUserImage(MultipartFile imageFile) throws IOException {
         if(imageFile.getSize() <= 0) return null;
         File file = fileUtil.setImage(imageFile);
+        s3Service.uploadFile(file.getParent(), file.getName(), file);
         return userImageRepository.save(UserImage.builder()
                 .imageName(file.getName())
                 .imageOrgName(imageFile.getOriginalFilename())

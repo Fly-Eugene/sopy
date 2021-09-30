@@ -1,32 +1,28 @@
 package com.ssafy.sopy.service;
 
+import com.ssafy.sopy.domain.entity.Book;
 import com.ssafy.sopy.domain.entity.BookImage;
-import com.ssafy.sopy.domain.entity.Files;
 import com.ssafy.sopy.domain.entity.Image;
-import com.ssafy.sopy.domain.repository.BookImageRepository;
-import com.ssafy.sopy.domain.repository.BookRepository;
-import com.ssafy.sopy.dto.BookFileReqDto;
-import com.ssafy.sopy.dto.BookDto;
-import com.ssafy.sopy.dto.BookReqDto;
-import com.ssafy.sopy.util.FileUtil;
-import com.ssafy.sopy.util.HttpURLConnectionUtil;
-import com.ssafy.sopy.util.PdfUtil;
-
-import com.ssafy.sopy.domain.entity.*;
+import com.ssafy.sopy.domain.entity.UserLike;
 import com.ssafy.sopy.domain.repository.BookRepository;
 import com.ssafy.sopy.domain.repository.UserLikeRepository;
 import com.ssafy.sopy.domain.repository.UserRepository;
 import com.ssafy.sopy.dto.*;
+import com.ssafy.sopy.util.FileUtil;
 import com.ssafy.sopy.util.HttpURLConnectionUtil;
+import com.ssafy.sopy.util.PdfUtil;
 import com.ssafy.sopy.util.SecurityUtil;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional(readOnly = true)
@@ -41,8 +37,11 @@ public class BookService {
     private final PdfUtil pdfUtil;
     private final FileUtil fileUtil;
 
+    // S3 관련 service
+    private final UploadService s3Service;
 
-    public BookService(BookRepository bookRepository, UserRepository userRepository, UserLikeRepository userLikeRepository, FilesService filesService, ImageService imageService, HttpURLConnectionUtil httpURLConnectionUtil,@Value("${djangoURL}") String djangoURL, PdfUtil pdfUtil, FileUtil fileUtil) {
+
+    public BookService(BookRepository bookRepository, UserRepository userRepository, UserLikeRepository userLikeRepository, FilesService filesService, ImageService imageService, HttpURLConnectionUtil httpURLConnectionUtil, @Value("${djangoURL}") String djangoURL, PdfUtil pdfUtil, FileUtil fileUtil, UploadService s3Service) {
         this.bookRepository = bookRepository;
         this.userRepository = userRepository;
         this.userLikeRepository = userLikeRepository;
@@ -52,11 +51,17 @@ public class BookService {
         this.djangoURL = djangoURL;
         this.pdfUtil = pdfUtil;
         this.fileUtil = fileUtil;
+
+        // s3 관련 service
+        this.s3Service = s3Service;
     }
 
     @Transactional
     public Object makeBook(BookReqDto params) throws IOException {
         BookImage bookImage = imageService.makeBookImage(params.getImageFile());
+        // ============== s3 실험 ===================
+        String uploadUrl = uploadImage(params.getImageFile());
+        // =========================================
         Book book = bookRepository.save(Book.builder()
                 .id(params.getId()).genre(params.getGenre())
                 .introduce(params.getIntroduce()).title(params.getTitle())
@@ -64,7 +69,8 @@ public class BookService {
                 .publisher(params.getPublisher()).publishedDate(params.getPublishedDate())
                 .bookImage(bookImage)
                 .build());
-        return book.entityToDto();
+//        return book.entityToDto();
+        return uploadUrl;
     }
 
     @Transactional
@@ -78,22 +84,25 @@ public class BookService {
         } else {                                    // image
             resultDir = fileUtil.saveImages(params.getImageFiles());
         }
+        Integer pageSize = resultDir.listFiles().length;
         // db 저장
         filesService.saveDir(resultDir, book);
         // Dir_path book에 저장
         System.out.println("book = " + book);
         bookRepository.save(Book.builder().id(book.getId()).author(book.getAuthor()).genre(book.getGenre()).introduce(book.getIntroduce())
                 .publishedDate(book.getPublishedDate()).publisher(book.getPublisher()).title(book.getTitle())
-                .translator(book.getTranslator()).bookImage(book.getBookImage()).dirPath(resultDir.getParent()).build());
+                .translator(book.getTranslator()).bookImage(book.getBookImage()).dirPath(resultDir.getParent()).pageSize(pageSize).build());
+
         // 장고 쪽으로 ocr 요청
         Map<String, String>jsonData = new HashMap<>();
         jsonData.put("path", resultDir.getParent());
+        jsonData.put("pageSize", pageSize.toString());
         httpURLConnectionUtil.post(djangoURL + "book/ocr/", jsonData);
 
-        // text 파일들 DB에 저장
-//        File textDir = new File(book.getDirPath() + "/" + "text");
-//        if(!textDir.exists()) textDir.mkdirs();
-//        filesService.saveDir(textDir, book);
+//         text 파일들 DB에 저장
+        File textDir = new File(book.getDirPath() + "/" + "text");
+        if(!textDir.exists()) textDir.mkdirs();
+        filesService.saveDir(textDir, book);
         return resultDir.getParent();
     }
     @Transactional
@@ -103,9 +112,9 @@ public class BookService {
         // tts
         Map<String, String>jsonData = new HashMap<>();
         jsonData.put("path", book.getDirPath());
+        jsonData.put("pageSize", book.getPageSize().toString());
         httpURLConnectionUtil.post(djangoURL + "book/tts/", jsonData);
 
-//        장고 파일 저장이랑 시간 차이가 남..
 //        File soundDir = new File(book.getDirPath() + "/" + "sound");
 //        System.out.println("soundDir.getPath() = " + soundDir.getPath());
 //        if(!soundDir.exists()) soundDir.mkdirs();
@@ -241,7 +250,10 @@ public class BookService {
         return userRepository.findByEmail(s).getId();
     }
 
-
+    public String getS3File(Long bookId, Integer bookPage, String type) {
+        Book book = bookRepository.getById(bookId);
+        return s3Service.getFileUrl(book.getDirPath(), bookPage.toString() + type);
+    }
 
     class PathNode {
         String path, name;
@@ -252,4 +264,28 @@ public class BookService {
             this.name = name;
         }
     }
+
+    // ========================= s3 확인 ================================================
+    public String uploadImage(MultipartFile file) {
+//        String fileName = UUID.randomUUID().toString().concat(getFileExtension(file.getOriginalFilename()));
+//        ObjectMetadata objectMetadata = new ObjectMetadata();
+//        objectMetadata.setContentLength(file.getSize());
+//        objectMetadata.setContentType(file.getContentType());
+//        try (InputStream inputStream = file.getInputStream()) {
+//            s3Service.uploadFile(inputStream, objectMetadata, fileName);
+//        } catch (IOException e) {
+//            throw new IllegalArgumentException(String.format("파일 변환 중 에러가 발생했습니다 (%s)", file.getOriginalFilename()));
+//        }
+//        return s3Service.getFileUrl(fileName);
+        return null;
+    }
+
+    private String getFileExtension(String fileName) {
+        try {
+            return fileName.substring(fileName.lastIndexOf("."));
+        } catch (StringIndexOutOfBoundsException e) {
+            throw new IllegalArgumentException(String.format("잘못된 형식의 파일 (%s) 입니다"));
+        }
+    }
+
 }

@@ -1,7 +1,9 @@
 package com.ssafy.sopy.util;
 
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.ssafy.sopy.domain.entity.Book;
 import com.ssafy.sopy.domain.entity.Files;
+import com.ssafy.sopy.service.AwsS3UploadService;
 import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,6 +19,11 @@ import java.util.UUID;
 
 @Component
 public class FileUtil {
+    private final AwsS3UploadService awsS3UploadService;
+
+    public FileUtil(AwsS3UploadService awsS3UploadService) {
+        this.awsS3UploadService = awsS3UploadService;
+    }
 
     public File makeDir(String preLoc, String postLoc) throws IOException {
         String uploadRoot = "c:/sopy/upload";
@@ -55,7 +62,17 @@ public class FileUtil {
         File resultImgPath = makeDir("/", "/" + UUID.randomUUID() + "/img/");
         int idx = 0;
         for (MultipartFile mf : mfs) {
-            mf.transferTo(new File(resultImgPath, (++idx) + ".png"));
+            StringBuilder fileName = new StringBuilder();
+            fileName.append(++idx).append(".png");
+            ObjectMetadata objectMetadata = new ObjectMetadata();
+            objectMetadata.setContentLength(mf.getSize());
+            objectMetadata.setContentType(mf.getContentType());
+            awsS3UploadService.uploadFile(resultImgPath.getPath(), fileName.toString(), mf.getInputStream(), objectMetadata);
+            // 파일 url
+            System.out.println("save path = " + awsS3UploadService.getFileUrl(resultImgPath.getPath(), fileName.toString()));
+            // 해당 경로 파일 확인
+            System.out.println("getDir = " + awsS3UploadService.getDir(resultImgPath.getPath(), fileName.toString()));
+//            mf.transferTo(new File(resultImgPath, (++idx) + ".png"));
         }
         return resultImgPath;
     }
