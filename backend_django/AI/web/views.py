@@ -60,10 +60,14 @@ def book_ocr(request):
     data = json.loads(request.body.decode('utf-8'))
 
     path = data['path']
+    page_cnt = data['pageSize']
+    print("===============================================")
+    print(path, page_cnt)
+    print("===============================================")
     # name = data['name']  # book123.PNG  ## 책 id
 
     ocr_model = Model()
-    ocr_model.easyOCR(path)
+    ocr_model.easyOCR(path, page_cnt)
 
     return Response("OK", status=status.HTTP_201_CREATED)
 
@@ -73,31 +77,29 @@ def book_ocr(request):
 def tts(request):
     data = json.loads(request.body.decode('utf-8'))
     path = data['path']
+    page_cnt = data['pageSize']
 
     # 해당 책의 txt 파일들이 모여있는 경로 저장
-    txt_path = "{}/text".format(path)
+    txt_path = "{}/txt".format(path)
     sound_path = "{}/sound".format(path)
 
     # sound_path 에 파일을 있으면 안만들고, 없으면 만든다.
     os.makedirs(sound_path, exist_ok=True)
 
     # 해당 path 에서 file 리스트를 불러온다 ex) [0101.txt, 01012.txt, ...]
-    files, count = get_files(txt_path)
-    print(files)
+    # files, count = get_files(txt_path)
 
-    for idx, file in enumerate(files):
-        audio_save(file, txt_path, sound_path)
+    for idx in range(1, int(page_cnt)+1):
+        audio_save(idx, txt_path, sound_path)
 
     return JsonResponse({'result': 'OK', 'data': sound_path}, status=status.HTTP_201_CREATED)
     # return JsonResponse({'result': 'ERROR'}, status=status.HTTP_400_BAD_REQUEST)
 
 
-def audio_save(file, txt_path, sound_path):
-    filename = os.path.basename(file)
-    txt = open(txt_path + '/' + filename, 'rt', encoding='UTF8')
+def audio_save(idx, txt_path, sound_path):
 
     data = urllib.request.urlopen(
-        "https://sopy.s3.ap-northeast-2.amazonaws.com/test.txt")
+        "https://sopy.s3.ap-northeast-2.amazonaws.com/{}/{}.txt".format(txt_path, idx))
 
     if data:
         text = ''
@@ -105,10 +107,10 @@ def audio_save(file, txt_path, sound_path):
             print(line.decode('utf-8'))
             text += line.decode('utf-8')
         tts_ko = gTTS(text=text, lang='ko')
-        tts_ko.save(sound_path + '/' + ex_change(filename, 'mp3'))
+        tts_ko.save(sound_path + '/{}.wav'.format(idx))
 
         # s3에 저장하는 코드
-        client.upload_file(sound_path + '/' +
-                           ex_change(filename, 'mp3'), "sopy", "test.wav")
+        client.upload_file(sound_path + '/{}.wav'.format(idx),
+                           "sopy", sound_path + "/{}.wav".format(idx))
 
         return JsonResponse({'result': 'OK'}, status=status.HTTP_201_CREATED)
