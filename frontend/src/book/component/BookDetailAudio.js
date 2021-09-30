@@ -1,18 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import './BookDetailAudio.modules.scss'
 import { FaPlay, FaStop, FaRegBookmark } from 'react-icons/fa'
 import sample from '../../img/SAMPLE_1.MP3';
+import { useDispatch } from "react-redux";
+import { getAudioFile } from "../../store/actions/bookActions";
 
-export default function BookDetailAudio() {
+export default function BookDetailAudio(props) {
+  const [filesrc, SetFilesrc] = useState('');
+  useEffect(() => {
+    getAudioFileHandler();
+  })
+  const dispatch = useDispatch();
+  const getAudioFileHandler = e => {
+    dispatch(getAudioFile(props.book.id, 1))
+    .then((res) => {
+      console.log(res.payload)
+      SetFilesrc(res.payload.data);
+    })
+    .catch((err) => console.log(err))
+  }
   return (
     <div className="audio-container">
       <div className="audio-command">
         <p>텍스트랑 같이 보기</p>
-        {/* <FaPlay />
-        <FaStop /> */}
       </div>
       <div className="audio-bar">
-      <audio src="https://sopy.s3.ap-northeast-2.amazonaws.com/test.wav" controls className="player"></audio>
+      <audio src={filesrc} controls className="player"></audio>
       </div>
       <div className="audio-bookmark">
         <FaRegBookmark />

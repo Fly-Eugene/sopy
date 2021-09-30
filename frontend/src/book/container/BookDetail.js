@@ -11,7 +11,7 @@ export default function BookDetail(props) {
   return (
     <>
       <BookDetailTitle book={book}/>
-      <BookDetailAudio />
+      <BookDetailAudio book={book}/>
       <BookDetailContent content={book.introduce}/>
       <BookDetailComment id={book.id}/>
     </>

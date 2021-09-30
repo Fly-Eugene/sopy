@@ -36,7 +36,6 @@ export function findGenre(item){
 export function makeTextFile(item, id){
     const headers = {
         'Content-type' : 'multipart/form-data',
-        Authorization : `Bearer ${localStorage.getItem('jwt')}`
     }
     console.log(item)
     const data = request("post", BOOK_URL + "/text/" + id, item, {headers})
@@ -53,6 +52,22 @@ export function makeAudioFile(item){
     const data = request("post", BOOK_URL + "/audio/" + item, headers)
     return{
         type: "MAKE_AUDIO",
+        payload: data
+    }
+}
+
+export function getTextFile(id, item){
+    const data = request('get', BOOK_URL + "/text/" + id, item)
+    return{
+        type: "GET_TEXT",
+        payload: data
+    }
+}
+
+export function getAudioFile(id, page){
+    const data = request('get', BOOK_URL + "/audio/" + id + "?bookPage=" + page)
+    return{
+        type: "GET_AUDIO",
         payload: data
     }
 }

@@ -18,7 +18,7 @@ export default function UserInfo() {
             <img src={ user.userImage.path + user.userImage.imageName} alt="profile" />
           </div>
           <div className="profile-name">
-            <p>어서요세요</p>
+            <p>어서오세요</p>
             <p>{user.username} 님</p>
           </div>
         </div>

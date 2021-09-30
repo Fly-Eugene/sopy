@@ -64,7 +64,7 @@ export default function BookDetailTitle(props) {
     <div className="title-container">
       <div className="title-inner">
         <div className="title-left">
-          <img src={bookCover} alt="bookCover"/>
+          <img src={book.bookImage.path + book.bookImage.imageName} alt="bookCover"/>
 
         </div>
         <div className="title-right">

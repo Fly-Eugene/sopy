@@ -8,7 +8,9 @@ const bookReducer = (state = [], action) => {
         case "MAKE_AUDIO":
         case "ADD_LIKE":
         case "DELETE_LIKE":
-        case "GET_LIKE":    
+        case "GET_LIKE":
+        case "GET_TEXT":
+        case "GET_AUDIO":    
             return [action.payload];
         default:
             return state;
