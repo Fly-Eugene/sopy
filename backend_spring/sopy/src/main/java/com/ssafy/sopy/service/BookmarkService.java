@@ -8,6 +8,9 @@ import com.ssafy.sopy.domain.repository.BookmarkRepository;
 import com.ssafy.sopy.domain.repository.UserRepository;
 import com.ssafy.sopy.util.SecurityUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class BookmarkService {
@@ -34,6 +37,13 @@ public class BookmarkService {
         return bookmarkRepository.getByBookAndUser(bookRepository.getById(bookId), getUser()).getPage();
     };
 
+    public List<Book> getReadBookList(){
+        List<Book> books = bookmarkRepository.getByUser(getUser());
+        for (Book book : books) {
+            System.out.println("book = " + book);
+        }
+        return books;
+    }
     private User getUser() {
         String s = SecurityUtil.getCurrentUsername().get();
         return userRepository.findByEmail(s);

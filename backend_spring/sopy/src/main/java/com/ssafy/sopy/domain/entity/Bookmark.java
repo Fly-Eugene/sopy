@@ -12,7 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Bookmark {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "bookmark_id")
     private Long Id;
     private Integer page;
 
@@ -32,4 +32,5 @@ public class Bookmark {
         this.book = book;
         this.user = user;
     }
+
 }

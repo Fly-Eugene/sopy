@@ -4,28 +4,26 @@ package com.ssafy.sopy.controller;
 //import com.ssafy.sopy.dto.BookDto;
 //import com.ssafy.sopy.dto.BookReqDto;
 //import com.ssafy.sopy.dto.BookSearchReqDto;
-import com.ssafy.sopy.domain.repository.BookRepository;
+
+import com.ssafy.sopy.domain.entity.Book;
 import com.ssafy.sopy.dto.*;
 import com.ssafy.sopy.service.BookService;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import com.ssafy.sopy.service.BookmarkService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
+import java.util.List;
 
 @RestController
 @RequestMapping("/book")
 public class BookController {
     private final BookService bookService;
+    private final BookmarkService bookmarkService;
 
-    public BookController(BookService bookService) {
+    public BookController(BookService bookService, BookmarkService bookmarkService) {
         this.bookService = bookService;
+        this.bookmarkService = bookmarkService;
     }
 
     @PostMapping
@@ -90,6 +88,10 @@ public class BookController {
         return bookService.getLikeList();
     }
 
+    @GetMapping("/readlist")
+    public List<Book> getReadBookList(){
+        return bookmarkService.getReadBookList();
+    }
     // s3 관련 controller
     @PostMapping("/api/v1/upload")
     public String uploadImage(MultipartFile file) {

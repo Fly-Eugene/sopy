@@ -8,6 +8,7 @@ import com.ssafy.sopy.domain.repository.BookImageRepository;
 import com.ssafy.sopy.domain.repository.BookRepository;
 import com.ssafy.sopy.domain.repository.UserImageRepository;
 import com.ssafy.sopy.util.FileUtil;
+import lombok.Builder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -36,10 +37,11 @@ public class ImageService {
         if(imageFile.getSize() <= 0) return null;
         File file = fileUtil.setImage(imageFile);
         s3Service.uploadFile(file.getParent(), file.getName(), file);
+        FileNode fileNode = getFileNode(file.getParent(), file.getName());
         return bookImageRepository.save(BookImage.builder()
-                .imageName(file.getName())
+                .imageName(fileNode.name)
                 .imageOrgName(imageFile.getOriginalFilename())
-                .path(file.getParent() + "/")
+                .path(fileNode.path)
                 .thumbnail(fileUtil.setThumbnail(file)).build());
     }
 
@@ -48,10 +50,11 @@ public class ImageService {
         if(imageFile.getSize() <= 0) return null;
         File file = fileUtil.setImage(imageFile);
         s3Service.uploadFile(file.getParent(), file.getName(), file);
+        FileNode fileNode = getFileNode(file.getParent(), file.getName());
         return userImageRepository.save(UserImage.builder()
-                .imageName(file.getName())
+                .imageName(fileNode.name)
                 .imageOrgName(imageFile.getOriginalFilename())
-                .path(file.getParent() + "/")
+                .path(fileNode.path)
                 .thumbnail(fileUtil.setThumbnail(file)).build());
     }
 
@@ -67,4 +70,18 @@ public class ImageService {
         return image == null ? null : (image.getPath() + image.getImageName());
     }
 
+    class FileNode{
+        String path;
+        String name;
+
+        public FileNode(String path, String name) {
+            this.path = path;
+            this.name = name;
+        }
+    }
+    public FileNode getFileNode(String path, String name){
+        String fileUrl = s3Service.getFileUrl(path, name);
+        int idx = fileUrl.lastIndexOf("/")+1;
+        return new FileNode(fileUrl.substring(0, idx), fileUrl.substring(idx));
+    }
 }

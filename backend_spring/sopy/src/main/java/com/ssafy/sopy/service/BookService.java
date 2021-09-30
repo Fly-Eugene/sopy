@@ -1,5 +1,6 @@
 package com.ssafy.sopy.service;
 
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.ssafy.sopy.domain.entity.Book;
 import com.ssafy.sopy.domain.entity.BookImage;
 import com.ssafy.sopy.domain.entity.Image;
@@ -19,10 +20,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.InputStream;
+import java.util.*;
 
 @Service
 @Transactional(readOnly = true)
@@ -60,9 +59,6 @@ public class BookService {
     @Transactional
     public Object makeBook(BookReqDto params) throws IOException {
         BookImage bookImage = imageService.makeBookImage(params.getImageFile());
-        // ============== s3 실험 ===================
-        String uploadUrl = uploadImage(params.getImageFile());
-        // =========================================
         Book book = bookRepository.save(Book.builder()
                 .id(params.getId()).genre(params.getGenre())
                 .introduce(params.getIntroduce()).title(params.getTitle())
@@ -71,7 +67,7 @@ public class BookService {
                 .bookImage(bookImage)
                 .build());
 //        return book.entityToDto();
-        return uploadUrl;
+        return bookImage.getPath() + bookImage.getImageName();
     }
 
     @Transactional
@@ -251,6 +247,7 @@ public class BookService {
         return userRepository.findByEmail(s).getId();
     }
 
+    @Transactional(readOnly = false)
     public String getS3File(Long bookId, Integer bookPage, String type) {
         Book book = bookRepository.getById(bookId);
         bookmarkService.setBookmark(book, bookPage);
@@ -269,17 +266,17 @@ public class BookService {
 
     // ========================= s3 확인 ================================================
     public String uploadImage(MultipartFile file) {
-//        String fileName = UUID.randomUUID().toString().concat(getFileExtension(file.getOriginalFilename()));
-//        ObjectMetadata objectMetadata = new ObjectMetadata();
-//        objectMetadata.setContentLength(file.getSize());
-//        objectMetadata.setContentType(file.getContentType());
-//        try (InputStream inputStream = file.getInputStream()) {
-//            s3Service.uploadFile(inputStream, objectMetadata, fileName);
-//        } catch (IOException e) {
-//            throw new IllegalArgumentException(String.format("파일 변환 중 에러가 발생했습니다 (%s)", file.getOriginalFilename()));
-//        }
-//        return s3Service.getFileUrl(fileName);
-        return null;
+        String fileName = UUID.randomUUID().toString().concat(getFileExtension(file.getOriginalFilename()));
+        ObjectMetadata objectMetadata = new ObjectMetadata();
+        objectMetadata.setContentLength(file.getSize());
+        objectMetadata.setContentType(file.getContentType());
+        System.out.println("file = " + file.getSize());
+        try (InputStream inputStream = file.getInputStream()) {
+            s3Service.uploadFile("", fileName, inputStream, objectMetadata);
+        } catch (IOException e) {
+            throw new IllegalArgumentException(String.format("파일 변환 중 에러가 발생했습니다 (%s)", file.getOriginalFilename()));
+        }
+        return s3Service.getFileUrl(fileName);
     }
 
     private String getFileExtension(String fileName) {
