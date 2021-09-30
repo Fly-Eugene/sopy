@@ -6,10 +6,12 @@ import com.ssafy.sopy.domain.entity.User;
 import com.ssafy.sopy.domain.repository.BookRepository;
 import com.ssafy.sopy.domain.repository.BookmarkRepository;
 import com.ssafy.sopy.domain.repository.UserRepository;
+import com.ssafy.sopy.dto.BookDto;
 import com.ssafy.sopy.util.SecurityUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -37,12 +39,13 @@ public class BookmarkService {
         return bookmarkRepository.getByBookAndUser(bookRepository.getById(bookId), getUser()).getPage();
     };
 
-    public List<Book> getReadBookList(){
+    public List<BookDto> getReadBookList(){
         List<Book> books = bookmarkRepository.getByUser(getUser());
+        List<BookDto> results = new ArrayList<>();
         for (Book book : books) {
-            System.out.println("book = " + book);
+            results.add(book.entityToDto());
         }
-        return books;
+        return results;
     }
     private User getUser() {
         String s = SecurityUtil.getCurrentUsername().get();
