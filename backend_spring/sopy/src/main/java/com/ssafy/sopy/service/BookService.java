@@ -31,16 +31,17 @@ public class BookService {
     private final UserLikeRepository userLikeRepository;
     private final FilesService filesService;
     private final ImageService imageService;
+    private final BookmarkService bookmarkService;
     private final HttpURLConnectionUtil httpURLConnectionUtil;
     private final String djangoURL;
     private final PdfUtil pdfUtil;
     private final FileUtil fileUtil;
-
     // S3 관련 service
     private final UploadService s3Service;
 
 
-    public BookService(BookRepository bookRepository, UserRepository userRepository, UserLikeRepository userLikeRepository, FilesService filesService, ImageService imageService, HttpURLConnectionUtil httpURLConnectionUtil, @Value("${djangoURL}") String djangoURL, PdfUtil pdfUtil, FileUtil fileUtil, UploadService s3Service) {
+    public BookService(BookRepository bookRepository, UserRepository userRepository, UserLikeRepository userLikeRepository, FilesService filesService, ImageService imageService, HttpURLConnectionUtil httpURLConnectionUtil,
+                       @Value("${djangoURL}") String djangoURL, PdfUtil pdfUtil, FileUtil fileUtil, UploadService s3Service, BookmarkService bookmarkService) {
         this.bookRepository = bookRepository;
         this.userRepository = userRepository;
         this.userLikeRepository = userLikeRepository;
@@ -50,7 +51,7 @@ public class BookService {
         this.djangoURL = djangoURL;
         this.pdfUtil = pdfUtil;
         this.fileUtil = fileUtil;
-
+        this.bookmarkService = bookmarkService;
         // s3 관련 service
         this.s3Service = s3Service;
     }
@@ -246,8 +247,10 @@ public class BookService {
         return userRepository.findByEmail(s).getId();
     }
 
+    @Transactional(readOnly = false)
     public String getS3File(Long bookId, Integer bookPage, String type) {
         Book book = bookRepository.getById(bookId);
+        bookmarkService.setBookmark(book, bookPage);
         return s3Service.getFileUrl(book.getDirPath(), bookPage.toString() + type);
     }
 
@@ -267,10 +270,9 @@ public class BookService {
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentLength(file.getSize());
         objectMetadata.setContentType(file.getContentType());
-
         System.out.println("file = " + file.getSize());
         try (InputStream inputStream = file.getInputStream()) {
-            s3Service.uploadFile("/", fileName, inputStream, objectMetadata);
+            s3Service.uploadFile("", fileName, inputStream, objectMetadata);
         } catch (IOException e) {
             throw new IllegalArgumentException(String.format("파일 변환 중 에러가 발생했습니다 (%s)", file.getOriginalFilename()));
         }

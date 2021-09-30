@@ -72,6 +72,7 @@ public class User {
         this.authorities = authorities;
     }
 
+
     public UserDto entityToDto(){
         return UserDto.builder().id(id).email(email).username(username).age(age).department(department).userImage(userImage.entityToDto()).build();
     }
