@@ -3,6 +3,7 @@ package com.ssafy.sopy.service;
 import com.ssafy.sopy.domain.entity.Book;
 import com.ssafy.sopy.domain.entity.Bookmark;
 import com.ssafy.sopy.domain.entity.User;
+import com.ssafy.sopy.domain.repository.BookRepository;
 import com.ssafy.sopy.domain.repository.BookmarkRepository;
 import com.ssafy.sopy.domain.repository.UserRepository;
 import com.ssafy.sopy.util.SecurityUtil;
@@ -11,10 +12,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class BookmarkService {
     private final BookmarkRepository bookmarkRepository;
+    private final BookRepository bookRepository;
     private final UserRepository userRepository;
 
-    public BookmarkService(BookmarkRepository bookmarkRepository, UserRepository userRepository) {
+    public BookmarkService(BookmarkRepository bookmarkRepository, BookRepository bookRepository, UserRepository userRepository) {
         this.bookmarkRepository = bookmarkRepository;
+        this.bookRepository = bookRepository;
         this.userRepository = userRepository;
     }
 
@@ -27,8 +30,8 @@ public class BookmarkService {
             bookmarkRepository.save(Bookmark.builder().id(bookmark.getId()).book(book).user(user).page(bookPage).build());
         }
     }
-    public Object getBookmark(){
-        return null;
+    public Integer getBookmark(Long bookId){
+        return bookmarkRepository.getByBookAndUser(bookRepository.getById(bookId), getUser()).getPage();
     };
 
     private User getUser() {
