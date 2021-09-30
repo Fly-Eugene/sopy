@@ -18,10 +18,23 @@ from django.views.decorators.csrf import csrf_exempt
 
 from EasyOCR.run import Model
 
+# s3 관련 설정
+import urllib.request
+import boto3
+
+AWS_ACCESS_KEY_ID = "AKIA2ZWH2NHW3PTUEASC"
+AWS_SECRET_ACCESS_KEY = "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"
+AWS_DEFAULT_REGEION = "ap-northeast-2"
+AWS_BUCKET_NAME = "sopy"
+
+client = boto3.client('s3', aws_access_key_id=AWS_ACCESS_KEY_ID,
+                      aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+                      region_name=AWS_DEFAULT_REGEION)
 
 # Create your views here.
-
 # text 파일 저장해서, 경로 보내기 !!
+
+
 def ex_change(txt, target_txt):
     idx = txt.rfind('.') + 1
     return txt[:idx] + target_txt
@@ -52,14 +65,13 @@ def book_ocr(request):
     ocr_model = Model()
     ocr_model.easyOCR(path)
 
-    # return Response("OK", status=status.HTTP_201_CREATED)
+    return Response("OK", status=status.HTTP_201_CREATED)
 
 
 @csrf_exempt
 @api_view(['POST'])
 def tts(request):
     data = json.loads(request.body.decode('utf-8'))
-
     path = data['path']
 
     # 해당 책의 txt 파일들이 모여있는 경로 저장
@@ -84,11 +96,19 @@ def audio_save(file, txt_path, sound_path):
     filename = os.path.basename(file)
     txt = open(txt_path + '/' + filename, 'rt', encoding='UTF8')
 
-    if txt:
+    data = urllib.request.urlopen(
+        "https://sopy.s3.ap-northeast-2.amazonaws.com/test.txt")
+
+    if data:
         text = ''
-        for line in txt.readlines():
-            text += line
+        for line in data:
+            print(line.decode('utf-8'))
+            text += line.decode('utf-8')
         tts_ko = gTTS(text=text, lang='ko')
         tts_ko.save(sound_path + '/' + ex_change(filename, 'mp3'))
+
+        # s3에 저장하는 코드
+        client.upload_file(sound_path + '/' +
+                           ex_change(filename, 'mp3'), "sopy", "test.wav")
 
         return JsonResponse({'result': 'OK'}, status=status.HTTP_201_CREATED)

@@ -1,6 +1,20 @@
 from easyocr.easyocr import *
 import uuid
 import os
+import urllib.request
+from PIL import Image
+
+# s3 관련 설정 => 추후 키 숨김처리 필요
+import boto3
+
+AWS_ACCESS_KEY_ID = "AKIA2ZWH2NHW3PTUEASC"
+AWS_SECRET_ACCESS_KEY = "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"
+AWS_DEFAULT_REGEION = "ap-northeast-2"
+AWS_BUCKET_NAME = "sopy"
+
+client = boto3.client('s3', aws_access_key_id=AWS_ACCESS_KEY_ID,
+                      aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+                      region_name=AWS_DEFAULT_REGEION)
 
 # GPU 설정
 os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
@@ -49,9 +63,12 @@ class Model():
 
         # img 파일 안쪽에 있는 모든 사진들에 대해서
         for idx, file in enumerate(files):
-            filename = os.path.basename(file)
+            # filename = os.path.basename(file)  => 원래 코드...
+            filename = f"{idx}.jpg"
 
-            result = reader.readtext(file)
+            # result = reader.readtext(file)
+            result = reader.readtext(
+                "https://sopy.s3.ap-northeast-2.amazonaws.co/test/2045e3d0-3218-444a-8c99-e68f23aab6edm.png")
 
             # ./easyocr/utils.py 733 lines
             # result[0]: bbox
@@ -70,5 +87,9 @@ class Model():
                 # print('bbox: ', bbox)
 
             text_file.close()
+
+            # (현재 파일 위치, bucket 이름, bucket에 올릴 파일 이름)
+            client.upload_file(save_root_path + '/' +
+                               '0.txt', "sopy", "test.txt")
 
         # return str(name)
