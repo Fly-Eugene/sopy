@@ -52,7 +52,7 @@ const SignInContent = (props) => {
           fd.append('department', group);
           fd.append('username', name);
           fd.append('age', age);
-          dispatch(join(fd)).payload
+          dispatch(join(fd))
           .then((res) =>{
             alert('회원가입이 완료되었습니다!');
             console.log(res);

@@ -13,7 +13,7 @@ export default function BookDetail(props) {
       <BookDetailTitle book={book}/>
       <BookDetailAudio />
       <BookDetailContent content={book.introduce}/>
-      <BookDetailComment />
+      <BookDetailComment id={book.id}/>
     </>
   )
 }

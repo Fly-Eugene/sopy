@@ -5,7 +5,8 @@ const BOOK_URL = "/book";
 
 export function makeBook(item) {
     const headers = {
-        'Content-type' : 'multipart/form-data'
+        'Content-type' : 'multipart/form-data',
+        'Authorization' : 'Bearer' + localStorage.getItem('jwt')
     }
     console.log(item)
     const data = request("post", BOOK_URL, item, {headers});
@@ -25,7 +26,7 @@ export function findBook(item) {
 }
 
 export function findGenre(item){
-    const data = axios.get("http://localhost:5000/book/genre?genre=" + item)
+    const data = request("get", BOOK_URL + "/genre?genre=" + item);
     return{
         type: "GENRE_BOOK",
         payload: data
@@ -34,7 +35,8 @@ export function findGenre(item){
 
 export function makeTextFile(item, id){
     const headers = {
-        'Content-type' : 'multipart/form-data'
+        'Content-type' : 'multipart/form-data',
+        'Authorization' : 'Bearer' + localStorage.getItem('jwt')
     }
     console.log(item)
     const data = request("post", BOOK_URL + "/text/" + id, item, {headers})
@@ -45,7 +47,10 @@ export function makeTextFile(item, id){
 }
 
 export function makeAudioFile(item){
-    const data = request("post", BOOK_URL + "/audio/" + item)
+    const headers = {
+        'Authorization' : 'Bearer' + localStorage.getItem('jwt')
+    }
+    const data = request("post", BOOK_URL + "/audio/" + item, {headers})
     return{
         type: "MAKE_AUDIO",
         payload: data
