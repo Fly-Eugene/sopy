@@ -24,6 +24,3 @@ export function login(item) {
     }
 }
 
-export function logout(){
-    localStorage.removeItem('jwt')
-}

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux';
 import { login } from "../../store/actions/userActions";
 import { useHistory } from 'react-router';
+import axios from 'axios';
 
 const LoginContent = (props) => {
     const [email, setEmail] = useState('')
@@ -24,6 +25,7 @@ const LoginContent = (props) => {
         .then((res) =>{
             alert('로그인이 완료되었습니다!');
             localStorage.setItem('jwt', res.payload.data.token)
+            // axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('jwt')}`
             console.log(res);
             history.push("/");
             window.location.replace("/");

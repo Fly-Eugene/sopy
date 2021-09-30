@@ -8,11 +8,11 @@ export default function BookDetailAudio() {
     <div className="audio-container">
       <div className="audio-command">
         <p>텍스트랑 같이 보기</p>
-        <FaPlay />
-        <FaStop />
+        {/* <FaPlay />
+        <FaStop /> */}
       </div>
       <div className="audio-bar">
-      <audio src={sample} controls className="player"></audio>
+      <audio src="https://sopy.s3.ap-northeast-2.amazonaws.com/test.wav" controls className="player"></audio>
       </div>
       <div className="audio-bookmark">
         <FaRegBookmark />

@@ -26,7 +26,7 @@ export function findBook(item) {
 }
 
 export function findGenre(item){
-    const data = axios.get("http://localhost:5000/book/genre?genre=" + item)
+    const data = request("get", BOOK_URL + "/genre?genre=" + item);
     return{
         type: "GENRE_BOOK",
         payload: data
