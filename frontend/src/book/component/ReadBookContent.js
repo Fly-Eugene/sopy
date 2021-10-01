@@ -1,106 +1,82 @@
 import React , {useState, useEffect} from 'react';
-import './BookDetailTitle.modules.scss'
+import './ReadBookContent.modules.scss'
 import bookCover from '../../img/book-cover.jpg'
-import { FaHeart, FaRegHeart } from 'react-icons/fa'
 import { useDispatch } from 'react-redux';
-import { getLikes, addLike, deleteLike} from '../../store/actions/bookActions'
+import { Grid } from '@material-ui/core';
+import { getTextFile, getAudioFile } from '../../store/actions/bookActions';
+import PageNum from '../../common/component/PageNum';
+import { FaRegBookmark } from 'react-icons/fa';
+import { useHistory } from 'react-router';
 
 export default function ReadBookContent(props) {
-  const [isLike, setLike] = useState(false);
-
-  const book = props.book;
+  const [audioFile, SetAudioFile] = useState('');
   const dispatch = useDispatch();
+  const history = useHistory();
   useEffect(() => {
-    getLikesHandler();
-  })
-
-  const getLikesHandler = (e) => {
-    dispatch(getLikes())
+    getTextFileHandler();
+    getAudioFileHandler();
+  },[])
+  const getTextFileHandler = e =>{
+    dispatch(getTextFile(props.book.id,1))
     .then((res) => {
-      console.log(res.payload.data.book)
-      console.log(book)
-      console.log(res.payload.data.book.filter(function (it) { return it.id === book.id}).length)
-      if(res.payload.data.book.length != 0 && res.payload.data.book.filter(function (it) { return it.id === book.id}).length > 0){
-        setLike(true)
+      console.log(res.payload.data);
+      // readTextFile(res.payload.data);
+    })
+    .catch((err) => console.log(err));
+  }
+  const getAudioFileHandler = e => {
+    dispatch(getAudioFile(props.book.id,1))
+    .then((res) => {
+      console.log(res.payload.data);
+      SetAudioFile(res.payload.data);
+    })
+    .catch((err) => console.log(err));
+  }
+
+  const readTextFile = url => {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", url, true);
+    xhr.responseType = "blob";
+    xhr.onload = () =>{
+      var reader = new FileReader();
+      reader.readAsDataURL(xhr.response);
+      reader.onload = e => {
+        console.log(e.target.result);
       }
-    })
-    .catch((err) => {
-      console.log(err)
-      alert('오류가 발생했습니다')
-    })
-    
-  }
-
-  const addLikeHandler = (e) => {
-    console.log(book.id)
-    const data = {
-      "bookId" : book.id
     }
-    dispatch(addLike(data))
-    .then((res) => {
-      setLike(true)
-    })
-    .catch((err) => {
-      console.log(err)
-      alert('오류가 발생했습니다')
+    xhr.send();
+  }
+  const moveDetail = e =>{
+    history.push({
+      pathname: '/book',
+      state: {book: props.book}
     })
   }
-
-  const deleteLikeHandler = (e) => {
-    const data = {
-      "bookId" : book.id
-    }
-    dispatch(deleteLike(data))
-    .then((res) => {
-      setLike(false)
-    })
-    .catch((err) => {
-      console.log(err)
-      alert('오류가 발생했습니다')
-    })
-  }
-
   return (
-    <div className="title-container">
-      <div className="title-inner">
-        <div className="title-left">
-          <img src={book.bookImage.path + book.bookImage.imageName} alt="bookCover"/>
-
-        </div>
-        <div className="title-right">
-            {!isLike && <FaRegHeart onClick={addLikeHandler} style={{cursor: 'pointer'}}/>}
-            {isLike && <FaHeart onClick={deleteLikeHandler} style={{cursor: 'pointer'}}/>}
-          <div className="book-title">
-            <p className="book-name">{book.title}</p>
-            <p className="book-writer">{book.author}</p>
-            <p className="book-translator">{book.translator} 옮김</p>
-            <div className="book-info">
-              <div>
-                <p>장르</p>
-                <p>{book.genre}</p>
-              </div>
-              <div>
-                <p>재생시간</p>
-                <p>00:43:19</p>
-              </div>
-              <div>
-                <p>출판사</p>
-                <p>{book.publisher}</p>
-              </div>
-              <div>
-                <p>발간일</p>
-                <p>{book.publishedDate}</p>
-              </div>
-            </div>
-          </div>
-          <select className="voice" name="voice">
-            <option value=''>성우 선택</option>
-            <option value='성우1'>성우1</option>
-            <option value='성우2'>성우2</option>
-            <option value='성우3'>성우3</option>
-          </select>
-        </div>
+    <>
+    <div className="read-container">
+      <div className = "read-content">
+        <Grid container>
+            <Grid item xs={5}></Grid>
+            <Grid item xs={2}><div className="vertical-line"></div></Grid>
+            <Grid item xs={5}></Grid>
+        </Grid>
+      </div>
+      <div className="read-page">
+          <PageNum PageSize = {1} currentPage = {1} />
       </div>
     </div>
+      <div className="audio-container">
+        <div className="audio-command">
+          <p onClick={moveDetail} style={{cursor: "pointer"}}>상세페이지</p>
+        </div>          
+        <div className="audio-bar">
+        <audio src={audioFile} controls className="player"></audio>
+        </div>
+        <div className="audio-bookmark">
+          <FaRegBookmark />
+        </div>
+      </div>
+    </>
   )
 }

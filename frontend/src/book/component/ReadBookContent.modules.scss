@@ -1,0 +1,30 @@
+.read-container {
+    font-family: 'Godo';
+    height: 70vh;
+    background-color: #FCDECF;
+    border-radius: 20px;
+    box-shadow: 2px 2px 2px rgb(66, 66, 66);
+    .read-content{
+        position: absolute;
+        border-radius: 20px;
+        box-shadow: 2px 2px 2px rgb(66, 66, 66);
+        background-color: white;
+        height: 55vh;
+        width: 95%;
+        left: 2.5%;
+        top: 5%;
+        display: flex;
+        align-items: center;
+        .vertical-line{
+            border: 2px solid black;
+            width: 0;
+            height: 40vh;
+            margin: 0 auto;
+        }
+    }
+    .read-page{
+        position: absolute;
+        bottom: 20%;
+        left: 44%;        
+    }
+}

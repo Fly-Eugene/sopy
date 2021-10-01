@@ -56,8 +56,11 @@ export function makeAudioFile(item){
     }
 }
 
-export function getTextFile(id, item){
-    const data = request('get', BOOK_URL + "/text/" + id, item)
+export function getTextFile(id, page){
+    const headers = {
+        Authorization : `Bearer ${localStorage.getItem('jwt')}`
+    }
+    const data = request('get', BOOK_URL + "/text/" + id + "?bookPage=" + page, '', headers)
     return{
         type: "GET_TEXT",
         payload: data

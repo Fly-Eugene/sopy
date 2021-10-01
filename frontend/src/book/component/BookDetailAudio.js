@@ -4,6 +4,7 @@ import { FaPlay, FaStop, FaRegBookmark } from 'react-icons/fa'
 import sample from '../../img/SAMPLE_1.MP3';
 import { useDispatch } from "react-redux";
 import { getAudioFile } from "../../store/actions/bookActions";
+import { useHistory } from "react-router";
 
 export default function BookDetailAudio(props) {
   const [filesrc, SetFilesrc] = useState('');
@@ -11,6 +12,7 @@ export default function BookDetailAudio(props) {
     getAudioFileHandler();
   })
   const dispatch = useDispatch();
+  const history = useHistory();
   const getAudioFileHandler = e => {
     dispatch(getAudioFile(props.book.id, 1))
     .then((res) => {
@@ -19,10 +21,17 @@ export default function BookDetailAudio(props) {
     })
     .catch((err) => console.log(err))
   }
+
+  const moveRead = e =>{
+    history.push({
+      pathname: '/read',
+      state: {book: props.book}
+    })
+  }
   return (
     <div className="audio-container">
       <div className="audio-command">
-        <p>텍스트랑 같이 보기</p>
+        <p onClick={moveRead} style={{cursor: "pointer"}}>텍스트랑 같이 보기</p>
       </div>
       <div className="audio-bar">
       <audio src={filesrc} controls className="player"></audio>

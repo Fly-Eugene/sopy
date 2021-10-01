@@ -50,7 +50,7 @@ public class BookController {
     }
     @GetMapping("/text/{bookId}")
     public Object getText(@PathVariable("bookId") Long bookId, @RequestParam Integer bookPage) throws IOException {
-        return bookService.getS3File(bookId, bookPage, "/text",".txt");
+        return bookService.getS3File(bookId, bookPage, "/txt",".txt");
     }
 
     @GetMapping("/main")
