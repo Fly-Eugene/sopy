@@ -5,29 +5,32 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
 @NoArgsConstructor
 public class Bookmark {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "bookmark_id")
     private Long Id;
+    private Integer page;
 
-    // Book, User 엔티티 연결 추가 필요
+    // xToOne의 기본 fetch 타입은 Eager 이므로 Lazy로 변경한다.
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "book_id")
+    private Book book;
 
-    private Long page;
-    private Long line;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @Builder
-    public Bookmark(Long id, Long page, Long line) {
+    public Bookmark(Long id, Integer page, Book book, User user) {
         Id = id;
         this.page = page;
-        this.line = line;
+        this.book = book;
+        this.user = user;
     }
-
 
 }

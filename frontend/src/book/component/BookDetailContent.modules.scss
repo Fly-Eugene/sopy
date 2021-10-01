@@ -1,0 +1,31 @@
+.content-container {
+  // border: 1px solid;
+  font-family: 'Godo';
+  height: 35vh;
+  margin-top: 20px;
+  border-radius: 20px;
+  background-color: #eeeeee;
+  box-shadow: 2px 2px 2px rgb(66, 66, 66);
+  position: relative;
+  h2 {
+    position: absolute;
+    left: 3%;
+  }
+  .content {
+    position: absolute;
+    width: 96%;
+    height: 70%;
+    top: 23%;
+    left: 2%;
+    background-color: #fff;
+    border-radius: 20px;
+    box-shadow: 2px 2px 2px rgb(66, 66, 66);
+    display: flex;
+    align-items: center;
+    .text{
+      width: 95%;
+      height: 80%;
+      margin: 0 auto;
+    }
+  }
+}

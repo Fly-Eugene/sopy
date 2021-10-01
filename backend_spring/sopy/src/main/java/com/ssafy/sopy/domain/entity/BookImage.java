@@ -14,7 +14,7 @@ public class BookImage extends Image {
     }
 
     @Builder
-    public BookImage(Long id, String imageName, String iamgeOrgName, String path, String thumbnail) {
-        super(id, imageName, iamgeOrgName, path, thumbnail);
+    public BookImage(Long id, String imageName, String imageOrgName, String path, String thumbnail) {
+        super(id, imageName, imageOrgName, path, thumbnail);
     }
 }

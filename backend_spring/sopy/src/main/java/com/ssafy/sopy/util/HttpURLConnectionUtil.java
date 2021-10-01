@@ -12,13 +12,19 @@ import java.util.HashMap;
 
 @Component
 public class HttpURLConnectionUtil {
+    private final int TIMEOUT;
+
+    public HttpURLConnectionUtil() {
+        this.TIMEOUT = 2100000000;
+    }
+
     public JSONObject get(String strUrl) {
         StringBuilder sb = new StringBuilder();
         try {
             URL url = new URL(strUrl);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setConnectTimeout(5000); //서버에 연결되는 Timeout 시간 설정
-            con.setReadTimeout(5000); // InputStream 읽어 오는 Timeout 시간 설정
+            con.setConnectTimeout(TIMEOUT); //서버에 연결되는 Timeout 시간 설정
+            con.setReadTimeout(TIMEOUT); // InputStream 읽어 오는 Timeout 시간 설정
             con.setRequestMethod("GET");
             con.setDoOutput(false);
 
@@ -38,7 +44,8 @@ public class HttpURLConnectionUtil {
         } catch (Exception e) {
             System.err.println(e.toString());
         } finally {
-            return new JSONObject(sb.toString());
+            return null;
+//            return new JSONObject(sb.toString());
         }
     }
 
@@ -47,8 +54,8 @@ public class HttpURLConnectionUtil {
         try {
             URL url = new URL(strUrl);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setConnectTimeout(5000); //서버에 연결되는 Timeout 시간 설정
-            con.setReadTimeout(5000); // InputStream 읽어 오는 Timeout 시간 설정
+            con.setConnectTimeout(TIMEOUT); //서버에 연결되는 Timeout 시간 설정
+            con.setReadTimeout(TIMEOUT); // InputStream 읽어 오는 Timeout 시간 설정
             con.setRequestMethod("POST");
             con.setRequestProperty("Content-Type", "application/json");
             con.setDoInput(true);
@@ -57,7 +64,9 @@ public class HttpURLConnectionUtil {
             con.setDefaultUseCaches(false);
 
             OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
-            wr.write(mapToJsonStr((HashMap<String, String>) jsonData)); //json 형식의 message 전달
+            System.out.println(mapToJsonStr((HashMap<String, String>) jsonData));
+//            wr.write("{\"name\": \"Upendra\", \"job\": \"Programmer\"}"); //json 형식의 message 전달
+            wr.write(mapToJsonStr((HashMap<String, String>) jsonData));
             wr.flush();
 
             if (con.getResponseCode() == HttpURLConnection.HTTP_OK) {
@@ -83,8 +92,11 @@ public class HttpURLConnectionUtil {
         StringBuilder sb = new StringBuilder();
         sb.append("{");
         map.forEach((key, value)->{
-            sb.append(key + ":" + value + ", ");
+            sb.append("\""+ key + "\"" + ": " + "\"" + convert(value) + "\"" + ", ");
         });
         return sb.toString().substring(0, sb.length()-2) + "}";
+    }
+    public String convert(String src){
+        return src.replace("\\", "/");
     }
 }

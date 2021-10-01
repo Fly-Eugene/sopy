@@ -1,3 +1,5 @@
+@import url('https://cdn.rawgit.com/young-ha/webfont-archive/master/css/Godo.css');
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -5,9 +7,17 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.router-body {
+  position: relative;
+  width: 80%;
+  margin-top: 30px;
+  left: 10%;
 }

@@ -1,0 +1,57 @@
+$font-kopub: 'KoPub Batang';
+
+.infobox{
+    font-family: $font-kopub;
+    background-color: #FFE6DB;
+    text-align: center;
+    height: 80vh;
+    width: 40vw;;
+    border-radius: 0 15px 15px 0;
+    margin: 0 auto;
+    display: table-cell;
+    vertical-align: middle;
+    h1{
+        margin: 0;
+        font-size: 4rem;
+    }
+    .userInfo{
+        color: #595353;
+        input{
+            background-color: #EDD9D9;
+            width: 60%;
+            height: 5vh;
+            font-size: 1rem;
+            margin: 1%;
+            border-radius: 20px;
+            border: none;
+            font-family: inherit;
+            outline-style: none;
+        }
+    }
+    .checkword{
+        margin-top: 7%;
+        height: 15px;
+        width: 15px;
+        
+        font-size: 14px;
+
+        border: 2px solid black;
+        display: inline-block;
+    }
+    .signbtn{
+        margin: 20px 0;
+        font-family: 'Gogo';
+        background-color: #E94846;
+        color: white;
+        border: none;
+        border-radius: 20px;
+        width: 30%;
+        height: 5vh;
+        font-size: 1.5rem;
+        cursor: pointer;
+    }
+    a{
+        text-decoration: none;
+        color: blue;   
+    }
+}

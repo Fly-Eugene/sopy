@@ -18,10 +18,23 @@ from django.views.decorators.csrf import csrf_exempt
 
 from EasyOCR.run import Model
 
+# s3 관련 설정
+import urllib.request
+import boto3
+
+AWS_ACCESS_KEY_ID = "AKIA2ZWH2NHW3PTUEASC"
+AWS_SECRET_ACCESS_KEY = "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"
+AWS_DEFAULT_REGEION = "ap-northeast-2"
+AWS_BUCKET_NAME = "sopy"
+
+client = boto3.client('s3', aws_access_key_id=AWS_ACCESS_KEY_ID,
+                      aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+                      region_name=AWS_DEFAULT_REGEION)
 
 # Create your views here.
-
 # text 파일 저장해서, 경로 보내기 !!
+
+
 def ex_change(txt, target_txt):
     idx = txt.rfind('.') + 1
     return txt[:idx] + target_txt
@@ -46,12 +59,15 @@ def get_files(path):
 def book_ocr(request):
     data = json.loads(request.body.decode('utf-8'))
 
-    # "EasyOCR/workspace/demo_images"  => 성공  ## 데이터 저장 장소
     path = data['path']
-    name = data['name']  # book123.PNG  ## 책 id
+    page_cnt = data['pageSize']
+    print("===============================================")
+    print(path, page_cnt)
+    print("===============================================")
+    # name = data['name']  # book123.PNG  ## 책 id
 
     ocr_model = Model()
-    ocr_model.easyOCR(path, name)
+    ocr_model.easyOCR(path, page_cnt)
 
     return Response("OK", status=status.HTTP_201_CREATED)
 
@@ -60,30 +76,41 @@ def book_ocr(request):
 @api_view(['POST'])
 def tts(request):
     data = json.loads(request.body.decode('utf-8'))
-
-    path = data['path']  # web/static/text/ => 추후엔 책 이름까지 있는 파일 경로 ??
-    name = data['name']  # 아니면 이게 책 이름?
+    path = data['path']
+    page_cnt = data['pageSize']
 
     # 해당 책의 txt 파일들이 모여있는 경로 저장
-    txt_path = "{}/{}/text".format(path, name)
-    sound_path = "{}/{}/sound".format(path, name)
+    txt_path = "{}/txt".format(path)
+    sound_path = "{}/sound".format(path)
 
     # sound_path 에 파일을 있으면 안만들고, 없으면 만든다.
     os.makedirs(sound_path, exist_ok=True)
 
     # 해당 path 에서 file 리스트를 불러온다 ex) [0101.txt, 01012.txt, ...]
-    files, count = get_files(txt_path)
+    # files, count = get_files(txt_path)
 
-    for idx, file in enumerate(files):
-        filename = os.path.basename(file)
-        txt = open(txt_path + '/' + filename, 'rt', encoding='UTF8')
+    text = ''
+    for idx in range(1, int(page_cnt)+1):
+        text = text_read(idx, txt_path, text)
 
-        if txt:
-            text = ''
-            for line in txt.readlines():
-                text += line
-            tts_ko = gTTS(text=text, lang='ko')
-            tts_ko.save(sound_path + '/' + ex_change(filename, 'mp3'))
+    tts_ko = gTTS(text=text, lang='ko')
+    tts_ko.save(sound_path + '/1.wav')
+    # s3에 저장하는 코드
+    client.upload_file(sound_path + '/1.wav',
+                       "sopy", sound_path + "/1.wav")
 
-        return JsonResponse({'result': 'OK', 'data': sound_path}, status=status.HTTP_201_CREATED)
-    return JsonResponse({'result': 'ERROR'}, status=status.HTTP_400_BAD_REQUEST)
+    return JsonResponse({'result': 'OK', 'data': sound_path}, status=status.HTTP_201_CREATED)
+    # return JsonResponse({'result': 'ERROR'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+def text_read(idx, txt_path, text):
+
+    data = urllib.request.urlopen(
+        "https://sopy.s3.ap-northeast-2.amazonaws.com/{}/{}.txt".format(txt_path, idx))
+
+    if data:
+        for line in data:
+            print(line.decode('utf-8'))
+            text += line.decode('utf-8')
+
+        return text
