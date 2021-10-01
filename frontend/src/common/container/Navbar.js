@@ -3,10 +3,10 @@ import './Navbar.modules.scss'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux';
 function Navbar() {
-  const data = useSelector(state => state.userReducer[0].data);
+  const data = useSelector(state => state.userReducer[0]);
   let admin = false;
   if(data){
-    if(data.user && data.user.email == 'admin@sopy.com')
+    if(data.data.user && data.data.user.email == 'admin@sopy.com')
       admin = true;
   }
   console.log(data)
