@@ -93,8 +93,6 @@ def tts(request):
     for idx in range(1, int(page_cnt)+1):
         text = text_read(idx, txt_path, text)
 
-    print(text)
-
     tts_ko = gTTS(text=text, lang='ko')
     tts_ko.save(sound_path + '/1.wav')
     # s3에 저장하는 코드
