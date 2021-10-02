@@ -13,12 +13,12 @@ export class Wave {
         this.stageWidth = stageWidth;
         this.stageHeight = stageHeight;
 
-        /* 중간을 각각 넓이, 높이를 2로 나눈 값으로 지정 */
+        // 화면의 중앙에 그릴 것이기 때문에, /2 를 한다.
         this.centerX = stageWidth / 2;
-        this.centerY = stageHeight / 2;
+        this.centerY = stageHeight / 3;
         this.pointGap = this.stageWidth / (this.totalPoints - 1);
 
-        /* 초기화 함수로 넘어가기 */
+        // 포인트 함수를 실행해주기
         this.init();
     }
 
@@ -42,7 +42,7 @@ export class Wave {
         /* 점의 시작점으로 붓 이동하기 */
         ctx.moveTo(prevX, prevY);
     
-        for (let i = 0; i < this.totalPoints; i++) {
+        for (let i = 1; i < this.totalPoints; i++) {
 
             if (i < this.totalPoints - 1){
                 this.points[i].update();
@@ -57,17 +57,13 @@ export class Wave {
             prevX = this.points[i].x;
             prevY = this.points[i].y;
         
-            /* 공의 위치 변경하기 */
-            if (i !== 0 && i !== this.numberOfPoints - 1) {
-                this.points[i].update();
-            }
         }
         
         /* 붓을 오른쪽 모서리부터 왼쪽 모서리 그리고 첫번째 점 위치까지 옮기면서 색칠해줍니다. */
         ctx.lineTo(prevX, prevY);
         ctx.lineTo(this.stageWidth, this.stageHeight);
         // ctx.lineTo(0, this.stageHeight);
-        ctx.lineTo(this.points[0].x, this.points[0].y);
+        ctx.lineTo(this.points[0].x, this.stageHeight);
     
         /* 색상 RED & 채우기 */
         // ctx.fillStyle = '#ff0000';
