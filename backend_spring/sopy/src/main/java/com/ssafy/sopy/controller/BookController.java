@@ -1,14 +1,8 @@
 package com.ssafy.sopy.controller;
-
-//import com.ssafy.sopy.dto.BookFileReqDto;
-//import com.ssafy.sopy.dto.BookDto;
-//import com.ssafy.sopy.dto.BookReqDto;
-//import com.ssafy.sopy.dto.BookSearchReqDto;
-
-import com.ssafy.sopy.domain.entity.Book;
 import com.ssafy.sopy.dto.*;
 import com.ssafy.sopy.service.BookService;
 import com.ssafy.sopy.service.BookmarkService;
+import com.ssafy.sopy.service.UserBookmarkService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,10 +14,12 @@ import java.util.List;
 public class BookController {
     private final BookService bookService;
     private final BookmarkService bookmarkService;
+    private final UserBookmarkService userBookmarkService;
 
-    public BookController(BookService bookService, BookmarkService bookmarkService) {
+    public BookController(BookService bookService, BookmarkService bookmarkService, UserBookmarkService userBookmarkService) {
         this.bookService = bookService;
         this.bookmarkService = bookmarkService;
+        this.userBookmarkService = userBookmarkService;
     }
 
     @PostMapping
@@ -96,5 +92,15 @@ public class BookController {
     @PostMapping("/api/v1/upload")
     public String uploadImage(MultipartFile file) {
         return bookService.uploadImage(file);
+    }
+
+    @PostMapping("/bookmark")
+    public Object setBookmark(@RequestBody UserBookmarkDto params){
+        System.out.println("params = " + params);
+        return userBookmarkService.setUserBookmark(params);
+    }
+    @GetMapping("/bookmark/{bookId}")
+    public Object getBookmark(@PathVariable("bookId") Long bookId){
+        return userBookmarkService.getUserBookmark(bookId);
     }
 }
