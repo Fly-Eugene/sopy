@@ -22,7 +22,7 @@ function Navbar() {
       <div className="navbar">
         <h1>소피의 책방</h1>
         <div className="navbar-right">
-          <p><Link to='/'>개요</Link></p>     
+          <p><Link to='/'>메인</Link></p>     
           <p><Link to='/find'>책 찾기</Link></p>
           {!admin && login && <p><Link to ='/user'>회원정보</Link></p>}
           {admin && login && <p><Link to ='/admin'>관리페이지</Link></p>}
