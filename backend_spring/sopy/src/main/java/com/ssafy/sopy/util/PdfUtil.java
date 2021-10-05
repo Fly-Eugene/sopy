@@ -42,8 +42,7 @@ public class PdfUtil {
             // 파일 url
             System.out.println("save path = " + awsS3UploadService.getFileUrl(resultImgPath.getPath(), fileName.toString()));
             // 해당 경로 파일 확인
-            System.out.println("getDir = " + awsS3UploadService.getDir(resultImgPath.getPath(), fileName.toString()));
-
+            System.out.println("resultImgPath = " + resultImgPath.getPath() + fileName.toString());
 
             // 서버 임시저장 안되면 InputStream 만들어서 저장, 그러면 metadata 문제 처리해줘야함
 //            BufferedImage bim = pdfRenderer.renderImageWithDPI(i, 300, ImageType.RGB);
