@@ -253,6 +253,17 @@ public class BookService {
         return s3Service.getFileUrl(book.getDirPath() + dir, bookPage.toString() + type).replace("%5C", "/");
     }
 
+    @Transactional(readOnly = false)
+    public Object getTextFile(Long bookId, Integer bookPage, String dir, String type) throws IOException {
+        Book book = bookRepository.getById(bookId);
+        bookmarkService.setBookmark(book, bookPage);
+        String directory = (book.getDirPath() + dir).replace("\\", "/");
+        String fileName = bookPage.toString() + type;
+        System.out.println("directory = " + directory + " " + fileName);
+//        directory = "c:/sopy/upload/2021/09/30/0bb7127f-489b-4539-8045-769e62621ece/txt";
+        return s3Service.getText(directory, fileName);
+    }
+
     class PathNode {
         String path, name;
         public PathNode() {
