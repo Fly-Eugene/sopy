@@ -20,7 +20,7 @@ function Navbar() {
   }
     return (
       <div className="navbar">
-        <h1>소피의 책방</h1>
+        <h1><Link to='/'>소피의 책방</Link></h1>
         <div className="navbar-right">
           <p><Link to='/'>메인</Link></p>     
           <p><Link to='/find'>책 찾기</Link></p>
