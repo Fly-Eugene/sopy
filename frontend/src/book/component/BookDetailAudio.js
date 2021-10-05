@@ -36,9 +36,6 @@ export default function BookDetailAudio(props) {
       <div className="audio-bar">
       <audio src={filesrc} controls className="player"></audio>
       </div>
-      <div className="audio-bookmark">
-        <FaRegBookmark />
-      </div>
     </div>
   )
 }

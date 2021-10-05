@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { Grid } from '@material-ui/core';
 import { getTextFile, getAudioFile } from '../../store/actions/bookActions';
 import PageNum from '../../common/component/PageNum';
-import { FaRegBookmark } from 'react-icons/fa';
+import { FaBookmark, FaRegBookmark } from 'react-icons/fa';
 import { useHistory } from 'react-router';
 
 export default function ReadBookContent(props) {
