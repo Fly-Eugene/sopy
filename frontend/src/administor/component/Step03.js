@@ -32,8 +32,8 @@ const Step03 = (props) => {
         for(var i = 0; i < e.target.files.length; i++){
             if(e.target.files[i].type =='application/pdf') fd.append('pdfFile', e.target.files[i]);
             if(e.target.files[i].type == 'image/png') fd.append('imageFiles', e.target.files[i]);
+            if(e.target.files[i].type == 'image/jpeg') fd.append('imageFiles', e.target.files[i]);
         }
-        fd.append('pdfFile', e.target.files[0])
         console.log(e.target.files)
         console.log(imagefiles)
         dispatch(makeTextFile(fd, props.book.id))

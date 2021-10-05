@@ -45,7 +45,7 @@
         font-family: 'Godo', sans-serif;
         font-weight: 600;
         position: relative;
-        height: 60vh;
+        height: 50vh;
         .search-book-inner {
           position: absolute;
           height: 100%;
@@ -82,5 +82,9 @@
             height: 10vh;
           }
         }
+      }
+      .page-container{
+        width: 10vw;
+        margin: 0 auto;
       }
 }

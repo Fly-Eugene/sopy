@@ -231,7 +231,7 @@ public class BookService {
         List<BookDto> results = new ArrayList<>();
 
         for (UserLike userLike : userLikeList) {
-            Long bookId = userLike.getId();
+            Long bookId = userLike.getBook().getId();
             Book book = bookRepository.getById(bookId);
             results.add(book.entityToDto());
         }
