@@ -61,9 +61,25 @@ window.onload = () => {
   // new WaveApp();
   var siriWave = new SiriWave({
     container : document.querySelector(".siri-container"),
-    width: 1000,
-    height: 500,
-    style: 'ios9'
+    width: 1200,
+    height: 600,
+    style: 'ios9',
+    curveDefinition: [
+      {
+        color: "0,0,0",
+        supportLine: true,
+      },
+      {
+        color: "207, 239, 252" // 파스텔 blue
+      },
+      {
+        color: "255, 98, 98"  // sopy 파스텔 red
+      },
+      {
+        color: "255, 239, 188"  // 파스텔 yellow
+        // color : "194, 255, 172"  // 파스텔 green
+      }
+    ]
   })
 };
 
@@ -71,9 +87,8 @@ const Main = () => {
 
   return (
     <div className="mainbox">
-      <h1 className="mainIntro">
-        Sopy, Sound of Paper for you
-      </h1>
+      <h1 className="mainIntro"> SOPY's Library </h1>
+      <h1 className="mainIntro">Sound of paper for You</h1>
       <div className="siri-container"></div>
       {/* <canvas className="wave"></canvas> */}
     </div>
