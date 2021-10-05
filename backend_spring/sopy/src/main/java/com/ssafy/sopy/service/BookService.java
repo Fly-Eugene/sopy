@@ -99,8 +99,10 @@ public class BookService {
         File textDir = new File(book.getDirPath() + "/" + "text");
         if(!textDir.exists()) textDir.mkdirs();
         filesService.saveDir(textDir, book);
-        return resultDir.getParent();
+//        return resultDir.getParent();
+        return book.entityToDto();
     }
+
     @Transactional
     public Object makeAudio(Long bookId) throws IOException {
         Book book = bookRepository.getById(bookId);

@@ -16,6 +16,7 @@ const Step03 = (props) => {
     const [audioFiles, setAudioFiles] = useState('');
     const [text, setText] = useState('텍스트 열기');
     const [loading, setLoading] = useState(false);
+    const [book, setBook] = useState('');
 
     const handleFileOnChange = (e) => {
         e.preventDefault();
@@ -36,6 +37,7 @@ const Step03 = (props) => {
         .then((res) =>{
             console.log(res);
             setLoading(false);
+            setBook(res.payload.data);
             alert('생성하기 버튼을 눌러주세요')
           })
           .catch((err) => {
@@ -55,7 +57,7 @@ const Step03 = (props) => {
             alert('오디오북이 생성되었습니다')
             history.push({
                 pathname: "/book",
-                state: {book: props.book}
+                state: {book: book}
             })
           })
           .catch((err) => {

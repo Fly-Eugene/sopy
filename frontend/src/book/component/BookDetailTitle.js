@@ -80,10 +80,6 @@ export default function BookDetailTitle(props) {
                 <p>{book.genre}</p>
               </div>
               <div>
-                <p>재생시간</p>
-                <p>00:43:19</p>
-              </div>
-              <div>
                 <p>출판사</p>
                 <p>{book.publisher}</p>
               </div>

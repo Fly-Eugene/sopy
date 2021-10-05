@@ -69,6 +69,7 @@ const Main = () => {
       width: 1200,
       height: 600,
       style: 'ios9',
+      speed: 0.2,
       curveDefinition: [
         {
           color: "0,0,0",
