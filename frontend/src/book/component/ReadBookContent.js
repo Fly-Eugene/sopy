@@ -31,7 +31,7 @@ export default function ReadBookContent(props) {
       .then((res) => {
         console.log(res.payload.data);
         setBookList(booklist => [...booklist, res.payload.data]);
-        SetPage(1);
+        // SetPage(1);
         // readTextFile(res.payload.data);
       })
       .catch((err) => console.log(err));
@@ -48,8 +48,10 @@ export default function ReadBookContent(props) {
   const getBookMarkHandler = e =>{
     dispatch(getBookmark(props.book.id))
     .then((res) => {
-      // console.log(res.payload.data);
+      console.log(res.payload.data);
       setBookmark(res.payload.data);
+      if(res.payload.data == 0) SetPage(1);
+      else SetPage(res.payload.data);
     })
     .catch((err) => console.log(err));
   }
