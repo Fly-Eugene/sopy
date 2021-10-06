@@ -11,7 +11,10 @@ const bookReducer = (state = [], action) => {
         case "GET_LIKE":
         case "GET_TEXT":
         case "GET_AUDIO":  
-        case "GET_READ":  
+        case "GET_READ":
+        case "ADD_BOOKMARK":
+        case "GET_BOOKMARK":
+        case "DELETE_BOOKMARK":  
             return [action.payload];
         default:
             return state;

@@ -121,3 +121,36 @@ export function getRead(){
         payload: data
     }
 }
+
+export function addBookmark(item){
+    const headers = {
+        Authorization : `Bearer ${localStorage.getItem('jwt')}`
+    }
+    const data = request("post", BOOK_URL + "/bookmark", item, headers)
+    return{
+        type:"ADD_BOOKMARK",
+        payload: data
+    }
+}
+
+export function getBookmark(id){
+    const headers = {
+        Authorization : `Bearer ${localStorage.getItem('jwt')}`
+    }
+    const data = request("get", BOOK_URL + "/bookmark/" + id, '', headers)
+    return{
+        type:"GET_BOOKMARK",
+        payload: data
+    }    
+}
+
+export function deleteBookmark(id){
+    const headers = {
+        Authorization : `Bearer ${localStorage.getItem('jwt')}`
+    }
+    const data = request("delete", BOOK_URL + "/bookmark/" + id, '', headers)
+    return{
+        type:"DELETE_BOOKMARK",
+        payload: data
+    }  
+}

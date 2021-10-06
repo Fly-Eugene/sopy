@@ -3,7 +3,7 @@ import './ReadBookContent.modules.scss'
 import bookCover from '../../img/book-cover.jpg'
 import { useDispatch } from 'react-redux';
 import { Grid } from '@material-ui/core';
-import { getTextFile, getAudioFile } from '../../store/actions/bookActions';
+import { getTextFile, getAudioFile, addBookmark, getBookmark, deleteBookmark } from '../../store/actions/bookActions';
 import PageNum from '../../common/component/PageNum';
 import { FaBookmark, FaRegBookmark } from 'react-icons/fa';
 import { useHistory } from 'react-router';
@@ -21,6 +21,7 @@ export default function ReadBookContent(props) {
   useEffect(() => {
     getTextFileHandler();
     getAudioFileHandler();
+    getBookMarkHandler();
   },[])
   const getTextFileHandler = e =>{
     console.log(props.book);
@@ -44,12 +45,32 @@ export default function ReadBookContent(props) {
     })
     .catch((err) => console.log(err));
   }
-
+  const getBookMarkHandler = e =>{
+    dispatch(getBookmark(props.book.id))
+    .then((res) => {
+      // console.log(res.payload.data);
+      setBookmark(res.payload.data);
+    })
+    .catch((err) => console.log(err));
+  }
   const bookmarkHanlder = e =>{
     if(bookmark != 0){
-      setBookmark(0);
+      dispatch(deleteBookmark(props.book.id))
+      .then((res) => {
+        setBookmark(0);
+      })
+      .catch((err) => console.log(err));
       return;
     }
+    const data = {
+      page: page,
+      bookId: props.book.id
+    }
+    dispatch(addBookmark(data))
+    .then((res) => {
+      console.log(res.payload.data);
+    })
+    .catch((err) => console.log(err));
     setBookmark(page)
   }
   const moveDetail = e =>{
