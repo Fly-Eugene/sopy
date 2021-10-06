@@ -16,14 +16,12 @@ export default function UserInfo() {
   const getBookList = e => {
     dispatch(getRead())
     .then((res) => {
-      console.log(res.payload.data)
       setBooklist(res.payload.data)
     })
     .catch((err) => console.log(err));
   }
 
   const user = useSelector(state => state.userReducer[0].data.user);
-  console.log(user);
   return (
     <div className="info-container">
       <div className="info-left">

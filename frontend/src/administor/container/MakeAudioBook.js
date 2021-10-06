@@ -26,7 +26,6 @@ const MakeAudioBook = () => {
   const [book, setBook] = useState({})
 
   const getBookName = (bookName) =>{
-    console.log(bookName)
     setTitle(bookName);
   }
   const getImageFile = (img) => {
@@ -66,11 +65,8 @@ const MakeAudioBook = () => {
     fd.append('translator', translator);
     fd.append('publisher', publisher);
     fd.append('publishedDate', publishedDate);
-    console.log(imageFile);
-    console.log(fd);
     dispatch(makeBook(fd))
     .then((res) =>{
-      console.log(res);
       setBook(res.payload.data);
     })
     .catch((err) => {

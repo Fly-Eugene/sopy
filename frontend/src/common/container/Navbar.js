@@ -9,7 +9,6 @@ function Navbar() {
     if(data.data.user && data.data.user.email == 'admin@sopy.com')
       admin = true;
   }
-  console.log(data)
   let login = localStorage.getItem('jwt');
 
   const logout = (e) =>{

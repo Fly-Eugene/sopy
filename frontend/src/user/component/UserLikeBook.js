@@ -31,7 +31,6 @@ export default function UserLikeBook() {
   const getBookList = e => {
     dispatch(getLikes())
     .then((res) => {
-      console.log(res.payload.data.book)
       setBooklist(res.payload.data.book)
       var arr = [];
       setPage(0);

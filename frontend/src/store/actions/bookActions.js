@@ -8,7 +8,6 @@ export function makeBook(item) {
         'Content-type' : 'multipart/form-data',
         Authorization : `Bearer ${localStorage.getItem('jwt')}`
     }
-    console.log(item)
     const data = request("post", BOOK_URL, item, {headers});
 
     return{
@@ -37,7 +36,6 @@ export function makeTextFile(item, id){
     const headers = {
         'Content-type' : 'multipart/form-data',
     }
-    console.log(item)
     const data = request("post", BOOK_URL + "/text/" + id, item, {headers})
     return{
         type: "MAKE_TEXT",

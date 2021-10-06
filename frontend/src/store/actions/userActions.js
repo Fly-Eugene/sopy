@@ -6,7 +6,6 @@ export function join(item) {
     const headers = {
         'Content-type' : 'multipart/form-data'
     }
-    console.log(item)
     const data = request("post", USER_URL + "/join", item, {headers});
 
     return{

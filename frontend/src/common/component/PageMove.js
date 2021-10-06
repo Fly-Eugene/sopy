@@ -24,8 +24,6 @@ export default function PageMove({booklist, title}) {
       load();
   },[])
   const load = e => {
-      console.log(booklist)
-      console.log(bookarr)
       var arr = [];
       for(var i = 0; i < 3; i++){
           if(booklist[i]) {

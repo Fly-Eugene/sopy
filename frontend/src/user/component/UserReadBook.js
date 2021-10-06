@@ -30,7 +30,6 @@ export default function UserReadBook() {
   const getBookList = e => {
     dispatch(getRead())
     .then((res) => {
-      console.log(res.payload.data)
       setBooklist(res.payload.data)
       var arr = [];
       setPage(0);

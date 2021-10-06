@@ -13,8 +13,6 @@ class WaveApp {
     // this.canvas = document.createElement('canvas');
     this.canvas = document.querySelector(".wave")
     
-    console.log(this.canvas)
-    console.log(this.canvas_sub)
     this.ctx = this.canvas.getContext('2d');
     
     /* 현재 html 문서의 body에 캔버스 엘리먼트 추가하기 */

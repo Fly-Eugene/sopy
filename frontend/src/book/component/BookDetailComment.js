@@ -46,7 +46,6 @@ export default function BookDetailComment(props) {
     }
     dispatch(addComment(data))
     .then((res) =>{
-      console.log(res);
       alert('댓글이 등록되었습니다')
       getCommentList();
       setComment('');
@@ -58,7 +57,6 @@ export default function BookDetailComment(props) {
   }
 
   const deleteCommentHandler = (params, e) => {
-    console.log(params)
     dispatch(deleteComment(params))
     .then((res) => {
       alert('댓글이 삭제되었습니다.')
@@ -78,7 +76,6 @@ export default function BookDetailComment(props) {
     }
     dispatch(modifyComment(data))
     .then((res) =>{
-      console.log(res);
       alert('댓글이 수정되었습니다')
       getCommentList();
       setMode('')

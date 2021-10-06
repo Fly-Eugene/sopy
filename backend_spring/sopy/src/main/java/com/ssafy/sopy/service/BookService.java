@@ -112,6 +112,7 @@ public class BookService {
         jsonData.put("path", book.getDirPath());
         jsonData.put("pageSize", book.getPageSize().toString());
         httpURLConnectionUtil.post(djangoURL + "book/tts/", jsonData);
+        httpURLConnectionUtil.post(djangoURL + "book/tts2/", jsonData);
 
 //        File soundDir = new File(book.getDirPath() + "/" + "sound");
 //        System.out.println("soundDir.getPath() = " + soundDir.getPath());

@@ -24,23 +24,18 @@ export default function ReadBookContent(props) {
     getBookMarkHandler();
   },[])
   const getTextFileHandler = e =>{
-    console.log(props.book);
     setBookList([]);
     for(var i = 0; i < props.book.pageSize; i++){
       dispatch(getTextFile(props.book.id, i+1))
       .then((res) => {
-        console.log(res.payload.data);
         setBookList(booklist => [...booklist, res.payload.data]);
-        // SetPage(1);
-        // readTextFile(res.payload.data);
       })
       .catch((err) => console.log(err));
     }
   }
   const getAudioFileHandler = e => {
-    dispatch(getAudioFile(props.book.id,1))
+    dispatch(getAudioFile(props.book.id, props.voice))
     .then((res) => {
-      console.log(res.payload.data);
       SetAudioFile(res.payload.data);
     })
     .catch((err) => console.log(err));
@@ -48,7 +43,6 @@ export default function ReadBookContent(props) {
   const getBookMarkHandler = e =>{
     dispatch(getBookmark(props.book.id))
     .then((res) => {
-      console.log(res.payload.data);
       setBookmark(res.payload.data);
       if(res.payload.data == 0) SetPage(1);
       else SetPage(res.payload.data);
@@ -70,7 +64,6 @@ export default function ReadBookContent(props) {
     }
     dispatch(addBookmark(data))
     .then((res) => {
-      console.log(res.payload.data);
     })
     .catch((err) => console.log(err));
     setBookmark(page)
