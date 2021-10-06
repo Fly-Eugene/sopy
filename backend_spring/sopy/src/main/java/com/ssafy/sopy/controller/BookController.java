@@ -103,4 +103,8 @@ public class BookController {
     public Object getBookmark(@PathVariable("bookId") Long bookId){
         return userBookmarkService.getUserBookmark(bookId);
     }
+    @DeleteMapping("/bookmark/{bookId}")
+    public void deleteBookmark(@PathVariable("bookId") Long bookId){
+        userBookmarkService.deleteUserBookmark(bookId);
+    }
 }
