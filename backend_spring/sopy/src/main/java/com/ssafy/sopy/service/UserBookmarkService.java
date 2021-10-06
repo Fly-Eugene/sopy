@@ -36,7 +36,14 @@ public class UserBookmarkService {
     }
 
     public Object getUserBookmark(Long bookId) {
-        return userBookmarkRepository.getByBookAndUser(bookRepository.getById(bookId), getUser()).getPage();
+        UserBookmark userBookmark = userBookmarkRepository.getByBookAndUser(bookRepository.getById(bookId), getUser());
+        return userBookmark == null ? 0 : userBookmark.getPage();
+    }
+
+    public void deleteUserBookmark(Long bookId) {
+        Book book = bookRepository.getById(bookId);
+        User user = getUser();
+        userBookmarkRepository.delete(userBookmarkRepository.getByBookAndUser(book, user));
     }
 
     private User getUser() {
