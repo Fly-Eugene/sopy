@@ -19,12 +19,33 @@
             border: 2px solid black;
             width: 0;
             height: 40vh;
-            margin: 0 auto;
+            float: right;
+        }
+        .read-text{
+            padding-left: 2vw;
         }
     }
     .read-page{
         position: absolute;
         bottom: 20%;
-        left: 44%;        
+        display: flex;
+        width: 100%;
+        align-items: center;
+        .prevBtn{
+            position: inherit;
+            left: 40%;
+            cursor: pointer;
+        }
+        .nextBtn{
+            position: inherit;
+            right: 40%;
+            cursor: pointer;
+        }
+        img{
+            width: 1vw;
+        }
+        .page{
+            margin: 0 auto;
+        }        
     }
 }

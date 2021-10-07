@@ -13,6 +13,10 @@ $font-kopub: 'KoPub Batang';
     position: absolute;
     display: inline-block;
     top: 4%;
+    a{
+      color: black;
+      text-decoration: none;
+    }
   }
   .navbar-right {
     position: absolute;

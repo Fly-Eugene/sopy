@@ -45,7 +45,6 @@ const SignInContent = (props) => {
         }
         
          var fd = new FormData();
-         console.log(imageFile);
           fd.append('userImage', imageFile);
           fd.append('email', email);
           fd.append('password', password);
@@ -55,7 +54,6 @@ const SignInContent = (props) => {
           dispatch(join(fd))
           .then((res) =>{
             alert('회원가입이 완료되었습니다!');
-            console.log(res);
             history.push("/login");
           })
           .catch((err) => {

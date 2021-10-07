@@ -1,0 +1,26 @@
+$font-kopub: "KoPub Batang";
+
+.mainbox {
+  position: relative;
+  display: flex;
+  margin-top: 8%;
+  flex-direction: column;
+  align-content: center;
+  width: 100%;
+  justify-content: space-around;
+  flex-wrap: wrap;
+
+  .mainIntro {
+    font-size: 70px;
+    margin-bottom: 0px;
+    text-align: center;
+    font-family: $font-kopub;
+  }
+  .mainIntro2 {
+    font-size: 50px;
+    color: gray;
+    margin-bottom: 0px;
+    text-align: center;
+    font-family: $font-kopub;
+  }
+}

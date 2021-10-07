@@ -99,8 +99,10 @@ public class BookService {
         File textDir = new File(book.getDirPath() + "/" + "text");
         if(!textDir.exists()) textDir.mkdirs();
         filesService.saveDir(textDir, book);
-        return resultDir.getParent();
+//        return resultDir.getParent();
+        return book.entityToDto();
     }
+
     @Transactional
     public Object makeAudio(Long bookId) throws IOException {
         Book book = bookRepository.getById(bookId);
@@ -110,6 +112,7 @@ public class BookService {
         jsonData.put("path", book.getDirPath());
         jsonData.put("pageSize", book.getPageSize().toString());
         httpURLConnectionUtil.post(djangoURL + "book/tts/", jsonData);
+        httpURLConnectionUtil.post(djangoURL + "book/tts2/", jsonData);
 
 //        File soundDir = new File(book.getDirPath() + "/" + "sound");
 //        System.out.println("soundDir.getPath() = " + soundDir.getPath());
@@ -231,7 +234,7 @@ public class BookService {
         List<BookDto> results = new ArrayList<>();
 
         for (UserLike userLike : userLikeList) {
-            Long bookId = userLike.getId();
+            Long bookId = userLike.getBook().getId();
             Book book = bookRepository.getById(bookId);
             results.add(book.entityToDto());
         }
@@ -251,6 +254,17 @@ public class BookService {
         Book book = bookRepository.getById(bookId);
         bookmarkService.setBookmark(book, bookPage);
         return s3Service.getFileUrl(book.getDirPath() + dir, bookPage.toString() + type).replace("%5C", "/");
+    }
+
+    @Transactional(readOnly = false)
+    public Object getTextFile(Long bookId, Integer bookPage, String dir, String type) throws IOException {
+        Book book = bookRepository.getById(bookId);
+        bookmarkService.setBookmark(book, bookPage);
+        String directory = (book.getDirPath() + dir).replace("\\", "/");
+        String fileName = bookPage.toString() + type;
+        System.out.println("directory = " + directory + " " + fileName);
+//        directory = "c:/sopy/upload/2021/09/30/0bb7127f-489b-4539-8045-769e62621ece/txt";
+        return s3Service.getText(directory, fileName);
     }
 
     class PathNode {

@@ -45,5 +45,11 @@ $font-kopub: 'KoPub Batang';
     }
   }
 }
+.root{
+  -ms-overflow-style: none;
+}
+::-webkit-scrollbar{
+  display: none;
+}
 
 

@@ -26,7 +26,6 @@ const LoginContent = (props) => {
             alert('로그인이 완료되었습니다!');
             localStorage.setItem('jwt', res.payload.data.token)
             // axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('jwt')}`
-            console.log(res);
             history.push("/");
             window.location.replace("/");
           })

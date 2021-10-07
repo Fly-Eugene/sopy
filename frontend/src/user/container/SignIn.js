@@ -8,7 +8,6 @@ export default function SignIn() {
   const [imageFile, setImageFile] = useState('')
 
   const getImageFile = (img) => {
-    console.log('dddd'+img)
     setImageFile(img);
   }
 

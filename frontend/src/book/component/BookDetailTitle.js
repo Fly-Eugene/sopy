@@ -7,6 +7,7 @@ import { getLikes, addLike, deleteLike} from '../../store/actions/bookActions'
 
 export default function BookDetailTitle(props) {
   const [isLike, setLike] = useState(false);
+  const [voice, setVoice] = useState('');
 
   const book = props.book;
   const dispatch = useDispatch();
@@ -17,9 +18,6 @@ export default function BookDetailTitle(props) {
   const getLikesHandler = (e) => {
     dispatch(getLikes())
     .then((res) => {
-      console.log(res.payload.data.book)
-      console.log(book)
-      console.log(res.payload.data.book.filter(function (it) { return it.id === book.id}).length)
       if(res.payload.data.book.length != 0 && res.payload.data.book.filter(function (it) { return it.id === book.id}).length > 0){
         setLike(true)
       }
@@ -32,7 +30,6 @@ export default function BookDetailTitle(props) {
   }
 
   const addLikeHandler = (e) => {
-    console.log(book.id)
     const data = {
       "bookId" : book.id
     }
@@ -59,7 +56,12 @@ export default function BookDetailTitle(props) {
       alert('오류가 발생했습니다')
     })
   }
+  const VoiceInput = (e) => {
+    let voiceIndex = e.target.options.selectedIndex
+    setVoice(`${e.target.options[voiceIndex].value}`)
+  }
 
+  const sendVoice = () => {props.getVoice(voice)}
   return (
     <div className="title-container">
       <div className="title-inner">
@@ -80,10 +82,6 @@ export default function BookDetailTitle(props) {
                 <p>{book.genre}</p>
               </div>
               <div>
-                <p>재생시간</p>
-                <p>00:43:19</p>
-              </div>
-              <div>
                 <p>출판사</p>
                 <p>{book.publisher}</p>
               </div>
@@ -93,11 +91,10 @@ export default function BookDetailTitle(props) {
               </div>
             </div>
           </div>
-          <select className="voice" name="voice">
+          <select className="voice" name="voice" onChange={VoiceInput} onBlur={sendVoice}>
             <option value=''>성우 선택</option>
-            <option value='성우1'>성우1</option>
-            <option value='성우2'>성우2</option>
-            <option value='성우3'>성우3</option>
+            <option value='1'>성우1</option>
+            <option value='2'>성우2</option>
           </select>
         </div>
       </div>

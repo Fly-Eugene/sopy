@@ -14,9 +14,8 @@ export default function BookDetailAudio(props) {
   const dispatch = useDispatch();
   const history = useHistory();
   const getAudioFileHandler = e => {
-    dispatch(getAudioFile(props.book.id, 1))
+    dispatch(getAudioFile(props.book.id, props.voice))
     .then((res) => {
-      console.log(res.payload)
       SetFilesrc(res.payload.data);
     })
     .catch((err) => console.log(err))
@@ -25,7 +24,9 @@ export default function BookDetailAudio(props) {
   const moveRead = e =>{
     history.push({
       pathname: '/read',
-      state: {book: props.book}
+      state: {
+        book: props.book,
+        voice: props.voice}
     })
   }
   return (
@@ -35,9 +36,6 @@ export default function BookDetailAudio(props) {
       </div>
       <div className="audio-bar">
       <audio src={filesrc} controls className="player"></audio>
-      </div>
-      <div className="audio-bookmark">
-        <FaRegBookmark />
       </div>
     </div>
   )
