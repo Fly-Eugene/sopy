@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="3ff7ee97-9897-4eae-a9bb-f49bb32a90a8" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AI/AI/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/AI/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend_spring/sopy/src/main/java/com/ssafy/sopy/domain/entity/Image.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend_spring/sopy/src/main/java/com/ssafy/sopy/domain/entity/Image.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend_spring/sopy/src/main/java/com/ssafy/sopy/util/FileUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend_spring/sopy/src/main/java/com/ssafy/sopy/util/FileUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend_spring/sopy/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../backend_spring/sopy/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend_spring/sopy/src/test/java/com/ssafy/sopy/SopyApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/store/actions/bookActions.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/store/actions/bookActions.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/utils/axios.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/utils/axios.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="1yq3kN32C4B2Ipbq8qCIhzj3olO" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="3ff7ee97-9897-4eae-a9bb-f49bb32a90a8" name="Changes" comment="" />
+      <created>1632965434976</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1632965434976</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
